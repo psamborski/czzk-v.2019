@@ -1,0 +1,235 @@
+#concerts-section {
+	/*background-color: #000;*/
+	width: 100%;
+	font-family: 'Special Elite', cursive;
+	overflow: hidden;
+	margin-top: 120px;
+	min-height: 800px;
+	background: url("../images/bg/koncerty2.JPG");
+	background-size: cover;
+	background-position-y: 18%;
+}
+
+.concerts-headers-container {
+	max-width: 1024px;
+	margin: 0 auto;
+}
+
+.concert-tab-radio {
+	visibility: hidden;
+}
+
+#old-concerts-radio:checked ~ .concerts-headers-container #old-concerts-label {
+	color: #ff6600;
+}
+
+#new-concerts-radio:checked ~ .concerts-headers-container #new-concerts-label {
+	color: #ff6600;
+}
+
+#concerts-container {
+	width: 200%;
+	display: flex;
+	flex-wrap: nowrap;
+	position: relative;
+	transition: right 0.3s ease-in-out;
+	height: 100%;
+}
+
+.specific-concerts-box {
+	width: 50%;
+}
+
+.specific-concerts-container {
+	overflow: hidden;
+}
+
+.concerts {
+	max-width: 1024px;
+	margin: 0 auto;
+	overflow: hidden;
+	position: relative;
+}
+
+#old-concerts-radio:checked ~ #concerts-container {
+	right: 100%;
+}
+
+#old-concerts-radio:checked ~ #concerts-container .specific-concerts-box #old-concerts {
+	transition: all 0s linear 0.3s;
+}
+
+#new-concerts-radio:checked ~ #concerts-container .specific-concerts-box #new-concerts {
+	transition: all 0s linear 0.3s;
+}
+
+#new-concerts-radio:checked ~ #concerts-container {
+	right: 0;
+}
+
+.concerts-header {
+	margin: 70px 20px 20px 0;
+	float: left;
+}
+
+.concerts-header label {
+	margin: 0;
+	font-size: 30px;
+	position: relative;
+	cursor: pointer;
+}
+
+#concert-tab-divider {
+	font-size: 30px;
+	display: block;
+	float: left;
+	margin: 70px 20px 20px 0;
+}
+
+.single-concert {
+	width: 100%;
+	margin-bottom: 12px;
+	border-bottom: 6px dotted #fff;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 30px 0;
+}
+
+.single-concert:last-of-type {
+	border: none;
+}
+
+.single-concert-date {
+	width: 15%;
+	min-width: 90px;
+	padding: 0 20px;
+	float: left;
+	text-align: center;
+	font-size: 28px;
+	color: #ff6600;
+}
+
+.single-concert-info {
+	float: left;
+	min-width: 280px;
+	padding: 0 20px;
+}
+
+.single-concert-info h3 {
+	font-size: 24px;
+	margin: 0;
+}
+
+.concerts-pagination-container {
+	width: 100%;
+	max-width: 1024px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-evenly;
+	font-size: 26px;
+	line-height: 50px;
+	margin: 40px auto;
+}
+
+.concerts-pagination-container div {
+	min-width: 250px;
+	height: 50px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.concerts-pagination-container div .fas {
+	margin-left: 7px;
+	color: #ff6600;
+}
+
+@media only screen and (min-width: 1001px) {
+	.concerts-header label:hover::before {
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 2px;
+		border-bottom: 4px dotted #ff6600;
+		bottom: 0;
+		left: 0;
+	}
+}
+
+@media only screen and (min-width: 800px) {
+	.specific-concerts-box {
+		height: 718px;
+	}
+
+	.specific-concerts-container {
+		height: 588px;
+	}
+}
+
+/* CONCERTS MOBILE */
+@media only screen and (max-width: 800px) {
+	#concerts-section {
+		height: 100vh;
+		margin-top: 0 !important;
+		padding-top: 90px;
+		position: relative;
+		top: -20px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+
+	.specific-concerts-box {
+		height: 100%;
+		padding-bottom: 127px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+
+	.specific-concerts-container {
+		height: 100%;
+	}
+
+	.specific-concerts-container {
+		overflow: auto;
+	}
+
+	.concerts-pagination-container {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 1000px) {
+	#concerts-section {
+		margin-top: 70px;
+	}
+	
+	.concerts-header {
+		margin: 6px 0;
+		width: 100%;
+		text-align: center;
+	}
+
+	#new-concerts-label {
+		border-bottom: 4px dotted #fff;
+	}
+
+	.concerts-header:last-of-type {
+		margin-bottom: 25px;
+	}
+
+	#concert-tab-divider {
+		display: none;
+	}
+
+	.single-concert {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.single-concert-date {
+		text-align: left;
+	}
+}

@@ -1,0 +1,102 @@
+#gallery-section {
+	width: 100%;
+	margin-top: 50px;
+	font-family: 'Special Elite', cursive;
+	background: url("../images/bg/galeria.JPG");
+	background-position-y: 30%;
+	background-size: cover;
+	padding: 200px 20px 50px;
+	box-sizing: border-box;
+}
+
+#gallery-container {
+	max-width: 1000px;
+	margin: auto;
+	width: 100%;
+}
+
+.gallery-header-container {
+	margin-bottom: 20px;
+}
+
+.gallery-header {
+	font-size: 30px;
+	color: #ff6600;
+	position: relative;
+	display: inline-block;
+	margin: 0 20px;
+}
+
+.gallery-header::before {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	border-bottom: 3px dotted #ff6600;
+	bottom: -1px;
+	left: 0;
+}
+
+#photos {
+	margin-top: 30px;
+	width: 100%;
+	padding: 0 20px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	flex-direction: row;
+}
+
+#photos a {
+	width: 290px;
+	height: 290px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	background-color: #000;
+	background-size: cover;
+	margin: 10px;
+}
+
+#photos a h3 {
+	text-align: center;
+	padding: 10px;
+	margin: 0;
+	z-index: 1;
+}
+
+.gallery-thumbnail {
+	position: relative;
+}
+
+.gallery-thumbnail::after {
+	content: '\A';
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 350px;
+	background: -webkit-linear-gradient(top, rgba(0,0,0,0) 10%, rgba(0,0,0,0.8));
+	background: -o-linear-gradient(bottom, rgba(0,0,0,0) 10%, rgba(0,0,0,0.8));
+	background: -moz-linear-gradient(bottom, rgba(0,0,0,0) 10%, rgba(0,0,0,0.8));
+	background: linear-gradient(to bottom, rgba(0,0,0,0) 10%, rgba(0,0,0,0.8));
+	transition-duration: 0.2s;
+}
+
+.gallery-thumbnail:hover::after {
+	top: -60px;
+}
+
+#photos a img {
+	height: 100%;
+	width: auto;
+}
+
+#photos p {
+	font-size: 24px;
+	margin: 60px 0;
+}

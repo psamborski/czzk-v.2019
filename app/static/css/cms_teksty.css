@@ -1,0 +1,45 @@
+.texts-container {
+	width: 100%;
+	max-width: 1024px;
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.specific-text {
+	width: 220px;
+	height: 220px;
+	background-color: #30799B;
+	color: #fff;
+	font-size: 36px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 20px 20px 0;
+}
+
+.text-part-title {
+	margin-bottom: 4px;
+}
+
+.note-editor {
+	margin-bottom: 40px;
+}
+
+.note-toolbar {
+	padding-left: 0 !important;
+}
+
+.note-modal-content {
+	margin: 100px auto !important;
+}
+
+.note-nbsp .note-btn {
+	background-color: rgba(255, 131, 84, 0.68);
+}
+
+.note-nbsp:hover .note-btn {
+	background-color: rgba(255, 131, 84, 0.84);
+}

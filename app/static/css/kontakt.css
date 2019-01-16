@@ -1,0 +1,105 @@
+/*-----------------------
+
+		CONTACT
+		
+-----------------------*/
+
+
+#contact-section {
+	background-color: #000;
+	width: 100%;
+	margin-top: 100px;
+	font-family: 'Special Elite', cursive;
+	overflow: hidden;
+	background-image: url('../images/bg/kontakt.jpg');
+	background-position: 50% 10%;
+	background-size: cover;
+}
+
+.contact-hf-container {
+	max-width: 1000px;
+	color: #ff6600;
+	width: 100%;
+	margin: 300px auto 0;
+	height: 30px;
+}
+
+.contact-tab-head {
+	font-size: 30px;
+	color: #ff6600;
+	position: relative;
+	display: inline-block;
+	margin: 0 20px;
+}
+
+.contact-tab-head::before {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	border-bottom: 3px dotted #ff6600;
+	bottom: -1px;
+	left: 0;
+}
+
+#contact-container {
+	width: 100%;
+	max-width: 1000px;
+	margin: auto;
+	position: relative;
+	transition: right 0.3s ease-in-out;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	padding: 20px 0 150px;
+}
+
+.contact-icons {
+	color: #ff6600;
+	font-size: 60px;
+	margin-bottom: 12px;
+}
+
+.fa-phone {
+	font-size: 54px;
+}
+
+.specific-contact-container {
+	width: 275px;
+	text-align: center;
+	background-color: rgba(0,0,0, 0.7);
+	padding: 70px 0;
+	transition-duration: 0.2s;
+	margin: 20px 20px 0;
+}
+
+.specific-contact-container:hover {
+	background-color: rgba(0,0,0, 0.8);
+}
+
+.specific-contact-link {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	font-size: 1.3em;
+}
+
+.contact-click {
+	color: #ff6600;
+}
+
+/* contact MOBILE */
+
+@media only screen and (max-width: 1000px) {
+	
+	.contact-hf-container {
+		width: 100%;
+		text-align: center;
+	}
+
+	#contact-container {
+		justify-content: center;
+	}
+}

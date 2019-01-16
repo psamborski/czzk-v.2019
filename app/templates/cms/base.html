@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+	<title>{% block title %}{% endblock %} < PANEL ADMINA < CZZK</title>
+		<meta charset="utf-8">
+        <meta name="robots" content="noindex">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/cms_style.css') }}" type="text/css">
+
+		<!-- FAVICON -->
+		<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon/apple-touch-icon.png') }}">
+		<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon/favicon-32x32.png') }}">
+		<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon/favicon-16x16.png') }}">
+		<link rel="manifest" href="{{ url_for('static', filename='images/favicon/site.webmanifest') }}">
+		<link rel="mask-icon" href="{{ url_for('static', filename='images/favicon/safari-pinned-tab.svg') }}" color="#5bbad5">
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon/favicon.ico') }}">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="msapplication-config" content="{{ url_for('static', filename='images/favicon/browserconfig.xml') }}">
+		<meta name="theme-color" content="#000000">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+    {% block additional_style %}{% endblock %}
+</head>
+
+<body>
+	<header>
+        <div id="nav-container">
+			<a href="{{ url_for('panel') }}" title="CZZK - panel CMS" id="panel-logo-link"><img src="{{ url_for('static', filename='images/czzk-logo-white_s.svg') }}" alt="Logo CZZK" /> <h1>CMS</h1></a>
+            <input type="checkbox" id="hamburger-menu-input" autocomplete="off">
+            <label for="hamburger-menu-input" id="hamburger-menu-label">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <div class="overlay"></div>
+            <nav>
+                <a href="{{ url_for('panel_slider') }}">Slider</a>
+                <a href="{{ url_for('panel_teksty') }}">Teksty</a>
+                <a href="{{ url_for('panel_albumy') }}">Albumy</a>
+                <a href="{{ url_for('panel_galeria') }}">Galerie</a>
+                <a href="{{ url_for('panel_gadzety') }}">Gadżety</a>
+                <a href="{{ url_for('panel_koncerty') }}">Koncerty</a>
+                <a href="{{ url_for('panel_rider') }}">Rider</a>
+                <a href="{{ url_for('panel_ustawienia') }}">Ustawienia</a>
+                <a href="{{url_for('logout')}}" class="logout-button">Wyloguj</a>
+            </nav>
+        </div>
+	</header>
+    <main>
+        {% block content %}{% endblock %}
+
+        {% if request.endpoint != 'panel' and request.endpoint != 'login'%}
+            <div id="back-button">
+                <a href="{{ url_for('panel') }}"><span class="fas fa-angle-left"></span> Powrót do panelu</a>
+            </div>
+        {% endif %}
+
+    </main>
+	<footer>
+		<div id="footer-content">
+			<span>Autorem niniejszego serwisu jest Patryk Samborski. Serwis ten stanowi integralną część pracy licencjackiej (kierunek: Elektroniczne
+Przetwarzanie Informacji), przygotowanej pod kierunkiem dra Piotra Jordana Śliwińskiego na Wydziale Zarządzania i Komunikacji Społecznej
+Uniwersytetu Jagiellońskiego.</span>
+		</div>
+	</footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

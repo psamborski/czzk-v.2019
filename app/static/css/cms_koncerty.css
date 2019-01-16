@@ -1,0 +1,23 @@
+.single-concert {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	margin: 0;
+}
+
+.single-concert * {
+	margin: 0;
+	padding: 5px;
+}
+
+.single-concert-date {
+	font-size: 20px;
+	display: flex;
+	align-items: center;
+	color: #ff6600;
+}
+
+.single-concert-info {
+	font-size: 20px;
+	width: 100%;
+}

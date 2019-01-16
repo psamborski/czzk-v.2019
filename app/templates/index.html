@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Strona główna{% endblock %}
+{% block additional_style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" type="text/css">
+{% endblock %}
+
+{% block content %}
+<section id="photo-and-desription-container">
+	<input type="radio" id="main-gallery-slide-radio-1" class="main-gallery-radio" name="main-gallery-slide-toggle" checked>
+	<label for="main-gallery-slide-radio-1" id="main-gallery-slide-label-1" class="main-gallery-label">&bull;</label>
+	<input type="radio" id="main-gallery-slide-radio-2" class="main-gallery-radio" name="main-gallery-slide-toggle">
+	<label for="main-gallery-slide-radio-2" id="main-gallery-slide-label-2" class="main-gallery-label">&bull;</label>
+	<input type="radio" id="main-gallery-slide-radio-3" class="main-gallery-radio" name="main-gallery-slide-toggle">
+	<label for="main-gallery-slide-radio-3" id="main-gallery-slide-label-3" class="main-gallery-label">&bull;</label>
+	<input type="checkbox" id="main-gallery-radio-pause" autocomplete="off">
+	<label for="main-gallery-radio-pause" id="main-gallery-slide-label-pause" class="main-gallery-label"><img src="{{ url_for('static', filename='images/player-buttons-coloured.svg') }}" alt="odtwarzaj/pauza" /></label>
+
+
+		<div id="main-gallery">
+            {% for slide in slider %}
+                {% if slide.type == 'i' %}
+			        <div id="slide-{{ slide.order }}" class="slide" style="background-image: {{ url_for('static', filename='images/bg/' + slide.content) }}"></div>
+			    {% elif slider.type == 'v' %}
+			        <div id="slide-{{ slide.order }}" class="slide"><iframe src="{{ slide.content }}" allowfullscreen></iframe></div>
+		        {% endif %}
+            {% endfor %}
+        </div>
+
+
+	<input type="checkbox" id="band-description-checkbox" checked autocomplete="off">
+	<label for="band-description-checkbox" id="band-description-label"></label>
+
+	<div id="band-description">
+		<h2>CZARNY ZIUTEK Z KILLERAMI</h2>
+		<p>Spotkanie czterech chłopa o odmiennych charakterach i&nbsp;różnym spojrzeniu na świat, których w całość połączyło zamiłowanie do wydobywania różnego rodzaju dźwięków muzycznych. Indywidualna przygoda z&nbsp;muzyką każdego z&nbsp;nas sięga dawnych lat, lecz dzisiaj tworzymy jedno ciało pod nazwą Czarny&nbsp;Ziutek&nbsp;z&nbsp;Killerami zaczerpniętą z&nbsp;piosenki Kazika - "Celina". Wychowani na jego muzyce, ale&nbsp;i&nbsp;na&nbsp;innym graniu, postanowiliśmy spróbować… i&nbsp;spróbowaliśmy w 2008 r.</p>
+
+		<a href="{{ url_for('mainSite.about_czzk') }}" title="O nas" class="underline-on-hover link-arrow"><span>więcej o nas</span></a>
+	</div>
+	<div class="gallery-loader"></div>
+</section>
+
+<section id="concerts-section">
+	<div class="concerts-header-container">
+		<h2 class="concerts-header orange underline">NAJBLIŻSZE KONCERTY</h2>
+	</div>
+
+	<div id="concerts-container">
+        {% if closest_concerts == [] %}
+			<div class="no-concerts">
+                <p>
+                    W tej chwili nie mamy w planach żadnych koncertów. Jeśli chcesz to zmienić,
+                    <a href="{{ url_for('mainSite.contact') }}" class="orange underline-on-hover">skontktuj się z nami</a>.
+                </p>
+            </div>
+        {% else %}
+            {% for concert in closest_concerts %}
+                <div class="single-concert">
+                    <div class="single-concert-date">
+                        <span>{{ concert.date }}</span>
+                    </div>
+                    <div class="single-concert-info">
+                        <h3>{{ concert.name }}</h3>
+                        <span>{{ concert.place }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+	</div>
+
+	<div>
+		<a href="{{ url_for('mainSite.concerts') }}" title="Wszystkie koncerty" id="all-concerts-link" class="underline-on-hover link-arrow">zobacz wszystkie koncerty</a>
+	</div>
+</section>
+
+<section id="media">
+	<div id="audio-container" class="media-tab">
+		<div id="audio-player">
+			<div id="top">
+                <iframe width="100%" height="250" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/523846332&color=%2304040a&auto_play=false&hide_related=false&show_comments=true&show_user=false&show_reposts=false&show_teaser=true&visual=true"></iframe>
+			</div>
+		</div>
+		<div id="player-background">
+		</div>
+	</div>
+
+	<div id="small-gallery" class="media-tab">
+		<div class="photo-container">
+			<a href="{{ url_for('mainSite.multimedia_galleries') }}">
+				<img src="{{ url_for('static', filename='images/niepokorny.jpg') }}" alt="Zdjęcie w galerii - slajd 2" />
+			</a>
+		</div>
+		<div class="photo-container">
+			<a href="{{ url_for('mainSite.multimedia_galleries') }}">
+				<img src="{{ url_for('static', filename='images/toczwarte.jpg') }}" alt="Zdjęcie w galerii - slajd 3" />
+			</a>
+		</div>
+	</div>
+</section>
+
+{% endblock %}
+{% block additional_script %}<script src="{{ url_for('static', filename='js/index.js') }}"></script>{% endblock %}
