@@ -6,3 +6,4 @@ app/resources/__pycache__/
 app/routes/__pycache__/
 app/unnecessary/
 venv/
+app/__init__.py
