@@ -28,7 +28,6 @@ Then, using *pip*, install all dependencies from included file [check this out](
 ```sh
 $ pip install -r /path/to/requirements.txt
 ```
-(I'll add this file later)
 
 You may need *setup-tools* if you don't have it.
 Then run the app on *localhost* (*Ubuntu*):

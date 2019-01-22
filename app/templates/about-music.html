@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Muzyka{% endblock %}
+{% block additional_style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}" type="text/css">
+{% endblock %}
+{% block content %}
+
+	<section id="aboutus-section" class="section">
+
+		<article id="subsection-container-bg-1" class="subsection-container">
+            <div class="chapter-container">
+                <div class="chapter-title-container">
+                    <h2 class="chapter-title underline">{{ chapters[0].title }}</h2>
+                </div>
+
+                <div class="chapter-text-container">
+                    <p><span>{{ chapters[0].content|safe }}</span></p> {# 'safe' for displaying html from database correctly #}
+                </div>
+            </div>
+
+        {% if albums %} {# if there are some albums, close first section, print albums and open third section #}
+            </article>
+
+            <article class="subsection-container" id="subsection-albums">
+                {% for year, group in albums %}
+                    {{ year }}
+                    {% for album in group %}
+                        {{ album.title }}
+                    {% endfor %}
+                {% endfor %}
+{#TODO style#}
+{#                    <div class="album-container">#}
+{#                        <div class="album-title-container">#}
+{#                            <h2 class="about-title">{{ album.title }}</h2>#}
+{#                        </div>#}
+{##}
+{#                        <div class="album-photo">#}
+{#                            <img src="{{ url_for('static', filename='images/'+album.cover_file) }}" alt="Demo - okładka" />#}
+{#                        </div>#}
+{##}
+{#                        <div class="album-description">#}
+{#                            {{ album.decription|safe }}#}
+{#                        </div>#}
+{#                    </div>#}
+            </article>
+
+            <article id="subsection-container-bg-2" class="subsection-container">
+        {% endif %}
+
+            <div class="chapter-container">
+                <div class="chapter-title-container">
+                    <h2 class="chapter-title underline">{{ chapters[1].title }}</h2>
+                </div>
+
+                <div class="chapter-text-container">
+                    <p><span>{{ chapters[1].content|safe }}</span></p>
+                </div>
+            </div>
+        </article>
+	</section>
+{% endblock %}

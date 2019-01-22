@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, request
+from itertools import groupby
 
 # database
 from app.models.GalleryModel import Gallery
+from app.resources.AlbumsResource import get_all_albums
 from app.resources.ConcertsResource import get_planned_concerts, get_past_concerts
 from app.resources.GalleriesResource import get_all_galleries, get_gallery_by_secure_title
 from app.resources.SlidesResource import get_all_slides
@@ -35,9 +37,21 @@ def about_czzk():
 def about_music():
     page = 'muzyka'
     chapters = get_text_by_page(page)
+    albums = get_all_albums()
+    albums = groupby(albums, lambda x: x.year)
+
+    # for key, group in groupby(albums, lambda x: x.year):
+    #     print(key)
+    #     for album in group:
+    #         print(album.title)
+    # https://stackoverflow.com/questions/45732065/group-list-by-some-value-in-python
+    # https://stackoverflow.com/questions/773/how-do-i-use-pythons-itertools-groupby
+    # the other idea: make a dict ({year=[album1, album2]})
+
     return render_template('about-music.html',
-                           chapters=chapters)
-# TODO get albums
+                           chapters=chapters,
+                           albums=albums
+                           )
 
 
 @mainSite.route('/onas/kazik')

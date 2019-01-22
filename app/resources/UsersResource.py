@@ -13,7 +13,7 @@ class Users(db.Model, UserMixin):
         return f"Student('{self.username}', '{self.email}')"
 
 
-def get_user(username='admin-kurs'):  # TODO change/remove this default
+def get_user(username='admin-kurs'):  # TODO change username
     user = Users.query. \
         filter(Users.username == username). \
         first()
