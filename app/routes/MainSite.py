@@ -9,10 +9,10 @@ from app.resources.GalleriesResource import get_all_galleries, get_gallery_by_se
 from app.resources.SlidesResource import get_all_slides
 from app.resources.TextsResource import get_text_by_page
 
-mainSite = Blueprint('mainSite', __name__)
+MainSite = Blueprint('MainSite', __name__)
 
 
-@mainSite.route('/')
+@MainSite.route('/')
 def index():
     closest_concerts = get_planned_concerts(3)
     slides = get_all_slides()
@@ -23,7 +23,7 @@ def index():
                            )
 
 
-@mainSite.route('/onas/czzk')
+@MainSite.route('/onas/czzk')
 def about_czzk():
     page = 'czzk'
     chapters = get_text_by_page(page)
@@ -33,7 +33,7 @@ def about_czzk():
                            )
 
 
-@mainSite.route('/onas/muzyka')
+@MainSite.route('/onas/muzyka')
 def about_music():
     page = 'muzyka'
     chapters = get_text_by_page(page)
@@ -55,12 +55,12 @@ def about_music():
                            )
 
 
-@mainSite.route('/onas/kazik')
+@MainSite.route('/onas/kazik')
 def about_kazik():
     return render_template('about-kazik.html')
 
 
-@mainSite.route('/koncerty')
+@MainSite.route('/koncerty')
 def concerts():
     planned_concerts = get_planned_concerts()
     past_concerts = get_past_concerts()
@@ -71,12 +71,12 @@ def concerts():
                            )
 
 
-@mainSite.route('/multimedia/audio')
+@MainSite.route('/multimedia/audio')
 def multimedia_audio():
     return render_template('multimedia-audio.html')
 
 
-@mainSite.route('/multimedia/galeria')
+@MainSite.route('/multimedia/galeria')
 def multimedia_galleries():
     page = request.args.get('strona', 1, type=int)
 
@@ -87,26 +87,28 @@ def multimedia_galleries():
                            )
 
 
-@mainSite.route('/multimedia/galeria/<string:gallery_secure_title>')
+@MainSite.route('/multimedia/galeria/<string:gallery_secure_title>')
 def multimedia_specific_gallery(gallery_secure_title):
-    gallery = get_gallery_by_secure_title(gallery_secure_title)
-    photos = Gallery.get_photos(gallery)
+    page = request.args.get('strona', 1, type=int)
+
+    gallery = Gallery(get_gallery_by_secure_title(gallery_secure_title))
+    paginated_photos = gallery.paginate_photos(page=page)
 
     return render_template('multimedia-specific-gallery.html',
                            gallery=gallery,
-                           photos=photos)
+                           paginated_photos=paginated_photos)
 
 
-@mainSite.route('/multimedia/gadzety')
+@MainSite.route('/multimedia/gadzety')
 def multimedia_merch():
     return render_template('multimedia-merch.html')
 
 
-@mainSite.route('/multimedia/archiwum')
+@MainSite.route('/multimedia/archiwum')
 def multimedia_archive():
     return render_template('multimedia-archive.html')
 
 
-@mainSite.route('/kontakt')
+@MainSite.route('/kontakt')
 def contact():
     return render_template('contact.html')

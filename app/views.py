@@ -2,10 +2,10 @@ from app import app
 
 from flask import render_template, request
 
-from .routes.MainSite import mainSite
+from .routes.MainSite import MainSite
 from .routes.CMS import CMS
 
-app.register_blueprint(mainSite)
+app.register_blueprint(MainSite)
 app.register_blueprint(CMS)
 
 

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Galerie < Media{% endblock %}
+{% block additional_style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/multimedia.css') }}" type="text/css">
+{% endblock %}
+{% block content %}
+
+<section id="galleries-section" class="section">
+	<div id="galleries-container" class="subsection">
+
+		<div class="header-container">
+			<h2 class="underline orange">GALERIE</h2>
+		</div>
+
+		<div id="photos">
+            {% if not galleries.items %}
+                <div>
+                    <p>
+                        Brak galerii.
+                    </p>
+                </div>
+            {% else %}
+                {% for gallery in galleries.items %}
+                    <a class="gallery-thumbnail" href="{{ url_for('MainSite.multimedia_specific_gallery', gallery_secure_title=gallery.secure_title) }}" style="background-image: url('{{ url_for('static', filename='images/galleries/' ~ gallery.id + '/thumbnail/' + gallery.thumbnail_file) }}');"><h3>{{ gallery.title }}</h3></a>
+                {% endfor %}
+		    </div>
+
+        <div class="pagination-container">
+            <ul class="galleries-pagination">
+                {% if galleries.has_prev %}
+                    <li><a href="{{ url_for('MainSite.multimedia_galleries', strona=galleries.prev_num) }}"><</a></li>
+                {% else %}
+                    <li class="disabled"><a><</a></li>
+                {% endif %}
+                {% for page_num in galleries.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if page_num %}
+                        {% if galleries.page == page_num %}
+                            <li>
+                                <a class="orange" href="{{ url_for('MainSite.multimedia_galleries', strona=page_num) }}">{{ page_num }}</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ url_for('MainSite.multimedia_galleries', strona=page_num) }}">{{ page_num }}</a>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}
+                {% if galleries.has_next %}
+                    <li><a href="{{ url_for('MainSite.multimedia_galleries', strona=galleries.next_num) }}">></a></li>
+                {% else %}
+                    <li class="disabled"><a>></a></li>
+                {% endif %}
+            </ul>
+        </div>
+            {% endif %}
+    </div>
+</section>
+
+{% endblock %}

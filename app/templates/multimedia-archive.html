@@ -6,11 +6,11 @@
 {% endblock %}
 {% block content %}
 
-<section id="archive-section">
-	<div id="archive-container">
+<section id="archive-section" class="section">
+	<div id="archive-container" class="subsection">
 
-		<div class="archive-header-container">
-			<h2 class="archive-header">ARCHIWUM</h2>
+		<div class="header-container">
+			<h2 class="underline orange">ARCHIWUM</h2>
 		</div>
 
         <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
@@ -22,6 +22,7 @@
             <a class="play-pause"></a>
             <ol class="indicator"></ol>
         </div>
+
 		<div id="photos">
             <div class="archive-info-container">
                 <a class="archive-gallery-item" title='Tomasz Maciuszczak, "Gitarzysta od «Czarnego Ziutka»", "Moje Miasto Lublin", 12 lutego 2009' href="{{ url_for('static', filename='images/archive/Jacek_Bogacz_Gitarzysta_Czarnego_Ziutka.png') }}"><img src="{{ url_for('static', filename='images/archive/Jacek_Bogacz_Gitarzysta_Czarnego_Ziutka.png') }}" alt="Jacek Bogacz - artykuł"></a>
@@ -52,8 +53,6 @@
 
 {% block additional_script %}
 <script src="{{ url_for('static', filename='js/blueimp-gallery.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/galeria.js') }}"></script>
-
 <script>
 
 document.getElementById('photos').onclick = function (event) {

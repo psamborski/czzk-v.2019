@@ -18,7 +18,7 @@ def get_all_galleries(page):
     """
 
     galleries = Galleries.query. \
-        order_by(Galleries.date.desc()). \
+        order_by(Galleries.id.desc()). \
         paginate(page=page, per_page=9)
 
     return galleries
@@ -35,6 +35,3 @@ def get_gallery_by_secure_title(secure_title):
         first_or_404()
 
     return gallery
-
-
-# TODO unique gallery title

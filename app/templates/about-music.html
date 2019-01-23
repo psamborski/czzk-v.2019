@@ -33,8 +33,7 @@
                                     <h2 class="album-title">{{ album.title }}</h2>
                                 </div>
                                 <div class="album-photo">
-{#    todo you know                                <img src="{{ url_for('static', filename='images/'+album.cover_file) }}" alt="Demo - okładka" />#}
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Suckitandsee.jpg/240px-Suckitandsee.jpg" alt="{{ album.title }} - okładka" />
+                                    <img src="{{ url_for('static', filename='images/'+album.cover_file) }}" alt="album.title - okładka" />#}
                                 </div>
                                 <div class="album-description-container">
                                     {{ album.description|safe }}

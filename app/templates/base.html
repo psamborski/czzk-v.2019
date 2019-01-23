@@ -28,7 +28,7 @@
 	<header>
 		<div id="top-header">
             <div id="logo-container" class="logo-container-normal">
-                <a href="{{ url_for('mainSite.index') }}" title="CZZK - strona główna"><img src="{{ url_for('static', filename='images/czzk-logo-white.svg') }}" alt="Logo CZZK" /></a>
+                <a href="{{ url_for('MainSite.index') }}" title="CZZK - strona główna"><img src="{{ url_for('static', filename='images/czzk-logo-white.svg') }}" alt="Logo CZZK" /></a>
 			    <h1 id="page-title">CZARNY ZIUTEK Z KILLERAMI</h1>
             </div>
 		</div>
@@ -45,26 +45,26 @@
         <!-- MENU LIST FOR DESKTOP -->
 		<nav id="menu-container">
 			<ul>
-				<li><a class="menu-item" href="{{ url_for('mainSite.index') }}"><span class="underline-on-hover">STRONA GŁÓWNA</span></a></li>
+				<li><a class="menu-item" href="{{ url_for('MainSite.index') }}"><span class="underline-on-hover">STRONA GŁÓWNA</span></a></li>
 
                 <li class="menu-list" id="menu-list-about">
                     <span class="menu-item"><span class="menu-list-title underline-on-hover">O NAS</span> <i class="fas fa-angle-down"></i></span>
-					<a href="{{ url_for('mainSite.about_czzk') }}" class="menu-item"><span class="underline-on-hover">CZZK</span></a>
-					<a href="{{ url_for('mainSite.about_music') }}" class="menu-item"><span class="underline-on-hover">MUZYKA</span></a>
-					<a href="{{ url_for('mainSite.about_kazik') }}" class="menu-item"><span class="underline-on-hover">KAZIK</span></a>
+					<a href="{{ url_for('MainSite.about_czzk') }}" class="menu-item"><span class="underline-on-hover">CZZK</span></a>
+					<a href="{{ url_for('MainSite.about_music') }}" class="menu-item"><span class="underline-on-hover">MUZYKA</span></a>
+					<a href="{{ url_for('MainSite.about_kazik') }}" class="menu-item"><span class="underline-on-hover">KAZIK</span></a>
 				</li>
 
-				<li><a href="{{ url_for('mainSite.concerts') }}" class="menu-item"><span class="underline-on-hover">KONCERTY</span></a></li>
+				<li><a href="{{ url_for('MainSite.concerts') }}" class="menu-item"><span class="underline-on-hover">KONCERTY</span></a></li>
 
 				<li class="menu-list" id="menu-list-media">
 					<span class="menu-item"><span class="menu-list-title underline-on-hover">MEDIA</span> <i class="fas fa-angle-down"></i></span>
-					<a href="{{ url_for('mainSite.multimedia_audio') }}" class="menu-item"><span class="underline-on-hover">AUDIO</span></a>
-					<a href="{{ url_for('mainSite.multimedia_galleries') }}" class="menu-item"><span class="underline-on-hover">GALERIA</span></a>
-					<a href="{{ url_for('mainSite.multimedia_merch') }}" class="menu-item"><span class="underline-on-hover">GADŻETY</span></a>
-					<a href="{{ url_for('mainSite.multimedia_archive') }}" class="menu-item"><span class="underline-on-hover">ARCHIWUM</span></a>
+					<a href="{{ url_for('MainSite.multimedia_audio') }}" class="menu-item"><span class="underline-on-hover">AUDIO</span></a>
+					<a href="{{ url_for('MainSite.multimedia_galleries') }}" class="menu-item"><span class="underline-on-hover">GALERIA</span></a>
+					<a href="{{ url_for('MainSite.multimedia_merch') }}" class="menu-item"><span class="underline-on-hover">GADŻETY</span></a>
+					<a href="{{ url_for('MainSite.multimedia_archive') }}" class="menu-item"><span class="underline-on-hover">ARCHIWUM</span></a>
 				</li>
 
-                <li><a href="{{ url_for('mainSite.contact') }}" class="menu-item"><span class="underline-on-hover">KONTAKT</span></a></li>
+                <li><a href="{{ url_for('MainSite.contact') }}" class="menu-item"><span class="underline-on-hover">KONTAKT</span></a></li>
 				<li class="menu-li-social"><a href="https://www.facebook.com/Czarny-Ziutek-Z-Killerami-383738698359773/" target="_blank" class="menu-social" id="menu-fb"><img src="{{ url_for('static', filename='images/fb-menu.svg') }}" alt="Facebook CZZK" /></a></li>
 				<li class="menu-li-social"><a href="https://www.youtube.com/channel/UCQkQC4Xv-OTuhKhfb0OY3vg" target="_blank" class="menu-social" id="menu-yt"><img src="{{ url_for('static', filename='images/yt-menu.svg') }}" alt="YouTube CZZK" /></a></li>
 			</ul>

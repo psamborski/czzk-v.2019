@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}{{ gallery.title }}{% endblock %}
+{% block additional_style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/multimedia.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blueimp-gallery.min.css') }}" type="text/css">
+{% endblock %}
+{% block content %}
+
+<section id="galleries-section" class="section">
+	<div id="galleries-container" class="subsection">
+
+		<div class="header-container">
+			<h2 class="underline orange">{{ gallery.title }}</h2>
+		</div>
+
+        <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+            <div class="slides"></div>
+            <h3 class="title"></h3>
+            <a class="prev">‹</a>
+            <a class="next">›</a>
+            <a class="close">×</a>
+            <a class="play-pause"></a>
+            <ol class="indicator"></ol>
+        </div>
+
+		<div id="photos">
+            {% if not paginated_photos.page_photos %}
+                <div>
+                    <p>
+                        Brak zdjęć.
+                    </p>
+                </div>
+            {% else %}
+                {% for photo in paginated_photos.page_photos %}
+                    <a class="specific-gallery-item" href="{{ url_for('static', filename='images/galleries/' + gallery.id + '/' + photo) }}">
+                        <img alt="{{ gallery.title }} - zdjęcie {{ loop.index }}" src="{{ url_for('static', filename='images/galleries/' + gallery.id + '/' + photo) }}" />
+                    </a>
+                {% endfor %}
+        </div>
+
+        <div class="pagination-container">
+            <ul class="galleries-pagination">
+                {% if paginated_photos.has_prev %}
+                    <li><a href="{{ url_for('MainSite.multimedia_specific_gallery', gallery_secure_title=gallery.secure_title, strona=paginated_photos.prev_num) }}">
+                        <
+                    </a></li>
+                {% else %}
+                    <li class="disabled"><a><</a></li>
+                {% endif %}
+                {% for page_num in paginated_photos.all_pages %}
+                    {% if paginated_photos.current_page == page_num %}
+                        <li>
+                            <a class="orange" href="{{ url_for('MainSite.multimedia_specific_gallery', gallery_secure_title=gallery.secure_title, strona=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ url_for('MainSite.multimedia_specific_gallery', gallery_secure_title=gallery.secure_title, strona=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if paginated_photos.has_next %}
+                    <li><a href="{{ url_for('MainSite.multimedia_specific_gallery', gallery_secure_title=gallery.secure_title, strona=paginated_photos.next_num) }}">
+                        >
+                    </a></li>
+                {% else %}
+                    <li class="disabled"><a>></a></li>
+                {% endif %}
+            </ul>
+        </div>
+            {% endif %}
+    </div>
+</section>
+
+{% endblock %}
+
+{% block additional_script %}
+<script src="{{ url_for('static', filename='js/blueimp-gallery.min.js') }}"></script>
+<script>
+
+document.getElementById('photos').onclick = function (event) {
+    event = event || window.event;
+    let target = event.target || event.srcElement,
+        link = target.src ? target.parentNode : target,
+        options = {index: link, event: event},
+        links = this.getElementsByClassName('specific-gallery-item');
+    if(target == '[object HTMLImageElement]'){
+        blueimp.Gallery(links, options);
+    }
+};
+</script>
+{% endblock %}
