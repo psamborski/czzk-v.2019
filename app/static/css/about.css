@@ -10,7 +10,7 @@
     justify-content: flex-start;
 }
 
-.subsection-container {
+.subsection {
     width: 100%;
     display: flex;
     align-items: center;
@@ -21,7 +21,7 @@
     box-sizing: border-box;
 }
 
-.subsection-container:nth-child(1){
+.subsection:nth-child(1){
     /* offset menu height */
     padding-top: 10.7em;
 }
@@ -31,12 +31,12 @@
         margin-top: 70px;
     }
 
-    .subsection-container, .subsection-container:nth-child(1) {
+    .subsection, .subsection:nth-child(1) {
         padding: 5em 0;
     }
 }
 
-.chapter-container {
+.subsection-content {
 	width: 100%;
     padding: 0 1.4em;
     margin: 1.3em 0;
@@ -104,13 +104,13 @@
 }
 
 /* --- ABOUT US --- */
-#aboutus-section #subsection-container-bg-1 {
+#about-us-section #subsection-bg-1 {
 	background-image: url('../images/bg/about1.jpg');
 	background-size: cover;
 	background-position: 50% 60%;
 }
 
-#aboutus-section #subsection-container-bg-2 {
+#about-us-section #subsection-bg-2 {
 	background-image: url('../images/bg/about2.jpg');
 	background-size: cover;
 }
@@ -204,4 +204,174 @@
     .band-members div {
         width: 167px;
     }
+}
+
+
+/* --- MUSIC --- */
+#music-section #subsection-bg-1 {
+	background-image: url('../images/bg/music1.jpg');
+	background-size: cover;
+	background-position: 40% 40%;
+}
+
+#music-section #subsection-bg-2 {
+	background-image: url('../images/bg/music2.JPG');
+	background-size: cover;
+	background-position: 20% 40%;
+}
+
+.albums-year-header {
+	text-align: center;
+	width: 100%;
+	margin-bottom: 0.7em;
+}
+
+.albums-year-header h2 {
+	display: inline-block;
+	font-size: 1.9em;
+}
+
+.album-container {
+	width: 100%;
+	height: 460px;
+	margin-bottom: 2.8em;
+}
+
+.album-container * {
+	width: 100%;
+	max-width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.album-photo {
+	text-align: center;
+	background-color: #fff;
+	position: relative;
+	overflow: hidden;
+	max-width: 460px;
+	float: left;
+	margin-right: 1em;
+}
+
+.album-photo:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.album-photo img {
+	width: auto;
+	height: 100%;
+	position: absolute;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	transform: translateX(-50%);
+	object-fit: cover;
+}
+
+.album-title-container {
+	float: right;
+	max-width: calc(100% - 480px);
+}
+
+.album-title {
+	margin: 0 0 0.6em;
+}
+
+.album-description-container {
+	float: right;
+	height: 395px;
+	overflow: auto;
+	max-width: calc(100% - 480px);
+	font-family: Arial, serif;
+	font-size: 1.15em;
+}
+
+@media only screen and (max-width: 1000px) {
+	.album-container {
+		height: 350px;
+	}
+
+	.album-photo {
+		max-width: 350px;
+	}
+
+	.album-title-container {
+		max-width: calc(100% - 380px);
+	}
+
+	.album-description-container {
+		max-width: calc(100% - 380px);
+		height: 270px;
+	}
+}
+
+@media only screen and (max-width: 770px) {
+	.album-container {
+		height: 550px;
+	}
+
+	.album-container * {
+		max-width: 100%;
+		float: none;
+	}
+
+	.album-photo {
+		max-width: 300px;
+		height: 300px;
+		margin: 0 auto;
+	}
+
+	.album-title {
+		margin: 0 auto 0.6em;
+		text-align: center;
+	}
+
+	.album-description-container {
+		height: 210px;
+		margin-top: 1em;
+	}
+}
+
+/* --- KAZIK --- */
+#kazik-section p {
+	margin-bottom: 1em;
+}
+
+#kazik-section .subsection {
+	min-height: 575px;
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+}
+
+@media only screen and (max-width: 1000px) {
+	#kazik-section .subsection {
+		min-height: 450px;
+	}
+}
+
+#kazik-section #subsection-bg-1 {
+	background-image: url('../images/bg/kazik1.jpg');
+	background-position: 66% 35%;
+}
+
+#kazik-section #subsection-bg-2 {
+	background-image: url('../images/bg/kazik2.jpg');
+	background-position: 55% center;
+}
+
+#kazik-section #subsection-bg-3 {
+	background-image: url('../images/bg/kazik3.jpg');
+	background-position: 75% center;
+}
+
+#kazik-section #subsection-bg-4 {
+	background-image: url('../images/bg/kazik4.jpg');
+	background-position: 44% 100%;
 }

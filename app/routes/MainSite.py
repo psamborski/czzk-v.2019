@@ -38,7 +38,8 @@ def about_music():
     page = 'muzyka'
     chapters = get_text_by_page(page)
     albums = get_all_albums()
-    albums = groupby(albums, lambda x: x.year)
+    if albums:
+        albums = groupby(albums, lambda x: x.year)
 
     # for key, group in groupby(albums, lambda x: x.year):
     #     print(key)

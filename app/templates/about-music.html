@@ -5,10 +5,10 @@
 {% endblock %}
 {% block content %}
 
-	<section id="aboutus-section" class="section">
+	<section id="music-section" class="section">
 
-		<article id="subsection-container-bg-1" class="subsection-container">
-            <div class="chapter-container">
+		<article id="subsection-bg-1" class="subsection">
+            <div class="subsection-content">
                 <div class="chapter-title-container">
                     <h2 class="chapter-title underline">{{ chapters[0].title }}</h2>
                 </div>
@@ -21,33 +21,34 @@
         {% if albums %} {# if there are some albums, close first section, print albums and open third section #}
             </article>
 
-            <article class="subsection-container" id="subsection-albums">
-                {% for year, group in albums %}
-                    {{ year }}
-                    {% for album in group %}
-                        {{ album.title }}
+            <article class="subsection" id="subsection-albums">
+                <div class="subsection-content">
+                    {% for year, group in albums %}
+                        <div class="albums-year-header">
+                            <h2 class="underline orange">{{ year }}</h2>
+                        </div>
+                        {% for album in group %}
+                            <div class="album-container">
+                                <div class="album-title-container">
+                                    <h2 class="album-title">{{ album.title }}</h2>
+                                </div>
+                                <div class="album-photo">
+{#    todo you know                                <img src="{{ url_for('static', filename='images/'+album.cover_file) }}" alt="Demo - okładka" />#}
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Suckitandsee.jpg/240px-Suckitandsee.jpg" alt="{{ album.title }} - okładka" />
+                                </div>
+                                <div class="album-description-container">
+                                    {{ album.description|safe }}
+                                </div>
+                            </div>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-{#TODO style#}
-{#                    <div class="album-container">#}
-{#                        <div class="album-title-container">#}
-{#                            <h2 class="about-title">{{ album.title }}</h2>#}
-{#                        </div>#}
-{##}
-{#                        <div class="album-photo">#}
-{#                            <img src="{{ url_for('static', filename='images/'+album.cover_file) }}" alt="Demo - okładka" />#}
-{#                        </div>#}
-{##}
-{#                        <div class="album-description">#}
-{#                            {{ album.decription|safe }}#}
-{#                        </div>#}
-{#                    </div>#}
+                </div>
             </article>
 
-            <article id="subsection-container-bg-2" class="subsection-container">
+            <article id="subsection-bg-2" class="subsection">
         {% endif %}
 
-            <div class="chapter-container">
+            <div class="subsection-content">
                 <div class="chapter-title-container">
                     <h2 class="chapter-title underline">{{ chapters[1].title }}</h2>
                 </div>
