@@ -50,7 +50,7 @@ def get_past_concerts():
     current_date = datetime.datetime.now().date()
     concerts = Concerts.query. \
         filter(Concerts.date < current_date). \
-        order_by(Concerts.date.asc()). \
+        order_by(Concerts.date.desc()). \
         all()
 
     return concerts

@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Koncerty{% endblock %}
+{% block additional_style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/concerts.css') }}" type="text/css">
+{% endblock %}
+{% block content %}
+
+
+    <section id="concerts-section">
+		<input type="radio" id="planned-concerts-radio" class="concert-tab-radio" name="concerts" checked>
+		<input type="radio" id="past-concerts-radio" class="concert-tab-radio" name="concerts">
+
+		<div class="concerts-headers-container">
+			<h2 class="concerts-header">
+                <label for="planned-concerts-radio" id="planned-concerts-label" class="concert-tab-label">
+                    TU ZAGRAMY
+                </label>
+            </h2>
+			<span id="concert-headers-divider">/</span>
+			<h2 class="concerts-header">
+                <label for="past-concerts-radio" id="past-concerts-label" class="concert-tab-label">
+                    TU GRALIŚMY
+                </label>
+            </h2>
+		</div>
+
+		<div id="concerts-container">
+			<div class="specific-concerts-box">
+                <div class="specific-concerts-container">
+                    <div id="planned-concerts" class="concerts" style="top: 0; transition: all .2s ease-in-out;">
+                        {% if not planned_concerts %}
+                            <div class="no-concerts">
+                                <p>
+                                    Obecnie nie planujemy żadnych koncertów.
+                                </p>
+                            </div>
+                        {% else %}
+                            {% for concert in planned_concerts %}
+                                <div class="single-concert">
+                                    <div class="single-concert-date">
+                                        <span>{{ concert.date.strftime('%d.%m.%Y') }}</span>
+                                    </div>
+                                    <div class="single-concert-info">
+                                        <h3 title="{{ concert.name }}">{{ concert.name|truncate(50) }}</h3>
+                                        <span>{{ concert.place }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="concerts-pagination-container" id="planned-concerts-pagination-container">
+                    <div id="planned-older">
+                        <span>dalej</span><span class="fas fa-angle-down"></span>
+                    </div>
+                    <div id="planned-newer">
+                        <span>wstecz</span><span class="fas fa-angle-up"></span>
+                    </div>
+                </div>
+
+			</div>
+
+			<div class="specific-concerts-box">
+                <div class="specific-concerts-container">
+                    <div id="past-concerts" class="concerts" style="top: 0; transition: all .2s ease-in-out;">
+                        {% if not past_concerts %}
+                            <div class="no-concerts">
+                                <p>
+                                    Obecnie nie ma w bazie żadnych koncertów.
+                                </p>
+                            </div>
+                        {% else %}
+                            {% for concert in past_concerts %}
+                                <div class="single-concert">
+                                    <div class="single-concert-date">
+                                        <span>{{ concert.date.strftime('%d.%m.%Y') }}</span>
+                                    </div>
+                                    <div class="single-concert-info">
+                                        <h3 title="{{ concert.name }}">{{ concert.name|truncate(50) }}</h3>
+                                        <span>{{ concert.place }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="concerts-pagination-container" id="past-concerts-pagination-container">
+                    <div id="past-older">
+                       <span>dalej</span><span class="fas fa-angle-down"></span>
+                    </div>
+                    <div id="past-newer">
+                       <span>wstecz</span><span class="fas fa-angle-up"></span>
+                    </div>
+                </div>
+
+			</div>
+		</div>
+	</section>
+
+{% endblock %}
+
+{% block additional_script %}
+    <script src="{{ url_for('static', filename='js/concerts.js') }}"></script>
+{% endblock %}
