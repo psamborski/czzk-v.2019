@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Archiwum{% endblock %}
+{% block additional_style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/multimedia.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blueimp-gallery.min.css') }}" type="text/css">
+{% endblock %}
+{% block content %}
+
+<section id="archive-section">
+	<div id="archive-container">
+
+		<div class="archive-header-container">
+			<h2 class="archive-header">ARCHIWUM</h2>
+		</div>
+
+        <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+            <div class="slides"></div>
+            <h3 class="title"></h3>
+            <a class="prev">‹</a>
+            <a class="next">›</a>
+            <a class="close">×</a>
+            <a class="play-pause"></a>
+            <ol class="indicator"></ol>
+        </div>
+		<div id="photos">
+            <div class="archive-info-container">
+                <a class="archive-gallery-item" title='Tomasz Maciuszczak, "Gitarzysta od «Czarnego Ziutka»", "Moje Miasto Lublin", 12 lutego 2009' href="{{ url_for('static', filename='images/archive/Jacek_Bogacz_Gitarzysta_Czarnego_Ziutka.png') }}"><img src="{{ url_for('static', filename='images/archive/Jacek_Bogacz_Gitarzysta_Czarnego_Ziutka.png') }}" alt="Jacek Bogacz - artykuł"></a>
+                <div>
+                    <h3>Tomasz Maciuszczak<br>"Gitarzysta od «Czarnego Ziutka»"<br>"Moje Miasto Lublin", 12 lutego 2009</h3>
+                    <a href="{{ url_for('static', filename='files/Jacek_Bogacz_Gitarzysta_Czarnego_Ziutka.pdf') }}"><span class="far fa-file-pdf"></span></a>
+                </div>
+            </div>
+            <div class="archive-info-container">
+                <a class="archive-gallery-item" title='Paweł Wiater, "Rozkręcamy się", "Dziennik Wschodni", 16 maja 2009' href="{{ url_for('static', filename='images/archive/Rozkrecamy_sie_Pawel_Bogacz.png') }}"><img src="{{ url_for('static', filename='images/archive/Rozkrecamy_sie_Pawel_Bogacz.png') }}" alt="Jacek Bogacz - artykuł"></a>
+                <div>
+                    <h3>Paweł Wiater<br>"Rozkręcamy się"<br>"Dziennik Wschodni", 16 maja 2009</h3>
+                    <a href="{{ url_for('static', filename='files/Rozkrecamy_sie_Pawel_Bogacz.pdf') }}"><span class="far fa-file-pdf"></span></a>
+                </div>
+            </div>
+            <div class="archive-info-container">
+                <a class="archive-gallery-item" title='Paweł Wiater, "Ziutek, do tego Czarny, i jeszcze z Kilerami", "Karafka", maj 2009' href="{{ url_for('static', filename='images/archive/Ziutek_do_tego_Czarny_i_jeszcze_z_Kilerami.png') }}"><img src="{{ url_for('static', filename='images/archive/Ziutek_do_tego_Czarny_i_jeszcze_z_Kilerami.png') }}" alt="Jacek Bogacz - artykuł"></a>
+                <div>
+                    <h3>Paweł Wiater<br>"Ziutek, do tego Czarny, i jeszcze z Kilerami"<br>"Karafka", maj 2009</h3>
+                    <a href="{{ url_for('static', filename='files/Ziutek_do_tego_Czarny_i_jeszcze_z_Kilerami.pdf') }}"><span class="far fa-file-pdf"></span></a>
+                </div>
+            </div>
+        </div>
+	</div>
+</section>
+
+{% endblock %}
+
+{% block additional_script %}
+<script src="{{ url_for('static', filename='js/blueimp-gallery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/galeria.js') }}"></script>
+
+<script>
+
+document.getElementById('photos').onclick = function (event) {
+    event = event || window.event;
+    let target = event.target || event.srcElement,
+        link = target.src ? target.parentNode : target,
+        options = {index: link, event: event},
+        links = this.getElementsByClassName('archive-gallery-item');
+    if(target == '[object HTMLImageElement]'){
+        blueimp.Gallery(links, options);
+    }
+};
+</script>
+{% endblock %}
