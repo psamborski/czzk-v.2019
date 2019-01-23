@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Kontakt{% endblock %}
+{% block additional_style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}" type="text/css">
+{% endblock %}
+{% block content %}
+
+	<section id="contact-section">
+		<div class="contact-header-container">
+			<h1 class="contact-tab-head">KONTAKT</h1>
+		</div>
+
+		<div id="contact-tiles-container">
+			<div class="contact-container">
+				<a href="tel:601 970 490" title="Zadzwoń" class="specific-contact-link">
+                    <span class="contact-icons fa fa-phone"></span>
+                    <span class="contact-click">601 970 490</span>
+                </a>
+			</div>
+			<div class="contact-container">
+				<a href="mailto:info@czzk.pl" title="Wyślij e-mail" class="specific-contact-link">
+                    <span class="contact-icons fa fa-envelope"></span>
+				    <span class="contact-click">info@czzk.pl</span>
+				    <span class="contact-text">(lub formularz w&nbsp;stopce)</span>
+                </a>
+			</div>
+            <div class="contact-container">
+                <a href="{{ url_for('static', filename='files/CZZK - rider techniczny.pdf') }}" title="Pobierz rider" target="_blank" class="specific-contact-link">
+				    <span class="contact-icons fa fa-list-alt"></span>
+				    <span class="specific-contact-text">Ziutkowy rider</span>
+				    <span class="contact-click">POBIERZ</span>
+                </a>
+            </div>
+		</div>
+	</section>
+{% endblock %}

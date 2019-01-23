@@ -16,7 +16,7 @@
 	background-size: cover;
 }
 
-.contact-hf-container {
+.contact-header-container {
 	max-width: 1000px;
 	color: #ff6600;
 	width: 100%;
@@ -42,7 +42,7 @@
 	left: 0;
 }
 
-#contact-container {
+#contact-tiles-container {
 	width: 100%;
 	max-width: 1000px;
 	margin: auto;
@@ -66,7 +66,7 @@
 	font-size: 54px;
 }
 
-.specific-contact-container {
+.contact-container {
 	width: 275px;
 	text-align: center;
 	background-color: rgba(0,0,0, 0.7);
@@ -75,7 +75,7 @@
 	margin: 20px 20px 0;
 }
 
-.specific-contact-container:hover {
+.contact-container:hover {
 	background-color: rgba(0,0,0, 0.8);
 }
 
@@ -94,12 +94,12 @@
 
 @media only screen and (max-width: 1000px) {
 	
-	.contact-hf-container {
+	.contact-header-container {
 		width: 100%;
 		text-align: center;
 	}
 
-	#contact-container {
+	#contact-tiles-container {
 		justify-content: center;
 	}
 }
