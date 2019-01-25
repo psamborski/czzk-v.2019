@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from itertools import groupby
 
 # database
@@ -89,10 +89,18 @@ def multimedia_galleries():
 
 @MainSite.route('/multimedia/galeria/<string:gallery_secure_title>')
 def multimedia_specific_gallery(gallery_secure_title):
+    if not gallery_secure_title:
+        return 'afds'
     page = request.args.get('strona', 1, type=int)
 
     gallery = Gallery(get_gallery_by_secure_title(gallery_secure_title))
-    paginated_photos = gallery.paginate_photos(page=page)
+
+    try:
+        paginated_photos = gallery.paginate_photos(page=page)
+    except FileNotFoundError:
+        return render_template('multimedia-specific-gallery.html',
+                               gallery=gallery,
+                               paginated_photos=[])
 
     return render_template('multimedia-specific-gallery.html',
                            gallery=gallery,
@@ -104,6 +112,11 @@ def multimedia_merch():
     return render_template('multimedia-merch.html')
 
 
+@MainSite.route('/multimedia/gadzety/<string:merch_item>')
+def multimedia_merch_item(merch_item):
+    return render_template('multimedia-merch-item.html')
+
+
 @MainSite.route('/multimedia/archiwum')
 def multimedia_archive():
     return render_template('multimedia-archive.html')
@@ -112,3 +125,25 @@ def multimedia_archive():
 @MainSite.route('/kontakt')
 def contact():
     return render_template('contact.html')
+
+
+@MainSite.route('/send-message', methods=['POST', 'GET'])
+def send_message():
+    # TODO send msg and end this
+
+    flash('Twoja wiadomość została wysłana.', 'message-success')
+
+    page = request.args.get('page')
+
+    if request.args.get('gallery'):
+        gallery = request.args.get('gallery')
+
+        return redirect(url_for(page, gallery_secure_title=gallery))
+    elif request.args.get('merch_item'):
+        merch_item = request.args.get('merch_item')
+
+    try:
+        return redirect(url_for(page))
+    except TypeError:
+        return redirect(url_for('MainSite.index'))
+

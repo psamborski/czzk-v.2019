@@ -34,3 +34,39 @@ menu_multimedia.addEventListener('click', function(){
     arrows[1].classList.toggle("rotate-arrow");
   }
 });
+
+/* POP UP = MODAL or FLASH MESSAGE */
+
+let toggle_pop_up = function (pop_up_id, do_i_wanna_open) {
+  let pop_up = document.getElementById(pop_up_id);
+  if(do_i_wanna_open){
+    pop_up.style.display = "block";
+  } else {
+    pop_up.style.display = "none";
+  }
+};
+
+let pop_ups = document.getElementsByClassName("pop-up");
+let modal_triggers = document.getElementsByClassName("modal-trigger"); // triggers are just for modals
+let pop_up_close_buttons = document.getElementsByClassName("pop-up-close");
+
+//open pop_up
+for (let i = 0; i < modal_triggers.length; i++) {
+  modal_triggers[i].addEventListener('click', function(){toggle_pop_up(this.hash.substr(1), true)}, false);
+}
+
+// close pop_up
+for (let i = 0; i < pop_up_close_buttons.length; i++) {
+  pop_up_close_buttons[i].addEventListener('click', function(){toggle_pop_up(this.parentElement.parentElement.id, false)}, false);
+}
+
+// when the user clicks anywhere outside of the pop_up, close it
+for (let i = 0; i < pop_ups.length; i++) {
+  pop_ups[i].addEventListener(
+      'click',
+      function(event){
+          if (this !== event.target) return;
+          toggle_pop_up(this.id, false)
+      },
+      false);
+}

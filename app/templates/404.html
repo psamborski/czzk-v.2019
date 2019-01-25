@@ -1,1 +1,36 @@
-{#TODO create 404#}
+{% extends "base.html" %}
+
+{% block additional_style %}
+    <style>
+        .error-section {
+            height: 70vh;
+            width: 100%;
+            padding: 30vh 10% 0;
+            box-sizing: border-box;
+            background-image: url("/static/images/bg/about1.jpg");
+            background-size: cover;
+            background-position: 50% 30%;
+            font-family: 'Special Elite', cursive;
+            position: relative;
+            font-size: 1.4em;
+        }
+
+        .error-container {
+            width: 100%;
+            max-width: 1020px;
+            margin: 0 auto;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}404{% endblock %}
+
+{% block content %}
+
+    <section class="error-section">
+        <div class="error-container">
+            <h2 class="orange">Błąd 404</h2>
+            <p>Nie znaleziono podanej strony.</p>
+        </div>
+    </section>
+{% endblock %}

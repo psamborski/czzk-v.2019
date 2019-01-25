@@ -94,11 +94,39 @@
             </div>
 
             <div class="links-container">
-				<a href="{{ url_for('MainSite.about_music') }}" title="Nasza muzyka" class="underline-on-hover link-arrow"><span>źródła</span></a> {# TODO create this page #}
+				<a href="#zrodla" title="Nasza muzyka" class="underline-on-hover link-arrow modal-trigger"><span>źródła</span></a>
 			</div>
         </article>
 
         <div id="subsection-bg-4" class="subsection">
 		</div>
 	</section>
+
+    {# sources modal #}
+    <article id="zrodla" class="pop-up modal">
+        <div class="pop-up-container">
+            <span class="pop-up-close">x</span>
+            <div class="pop-up-content">
+                <h2>Źródła</h2>
+                <p>Fotografie: Kasia Zaremba</p>
+
+                <h3>Literatura:</h3>
+                    <ul>
+                        <li>Brzozowicz G., Chmiel M., <i>Kazik</i>, „Weekend”, [dodatek do:] „Gazeta Wyborcza” 1992 nr 62.</li>
+                        <li>Gnoiński L., <i>Kult Kazika</i>,  wyd. 1, Poznań, Wydawnictwo In Rock, 2000.</li>
+                        <li>Lizut M., <i>Punk Rock Later</i>, Warszawa, Wydawnictwo Sic!, 2003.</li>
+                        <li>Uniwersalna encyklopedia powszechna PWN, red. B. Kaczorowski, Wydawnictwo Naukowe PWN, Warszawa, 2006.</li>
+                        <li>Weiss W., <i>Kult. Biała księga. Czyli wszystko o wszystkich piosenkach</i>, wyd. 1, Warszawa, Wydawnictwo Kosmos Kosmos, 2009.</li>
+                     </ul>
+
+                <h3>Pozycje elektroniczne:</h3>
+                <ul>
+                    <li>Gnoiński L., <i>Kazik Staszewski</i> [online] <a href="http://kazik.pl/kazik">http://kazik.pl/kazik</a> [dostęp: 25.01.2018].</li>
+                    <li>Kazik Staszewski [brak inf. o aut.] [online] <a href="https://pl.wikipedia.org/wiki/Kazik_Staszewski">https://pl.wikipedia.org/wiki/Kazik_Staszewski</a> [dostęp: 25.01.2018].
+                    <li>Koncerty [brak inf. o aut.] [online] <a href="http://kazik.pl/koncerty/">http://kazik.pl/koncerty/</a> [dostęp: 25.01.2018].</li>
+                    <li>Kult (zespół muzyczny) [brak inf. o aut.] [online] <a href="https://pl.wikipedia.org/wiki/Kult_(zesp%C3%B3%C5%82_muzyczny)">https://pl.wikipedia.org/wiki/Kult_(zesp%C3%B3%C5%82_muzyczny)</a>[dostęp: 25.01.2018].</li>
+                </ul>
+            </div>
+        </div>
+    </article>
 {% endblock %}

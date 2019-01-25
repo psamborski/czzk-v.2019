@@ -73,10 +73,36 @@
 
     {% block content %}{% endblock %}
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <article id="flash-message-{{ loop.index }}" class="pop-up flash-messages">
+                    <div class="pop-up-container">
+                        <span class="pop-up-close">x</span>
+                        <div class="pop-up-content">
+                            {% if category=='message-success' %}
+                                <h2>Dziękujemy!</h2>
+                            {% endif %}
+                            <p>
+                                {{ message }}
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
 	<footer>
 		<div id="contact-form-container">
-			<form method="post" action="{# url_for('komunikat') TODO uncomment this #}" id="contact-form">
+            {% if request.endpoint=='MainSite.multimedia_specific_gallery' %}
+			    <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint, gallery=gallery.secure_title) }}" id="contact-form">
+            {% elif request.endpoint=='MainSite.#' %}
+			    {# TODO merch #}
+                <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint) }}" id="contact-form">
+            {% else %}
+			    <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint) }}" id="contact-form">
+            {% endif %}
 				<fieldset>
 					<legend><h3>WYŚLIJ DO NAS WIADOMOŚĆ</h3></legend>
 					<label for="message-email">Twój e-mail:</label>
