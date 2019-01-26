@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}{{ item.name }}{% endblock %}
+{% block additional_style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/merch.css') }}" type="text/css">
+{% endblock %}
+
+{% block content %}
+<section id="product-section" class="section">
+	<div id="product-container" class="subsection">
+
+		<div class="header-container">
+			<h2 class="orange underline">{{ item.name }}</h2>
+		</div>
+
+        <div class="back-button-container">
+            <a href="{{ url_for('MainSite.multimedia_merch') }}" title="Gadżety" class="underline-on-hover link-back-arrow"><span>powrót do gadżetów</span></a>
+        </div>
+
+        <div id="product-info-container">
+            <div id="product-photo">
+                {% if item.gif %}
+                    <img src="{{ url_for('static', filename='images/merch/'+item.gif) }}" alt="{{ item.gif }} - animacja produktu" />
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/merch/'+item.jpg) }}" alt="{{ item.jpg }} - zdjęcie produktu" />
+                {% endif %}
+            </div>
+
+            <div id="product-description" class="text black-bg-container">
+                <p>
+                    <span>{{ item.description }}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="subsection">
+    {% if item.size_table == 1 %}
+            <div id="size-table-shirt" class="size-table-container">
+                <table class="size-table">
+                    <caption>TABELA ROZMIARÓW</caption>
+                    <tr>
+                        <th>ROZMIAR</th>
+                        <th>OBWÓD KLATKI</th>
+                        <th>OBWÓD PASA</th>
+                        <th>WZROST</th>
+                        <th>NUMERACJA</th>
+                    </tr>
+                    <tr>
+                        <td>M</td>
+                        <td>93-99 cm</td>
+                        <td>81-87 cm</td>
+                        <td>175-180 cm</td>
+                        <td>46/48</td>
+                    </tr>
+                    <tr>
+                        <td>L</td>
+                        <td>100-107 cm</td>
+                        <td>88-96 cm</td>
+                        <td>180-185cm</td>
+                        <td>50/52</td>
+                    </tr>
+                    <tr>
+                        <td>XL</td>
+                        <td>108-116 cm</td>
+                        <td>97-107 cm</td>
+                        <td>180-188cm</td>
+                        <td>54/56</td>
+                    </tr>
+                    <tr>
+                        <td>XXL</td>
+                        <td>117-125 cm</td>
+                        <td>108-114 cm</td>
+                        <td>180-189cm</td>
+                        <td>58/60</td>
+                    </tr>
+                    <tr class="table-additional-info">
+                        <td colspan="5">
+                            Obwód klatki piersiowej należy mierzyć w pod pachami w najszerszym miejscu klatki piersiowej.
+                        </td>
+                    </tr>
+                    <tr class="table-additional-info">
+                        <td colspan="5">
+                            Obwód pasa należy mierzyć na wysokości pępka.
+                        </td>
+                    </tr>
+                    <tr class="table-additional-info">
+                        <td colspan="5">
+                            Wzrost podany jest orientacyjnie, przedziały wzrostu jako dodatkowa informacja pomocna przy wyborze właściwego rozmiaru.
+                        </td>
+                    </tr>
+                    <tr class="table-additional-info">
+                        <td colspan="5">
+                            Inna numeracja odpowiedniki liczbowe.
+                        </td>
+                    </tr>
+                    <tr class="table-additional-info">
+                        <td colspan="5">
+                            Tolerancja: +/- 2,5 cm.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        {% endif %}
+
+        {% if item.size_table == 2 %}
+            <div id="size-table-hoodie" class="size-table-container">
+                <table class="size-table">
+                    <caption>TABELA ROZMIARÓW</caption>
+                    <tr>
+                        <th>ROZMIAR</th>
+                        <th>SZEROKOŚĆ</th>
+                        <th>DŁUGOŚĆ</th>
+                    </tr>
+                    <tr>
+                        <td>S</td>
+                        <td>51 cm</td>
+                        <td>66 cm</td>
+                    </tr>
+                    <tr>
+                        <td>M</td>
+                        <td>56 cm</td>
+                        <td>68,5 cm</td>
+                    </tr>
+                    <tr>
+                        <td>L</td>
+                        <td>61 cm</td>
+                        <td>72 cm</td>
+                    </tr>
+                    <tr>
+                        <td>XL</td>
+                        <td>63,5 cm</td>
+                        <td>76 cm</td>
+                    </tr>
+                    <tr>
+                        <td>XXL</td>
+                        <td>68,5 cm</td>
+                        <td>78,5 cm</td>
+                    </tr>
+                    <tr>
+                        <td>3XL</td>
+                        <td>73,5 cm</td>
+                        <td>81 cm</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            Tolerancja: +/- 2,5 cm.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+
+
+
+    <div id="product-contact-form-container" class="subsection">{# TODO fix this (wtforms) #}
+        <form method="post" action="" id="product-contact-form">
+        	<fieldset>
+        		<legend><h3>FORMULARZ KONTAKTOWY</h3></legend>
+                <div class="text black-bg-container">
+                    <p><span>Jeśli spodobał Ci się ten produkt - skontaktuj się z nami.</span></p>
+                </div>
+        		<label for="product-message-email">Twój e-mail:</label>
+        		<input type="email" id="product-message-email" name="email-nadawcy" required>
+
+        		<label for="product-message-content">Informacje dodatkowe (np. ilość, rozmiar):</label>
+        		<textarea id="product-message-content" name="tresc-wiadomosci" maxlength="1024" required></textarea>
+
+                <input type="hidden" value="{{ item[2] }}" name="produkt-full">
+                <input type="hidden" value="{{ request.url }}" name="source-url">
+        		<input type="submit" value="WYŚLIJ">
+        	</fieldset>
+        </form>
+    </div>
+
+</section>
+
+{% endblock %}

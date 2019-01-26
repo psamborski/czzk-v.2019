@@ -6,7 +6,7 @@ from app.models.GalleryModel import Gallery
 from app.resources.AlbumsResource import get_all_albums
 from app.resources.ConcertsResource import get_planned_concerts, get_past_concerts
 from app.resources.GalleriesResource import get_all_galleries, get_gallery_by_secure_title
-from app.resources.MerchResource import get_all_merch
+from app.resources.MerchResource import get_all_merch, get_item_from_merch
 from app.resources.SlidesResource import get_all_slides
 from app.resources.TextsResource import get_text_by_page
 
@@ -119,7 +119,11 @@ def multimedia_merch():
 
 @MainSite.route('/multimedia/gadzety/<string:merch_item>')
 def multimedia_merch_item(merch_item):
-    return render_template('multimedia-merch-item.html')
+    item = get_item_from_merch(merch_item)
+
+    return render_template('multimedia-merch-item.html',
+                           item=item
+                           )
 
 
 @MainSite.route('/multimedia/archiwum')
