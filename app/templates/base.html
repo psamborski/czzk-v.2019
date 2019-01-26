@@ -96,26 +96,24 @@
 	<footer>
 		<div id="contact-form-container">
             {% if request.endpoint=='MainSite.multimedia_specific_gallery' %}
-			    <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint, gallery=gallery.secure_title) }}" id="contact-form">
+			    <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint, gallery=gallery.secure_title) }}" id="contact-form" novalidate>
             {% elif request.endpoint=='MainSite.#' %}
 			    {# TODO merch #}
-                <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint) }}" id="contact-form">
+                <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint) }}" id="contact-form" novalidate>
             {% else %}
-			    <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint) }}" id="contact-form">
+			    <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint) }}" id="contact-form" novalidate>
             {% endif %}
+            {{ form.csrf_token() }}
 				<fieldset>
-                    {# TODO wtforms #}
+                    {# TODO wtforms errors #}
 					<legend><h3>WYŚLIJ DO NAS WIADOMOŚĆ</h3></legend>
-					<label for="message-email">Twój e-mail:</label>
-					<input type="email" id="message-email" name="email-nadawcy" required>
-					<label for="message-subject">Temat:</label>
-					<input type="text" id="message-subject" name="temat-wiadomosci" required>
-					<label for="message-content">Wiadomość:</label>
-					<textarea id="message-content" name="tresc-wiadomosci" form="contact-form" maxlength="1024" required></textarea>
-
-                    <input type="hidden" value="{{ request.url }}" name="source-url">
-
-					<input type="submit" value="WYŚLIJ">
+                    {{ form.email.label }}
+                    {{ form.email }}
+                    {{ form.topic.label }}
+                    {{ form.topic }}
+                    {{ form.message.label }}
+                    {{ form.message(form="contact-form", **{'data-length':'1024'}) }}
+                    {{ form.submit }}
 				</fieldset>
 			</form>
 		</div>

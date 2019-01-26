@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from itertools import groupby
 
 # database
+from app.forms.ContactForms import ContactForm
 from app.models.GalleryModel import Gallery
 from app.resources.AlbumsResource import get_all_albums
 from app.resources.ConcertsResource import get_planned_concerts, get_past_concerts
@@ -155,4 +156,11 @@ def send_message():
         return redirect(url_for(page))
     except TypeError:
         return redirect(url_for('MainSite.index'))
+
+
+@MainSite.context_processor  # inject footer form to all templates
+def inject_variables():
+    return dict(
+        form=ContactForm()
+    )
 

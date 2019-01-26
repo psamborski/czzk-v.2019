@@ -20,7 +20,7 @@ class ContactForm(FlaskForm):
                                 DataRequired(message='To pole nie może być puste.'),
                                 Length(min=5, max=1024, message='Wprowadzony tekst powinien mieć od 5 do 1024 znaków.')
                             ])
-    submit = SubmitField(label='Wyślij')
+    submit = SubmitField(label='WYŚLIJ')
 
 
 class MerchContactForm(FlaskForm):
