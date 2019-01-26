@@ -64,7 +64,7 @@ body {
 
 .link-arrow::after {
 	content: ">";
-	margin: 0 0 0 13px;
+	margin: 0 0 0 0.2em;
 	position: absolute;
 	bottom: -3px;
 	opacity: 0;
@@ -142,6 +142,32 @@ a, a span {
     a:active, a:hover span {
         color: #ff6600;
     }
+}
+
+/* normal text */
+.text {
+    font-family: Arial, serif;
+}
+
+/* text with black background */
+
+.text.black-bg-container {
+	font-family: Arial, serif;
+	line-height: 1.5em;
+	font-size: 1.2em;
+    color: #fff;
+}
+
+.text.black-bg-container p {
+	display: inline-block;
+    margin: 0;
+}
+
+.text.black-bg-container p span {
+	background-color: rgba(0, 0, 0, 0.9);
+	padding: 3px 10px;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
 }
 
 
@@ -661,8 +687,6 @@ form input[type=submit]:hover {
 	font-family: "Special Elite", cursive;
 }
 
-
-/* The Close Button */
 .pop-up-close {
 	font-family: "Special Elite", cursive;
 	color: #fff;

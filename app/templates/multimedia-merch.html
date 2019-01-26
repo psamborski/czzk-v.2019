@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Gadżety{% endblock %}
+{% block additional_style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/merch.css') }}" type="text/css">
+{##}
+{#    <style>#}
+{#        {% for item in items %}#}
+{#            {{ item[1] }} .photo {#}
+{#                background-image: url("{{ url_for('static', filename='images/merch/'+item[4]) }}");#}
+{#            }#}
+{#            {% if item[3] != '' %}#}
+{#                {{ item[1] }} .photo:hover {#}
+{#                    background-image: url("{{ url_for('static', filename='images/merch/'+item[3]) }}");#}
+{#                }#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
+{#    </style>#}
+{% endblock %}
+{% block content %}
+
+<section id="merch-section" class="section">
+	<div class="subsection">
+		<div class="header-container">
+			<h2 class="underline orange">ZIUTKOWE GADŻETY</h2>
+		</div>
+
+		<div class="text black-bg-container">
+			<p><span>Lista wszystkich powstałych ziutkowych gadżetów.</span></p>
+		</div>
+
+		<div class="products-container">
+            {% for item in items %}
+                <div class="product" id="{{ item.short_name }}">
+                    <div class="product-photo">
+                        {% if item.gif %}
+                            <span class="fa fa-hand-pointer" aria-hidden="true"></span>
+                        {% endif %}
+                    </div>
+                    <div class="product-name"><a href="{{ url_for('MainSite.multimedia_merch_item', merch_item=item.short_name) }}" title="{{ item.name }}" class="underline link-arrow">{{ item.short_name.upper() }}</a></div>
+                </div>
+            {% endfor %}
+		</div>
+	</div>
+</section>
+
+{% endblock %}

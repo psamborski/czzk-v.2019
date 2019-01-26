@@ -11,3 +11,15 @@ class Merch(db.Model):
 
     def __repr__(self):
         return f"Album('{self.name}', '{self.description}')"
+
+
+def get_all_merch():
+    """
+    Get all merch.
+    :return: Merch data.
+    """
+
+    merch = Merch.query. \
+        all()
+
+    return merch
