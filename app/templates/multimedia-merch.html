@@ -2,19 +2,19 @@
 {% block title %}Gadżety{% endblock %}
 {% block additional_style %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/merch.css') }}" type="text/css">
-{##}
-{#    <style>#}
-{#        {% for item in items %}#}
-{#            {{ item[1] }} .photo {#}
-{#                background-image: url("{{ url_for('static', filename='images/merch/'+item[4]) }}");#}
-{#            }#}
-{#            {% if item[3] != '' %}#}
-{#                {{ item[1] }} .photo:hover {#}
-{#                    background-image: url("{{ url_for('static', filename='images/merch/'+item[3]) }}");#}
-{#                }#}
-{#            {% endif %}#}
-{#        {% endfor %}#}
-{#    </style>#}
+
+    <style>
+        {% for item in items %}
+            {{ item.short_name }} .product-photo {
+                background-image: url("{{ url_for('static', filename='images/merch/'+item.jpg) }}");
+            }
+            {% if item.gif %}
+                {{ item.short_name }} .product-photo:hover {
+                    background-image: url("{{ url_for('static', filename='images/merch/'+item.gif) }}");
+                }
+            {% endif %}
+        {% endfor %}
+    </style>
 {% endblock %}
 {% block content %}
 
