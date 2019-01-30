@@ -1,7 +1,7 @@
 .section {
 	width: 100%;
 	margin-top: 70px;
-	font-family: 'Special Elite', cursive;
+	font-family: 'Special Elite', Arial, serif;
 	background-size: cover;
 	background-image: url("../images/bg/merch.jpg");
 	background-position-x: 50%;
@@ -258,7 +258,7 @@
 
 .size-table caption {
 	font-size: 24px;
-	font-family: 'Special Elite', cursive;
+	font-family: 'Special Elite', Arial, serif;
 	margin: 10px 0;
 	color: #ff6600;
 }

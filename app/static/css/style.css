@@ -1,8 +1,9 @@
 @font-face {
-  font-family: 'Special Elite';
-  font-style: normal;
-  font-weight: 400;
-  src: local('SpecialElite'), url(../fonts/SpecialElite.ttf);
+	font-family: 'Special Elite';
+	font-style: normal;
+	font-weight: 400;
+	src: local('SpecialElite'), url(../fonts/SpecialElite.ttf);
+	font-display: fallback;
 }
 
 /* GENREAL */
@@ -222,7 +223,7 @@ header {
 	background-color: rgba(0, 0, 0, 0.7);
 	width: 100%;
 	height: 40px;
-	font-family: 'Special Elite', cursive;
+	font-family: 'Special Elite', Arial, serif;
 }
 
 #menu-container ul {
@@ -517,7 +518,7 @@ header {
 footer {
 	max-width: 976px;
 	margin: 0 auto;
-	font-family: 'Special Elite', cursive;
+	font-family: 'Special Elite', Arial, serif;
 	padding: 80px 10px 10px;
 }
 
@@ -594,7 +595,7 @@ form textarea {
 
 form input[type=submit] {
 	border: none;
-	font-family: 'Special Elite', cursive;
+	font-family: 'Special Elite', Arial, serif;
 	cursor: pointer;
     background-color: rgba(255, 102, 0, 0.8);
     transition: all 0.2s ease-in-out;

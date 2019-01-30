@@ -2,7 +2,7 @@
 	background-color: #000;
 	width: 100%;
 	margin-top: 100px;
-	font-family: 'Special Elite', cursive;
+	font-family: 'Special Elite', Arial, serif;
 	overflow: hidden;
     display: flex;
     flex-direction: column;
