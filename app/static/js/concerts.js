@@ -39,12 +39,12 @@ past_newer.addEventListener('click', function () {
 }, false);
 
 planned_older.addEventListener('click', function () {
-  if (past_concerts.offsetWidth > 800 && planned_flag) {
+  if (planned_concerts.offsetWidth > 800 && planned_flag) {
     let position = parseInt(window.getComputedStyle(planned_concerts, null).getPropertyValue("top"));
     let height = planned_concerts.offsetHeight;
     if (position + height > 600) {
       let new_position = position - 600;
-      past_concerts.style.top = new_position + "px";
+      planned_concerts.style.top = new_position + "px";
     }
     planned_flag = false;
     setTimeout(function(){planned_flag = true;}, 200);
@@ -52,12 +52,12 @@ planned_older.addEventListener('click', function () {
 }, false);
 
 planned_newer.addEventListener('click', function () {
-  if (past_concerts.offsetWidth > 800 && planned_flag) {
+  if (planned_concerts.offsetWidth > 800 && planned_flag) {
     let position = parseInt(window.getComputedStyle(planned_concerts, null).getPropertyValue("top"));
     // let height = new_concerts.offsetHeight;
     if (position < 0) {
       let new_position = position + 600;
-      past_concerts.style.top = new_position + "px";
+      planned_concerts.style.top = new_position + "px";
     }
     planned_flag = false;
     setTimeout(function(){planned_flag = true;}, 200);

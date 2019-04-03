@@ -154,9 +154,9 @@
 
 
     <div id="product-contact-form-container" class="subsection">{# TODO fix this (wtforms) #}
-        <form method="post" action="" id="product-contact-form">
+        <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint, merch_item=item.short_name) }}" id="product-contact-form" novalidate>
         	<fieldset>
-        		<legend><h3>FORMULARZ KONTAKTOWY</h3></legend>
+        		<legend><h3>FORMULARZ KONTAKTOWY / formularz chwilowo niedostępny</h3></legend>
                 <div class="text black-bg-container">
                     <p><span>Jeśli spodobał Ci się ten produkt - skontaktuj się z nami.</span></p>
                 </div>
@@ -164,7 +164,7 @@
         		<input type="email" id="product-message-email" name="email-nadawcy" required>
 
         		<label for="product-message-content">Informacje dodatkowe (np. ilość, rozmiar):</label>
-        		<textarea id="product-message-content" name="tresc-wiadomosci" maxlength="1024" required></textarea>
+        		<textarea id="product-message-content" name="message" maxlength="1024" required></textarea>
 
                 <input type="hidden" value="{{ item[2] }}" name="produkt-full">
                 <input type="hidden" value="{{ request.url }}" name="source-url">

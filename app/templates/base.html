@@ -82,9 +82,11 @@
                         <div class="pop-up-content">
                             {% if category=='message-success' %}
                                 <h2>Dziękujemy!</h2>
+                            {% elif category=='message-not-available' %}
+                                <h2>Przepraszamy!</h2>
                             {% endif %}
                             <p>
-                                {{ message }}
+                                {{ message|safe }}
                             </p>
                         </div>
                     </div>
@@ -97,16 +99,15 @@
 		<div id="contact-form-container">
             {% if request.endpoint=='MainSite.multimedia_specific_gallery' %}
 			    <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint, gallery=gallery.secure_title) }}" id="contact-form" novalidate>
-            {% elif request.endpoint=='MainSite.#' %}
-			    {# TODO merch #}
-                <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint) }}" id="contact-form" novalidate>
+            {% elif request.endpoint=='MainSite.multimedia_merch_item' %}
+                <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint, merch_item=item.short_name) }}" id="contact-form" novalidate>
             {% else %}
 			    <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint) }}" id="contact-form" novalidate>
             {% endif %}
             {{ form.csrf_token() }}
 				<fieldset>
                     {# TODO wtforms errors #}
-					<legend><h3>WYŚLIJ DO NAS WIADOMOŚĆ</h3></legend>
+					<legend><h3>WYŚLIJ DO NAS WIADOMOŚĆ / formularz chwilowo niedostępny</h3></legend>
                     {{ form.email.label }}
                     {{ form.email }}
                     {{ form.topic.label }}

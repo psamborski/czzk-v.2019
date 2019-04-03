@@ -1,35 +1,154 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+	<title>{% block title %}505{% endblock %} < CZARNY ZIUTEK Z KILLERAMI</title>
+		<meta charset="utf-8">
+		<meta name="description" content="Oficjalna strona zespołu Czarny Ziutek z Killerami (CZZK).">
+		<meta name="keywords" content="czzk czarny ziutek z killerami zespół kult kazik">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
 
-{% block additional_style %}
-    <style>
-        .error-section {
-            height: 70vh;
-            width: 100%;
-            padding: 30vh 10% 0;
-            box-sizing: border-box;
-            background-image: url("/static/images/bg/about1.jpg");
-            background-size: cover;
-            background-position: 50% 30%;
-            font-family: 'Special Elite', cursive;
-            position: relative;
-            font-size: 1.4em;
-        }
+		<!-- FAVICON -->
+		<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon/apple-touch-icon.png') }}">
+		<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon/favicon-32x32.png') }}">
+		<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon/favicon-16x16.png') }}">
+		<link rel="manifest" href="{{ url_for('static', filename='images/favicon/site.webmanifest') }}">
+		<link rel="mask-icon" href="{{ url_for('static', filename='images/favicon/safari-pinned-tab.svg') }}" color="#5bbad5">
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon/favicon.ico') }}">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="msapplication-config" content="{{ url_for('static', filename='images/favicon/browserconfig.xml') }}">
+		<meta name="theme-color" content="#000000">
 
-        .error-container {
-            width: 100%;
-            max-width: 1020px;
-            margin: 0 auto;
-        }
-    </style>
-{% endblock %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
-{% block title %}404{% endblock %}
+    {% block additional_style %}
+        <style>
+            .error-section {
+                height: 70vh;
+                width: 100%;
+                padding: 30vh 10% 0;
+                box-sizing: border-box;
+                background-image: url("/static/images/bg/about1.jpg");
+                background-size: cover;
+                background-position: 50% 30%;
+                font-family: 'Special Elite', cursive;
+                position: relative;
+                font-size: 1.4em;
+            }
 
-{% block content %}
-    <section class="error-section">
-        <div class="error-container">
-            <h2 class="orange">Błąd 505</h2>
-            <p>Nieoczekiwany błąd serwera. Przepraszamy.</p>
-        </div>
-    </section>
-{% endblock %}
+            .error-container {
+                width: 100%;
+                max-width: 1020px;
+                margin: 0 auto;
+            }
+        </style>
+    {% endblock %}
+</head>
+
+<body>
+	<header>
+		<div id="top-header">
+            <div id="logo-container" class="logo-container-normal">
+                <a href="{{ url_for('MainSite.index') }}" title="CZZK - strona główna"><img src="{{ url_for('static', filename='images/czzk-logo-white.svg') }}" alt="Logo CZZK" /></a>
+			    <h1 id="page-title">CZARNY ZIUTEK Z KILLERAMI</h1>
+            </div>
+		</div>
+
+        <!-- MENU HAMBURGER -->
+		<input type="checkbox" id="hamburger-menu-input" autocomplete="off">
+		<label for="hamburger-menu-input" id="hamburger-menu-label">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</label>
+
+        <!-- MENU LIST FOR DESKTOP -->
+		<nav id="menu-container">
+			<ul>
+				<li><a class="menu-item" href="{{ url_for('MainSite.index') }}"><span class="underline-on-hover">STRONA GŁÓWNA</span></a></li>
+
+                <li class="menu-list" id="menu-list-about">
+                    <span class="menu-item"><span class="menu-list-title underline-on-hover">O NAS</span> <i class="fas fa-angle-down"></i></span>
+					<a href="{{ url_for('MainSite.about_czzk') }}" class="menu-item"><span class="underline-on-hover">CZZK</span></a>
+					<a href="{{ url_for('MainSite.about_music') }}" class="menu-item"><span class="underline-on-hover">MUZYKA</span></a>
+					<a href="{{ url_for('MainSite.about_kazik') }}" class="menu-item"><span class="underline-on-hover">KAZIK</span></a>
+				</li>
+
+				<li><a href="{{ url_for('MainSite.concerts') }}" class="menu-item"><span class="underline-on-hover">KONCERTY</span></a></li>
+
+				<li class="menu-list" id="menu-list-media">
+					<span class="menu-item"><span class="menu-list-title underline-on-hover">MEDIA</span> <i class="fas fa-angle-down"></i></span>
+					<a href="{{ url_for('MainSite.multimedia_audio') }}" class="menu-item"><span class="underline-on-hover">AUDIO</span></a>
+					<a href="{{ url_for('MainSite.multimedia_galleries') }}" class="menu-item"><span class="underline-on-hover">GALERIA</span></a>
+					<a href="{{ url_for('MainSite.multimedia_merch') }}" class="menu-item"><span class="underline-on-hover">GADŻETY</span></a>
+					<a href="{{ url_for('MainSite.multimedia_archive') }}" class="menu-item"><span class="underline-on-hover">ARCHIWUM</span></a>
+				</li>
+
+                <li><a href="{{ url_for('MainSite.contact') }}" class="menu-item"><span class="underline-on-hover">KONTAKT</span></a></li>
+				<li class="menu-li-social"><a href="https://www.facebook.com/Czarny-Ziutek-Z-Killerami-383738698359773/" target="_blank" class="menu-social" id="menu-fb"><img src="{{ url_for('static', filename='images/fb-menu.svg') }}" alt="Facebook CZZK" /></a></li>
+				<li class="menu-li-social"><a href="https://www.youtube.com/channel/UCQkQC4Xv-OTuhKhfb0OY3vg" target="_blank" class="menu-social" id="menu-yt"><img src="{{ url_for('static', filename='images/yt-menu.svg') }}" alt="YouTube CZZK" /></a></li>
+			</ul>
+		</nav>
+	</header>
+
+    {% block content %}
+        <section class="error-section">
+            <div class="error-container">
+                <h2 class="orange">Błąd 505</h2>
+                <p>Nieoczekiwany błąd serwera. Przepraszamy.</p>
+            </div>
+        </section>
+    {% endblock %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <article id="flash-message-{{ loop.index }}" class="pop-up flash-messages">
+                    <div class="pop-up-container">
+                        <span class="pop-up-close">x</span>
+                        <div class="pop-up-content">
+                            {% if category=='message-success' %}
+                                <h2>Dziękujemy!</h2>
+                            {% endif %}
+                            <p>
+                                {{ message }}
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+	<footer>
+		<div id="contact-form-container">
+            <form method="post" action="/send-message?page=MainSite.index" id="contact-form" novalidate="">
+                <input id="csrf_token" name="csrf_token" type="hidden" value="IjBlNmNhNWRlOTIzMjRmNDI1NGMxMjMwMjA4NTgxNGNiNTU2ODNkZmIi.XKU76g.3LG09kYi8PERJC4LEr_J0h1HuBk">
+				<fieldset>
+
+					<legend><h3>WYŚLIJ DO NAS WIADOMOŚĆ</h3></legend>
+                    <label for="email">Twój e-mail</label>
+                    <input id="email" name="email" required="" type="email" value="">
+                    <label for="topic">Temat</label>
+                    <input id="topic" name="topic" required="" type="text" value="">
+                    <label for="message">Wiadomość</label>
+                    <textarea data-length="1024" form="contact-form" id="message" name="message" required=""></textarea>
+                    <input id="submit" name="submit" type="submit" value="WYŚLIJ">
+				</fieldset>
+			</form>
+		</div>
+
+		<div id="footer-menu-container">
+            <img src="{{ url_for('static', filename='images/band-footer.jpg') }}" alt="Zespół - grafika" class="footer-img" />
+		</div>
+
+		<div id="author">
+			<span>Patryk Samborski & CZZK &copy; 2019</span>
+		</div>
+	</footer>
+
+	<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    {% block additional_script %}{% endblock %}
+</body>
+</html>

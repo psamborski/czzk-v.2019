@@ -5,11 +5,11 @@
 
     <style>
         {% for item in items %}
-            {{ item.short_name }} .product-photo {
+            #{{ item.short_name }} .product-photo {
                 background-image: url("{{ url_for('static', filename='images/merch/'+item.jpg) }}");
             }
             {% if item.gif %}
-                {{ item.short_name }} .product-photo:hover {
+                #{{ item.short_name }} .product-photo:hover {
                     background-image: url("{{ url_for('static', filename='images/merch/'+item.gif) }}");
                 }
             {% endif %}

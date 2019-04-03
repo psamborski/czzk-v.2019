@@ -17,10 +17,10 @@
 
 
 		<div id="main-gallery">
-            {% for slide in slider %}
+            {% for slide in slides %}
                 {% if slide.type == 'i' %}
-			        <div id="slide-{{ slide.order }}" class="slide" style="background-image: {{ url_for('static', filename='images/bg/' + slide.content) }}"></div>
-			    {% elif slider.type == 'v' %}
+			        <div id="slide-{{ slide.order }}" class="slide" style="background-image: url('{{ url_for('static', filename='images/slides/' + slide.content) }}')"></div>
+			    {% elif slide.type == 'v' %}
 			        <div id="slide-{{ slide.order }}" class="slide"><iframe src="{{ slide.content }}" allowfullscreen></iframe></div>
 		        {% endif %}
             {% endfor %}
@@ -31,7 +31,7 @@
 	<label for="band-description-checkbox" id="band-description-label"></label>
 
 	<div id="band-description">
-		<h2>CZARNY ZIUTEK Z KILLERAMI</h2>
+		<h2>CZARNY ZIUTEK Z KILLERAMI {{ form.csrf_token() }}</h2>
 		<p class="text">Spotkanie czterech chłopa o odmiennych charakterach i&nbsp;różnym spojrzeniu na świat, których w całość połączyło zamiłowanie do wydobywania różnego rodzaju dźwięków muzycznych. Indywidualna przygoda z&nbsp;muzyką każdego z&nbsp;nas sięga dawnych lat, lecz dzisiaj tworzymy jedno ciało pod nazwą Czarny&nbsp;Ziutek&nbsp;z&nbsp;Killerami zaczerpniętą z&nbsp;piosenki Kazika - "Celina". Wychowani na jego muzyce, ale&nbsp;i&nbsp;na&nbsp;innym graniu, postanowiliśmy spróbować… i&nbsp;spróbowaliśmy w 2008 r.</p>
 
 		<a href="{{ url_for('MainSite.about_czzk') }}" title="O nas" class="underline-on-hover link-arrow"><span>więcej o nas</span></a>
@@ -56,7 +56,7 @@
             {% for concert in closest_concerts %}
                 <div class="single-concert">
                     <div class="single-concert-date">
-                        <span>{{ concert.date }}</span>
+                        <span>{{ concert.date.strftime('%d.%m.%Y') }}</span>
                     </div>
                     <div class="single-concert-info">
                         <h3>{{ concert.name }}</h3>
@@ -86,12 +86,12 @@
 	<div id="small-gallery" class="media-tab">
 		<div class="photo-container">
 			<a href="{{ url_for('MainSite.multimedia_galleries') }}">
-				<img src="{{ url_for('static', filename='images/kazik2.jpg') }}" alt="Zdjęcie w galerii - slajd 2" />
+				<img src="{{ url_for('static', filename='images/bg/kazik2.jpg') }}" alt="Zdjęcie w galerii - slajd 2" />
 			</a>
 		</div>
 		<div class="photo-container">
 			<a href="{{ url_for('MainSite.multimedia_galleries') }}">
-				<img src="{{ url_for('static', filename='images/kazik4.jpg') }}" alt="Zdjęcie w galerii - slajd 3" />
+				<img src="{{ url_for('static', filename='images/bg/kazik4.jpg') }}" alt="Zdjęcie w galerii - slajd 3" />
 			</a>
 		</div>
 	</div>

@@ -14,6 +14,13 @@ from app.resources.TextsResource import get_text_by_page
 MainSite = Blueprint('MainSite', __name__)
 
 
+@MainSite.context_processor  # inject footer form to all templates
+def inject_variables():
+    return dict(
+        form=ContactForm()
+    )
+
+
 @MainSite.route('/')
 def index():
     closest_concerts = get_planned_concerts(3)
@@ -91,8 +98,8 @@ def multimedia_galleries():
 
 @MainSite.route('/multimedia/galeria/<string:gallery_secure_title>')
 def multimedia_specific_gallery(gallery_secure_title):
-    if not gallery_secure_title:
-        return 'afds'
+    # if not gallery_secure_title: TODO handle this
+    #    return 'afds'
     page = request.args.get('strona', 1, type=int)
 
     gallery = Gallery(get_gallery_by_secure_title(gallery_secure_title))
@@ -141,7 +148,25 @@ def contact():
 def send_message():
     # TODO send msg and end this
 
-    flash('Twoja wiadomość została wysłana.', 'message-success')
+    form = ContactForm()
+    message = ''
+    print(message)
+    if request.method == 'POST' and form.validate_on_submit():
+        message = form.message.data
+        if request.form['message']:
+            message = request.form['message']
+
+        flash('Funkcjonalność chwilowo niedostępna. Napisz bezpośrednio na info@czzk.pl ;)<br><br>Twoja '
+              'wiadomość:<br><br>' +
+              message, 'message-not-available')  # TODO change flash
+    elif request.method == 'POST' and not form.validate_on_submit():
+        message = form.message.data
+        if request.form['message']:
+            message = request.form['message']
+
+        flash('Funkcjonalność chwilowo niedostępna. Napisz bezpośrednio na info@czzk.pl ;)<br><br>Twoja '
+              'wiadomość:<br><br>' +
+              message, 'message-not-available')  # TODO change flash
 
     page = request.args.get('page')
 
@@ -152,15 +177,19 @@ def send_message():
     elif request.args.get('merch_item'):
         merch_item = request.args.get('merch_item')
 
+        return redirect(url_for(page, merch_item=merch_item))
+
     try:
         return redirect(url_for(page))
     except TypeError:
         return redirect(url_for('MainSite.index'))
 
 
-@MainSite.context_processor  # inject footer form to all templates
-def inject_variables():
-    return dict(
-        form=ContactForm()
-    )
+@MainSite.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html', form=ContactForm()), 404
 
+
+@MainSite.errorhandler(500)
+def internal_error(error):
+    return render_template('500.html', form=ContactForm())
