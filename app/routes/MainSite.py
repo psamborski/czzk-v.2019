@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from itertools import groupby
 
 # database
-from app.forms.ContactForms import ContactForm
+from app.forms.ContactForms import ContactForm, MerchContactForm
 from app.models.GalleryModel import Gallery
+from app.models.MailModel import Mail
 from app.resources.AlbumsResource import get_all_albums
 from app.resources.ConcertsResource import get_planned_concerts, get_past_concerts
 from app.resources.GalleriesResource import get_all_galleries, get_gallery_by_secure_title
@@ -16,8 +17,26 @@ MainSite = Blueprint('MainSite', __name__)
 
 @MainSite.context_processor  # inject footer form to all templates
 def inject_variables():
+    form = ContactForm()
+
+    cached_form = session.get('contact_form_data', {})
+
+    if cached_form:
+        errors = cached_form.get('errors')
+
+        form.email.data = cached_form.get('email')
+        form.email.errors = errors.get('email')
+
+        form.topic.data = cached_form.get('topic')
+        form.topic.errors = errors.get('topic')
+
+        form.message.data = cached_form.get('message')
+        form.message.errors = errors.get('message')
+
+        session.pop('contact_form_data')
+
     return dict(
-        form=ContactForm()
+        form=form
     )
 
 
@@ -128,9 +147,24 @@ def multimedia_merch():
 @MainSite.route('/multimedia/gadzety/<string:merch_item>')
 def multimedia_merch_item(merch_item):
     item = get_item_from_merch(merch_item)
+    merch_form = MerchContactForm()
+
+    cached_form = session.get('merch_form_data', {})
+
+    if cached_form:
+        errors = cached_form.get('errors')
+
+        merch_form.email.data = cached_form.get('email')
+        merch_form.email.errors = errors.get('email')
+
+        merch_form.message.data = cached_form.get('message')
+        merch_form.message.errors = errors.get('message')
+
+        session.pop('merch_form_data')
 
     return render_template('multimedia-merch-item.html',
-                           item=item
+                           item=item,
+                           merch_form=merch_form
                            )
 
 
@@ -146,28 +180,60 @@ def contact():
 
 @MainSite.route('/send-message', methods=['POST', 'GET'])
 def send_message():
-    # TODO send msg and end this
+    if request.args.get('type') == 'merch':
+        form_type = 'merch'
+        form = MerchContactForm()
+    else:
+        form_type = 'contact'
+        form = ContactForm()
 
-    form = ContactForm()
-    message = ''
-    print(message)
+    # Get data
+    email = request.form.get('email')
+    topic = request.form.get('topic')
+    message = request.form.get('message')
+
+    form.email.data = email
+    form.message.data = message
+    if form_type == 'contact':
+        form.topic.data = topic
+
     if request.method == 'POST' and form.validate_on_submit():
-        message = form.message.data
-        if request.form['message']:
-            message = request.form['message']
+        if form_type == 'merch':
+            settings = {
+                'type': form_type,
+                'item': request.args.get('merch_item')
+            }
+        else:
+            settings = {
+                'type': form_type,
+                'item': None
+            }
+        # send email
+        mail = Mail(topic=topic, content=message, reply_email=email, settings=settings)
 
-        flash('Funkcjonalność chwilowo niedostępna. Napisz bezpośrednio na info@czzk.pl ;)<br><br>Twoja '
-              'wiadomość:<br><br>' +
-              message, 'message-not-available')  # TODO change flash
+        mail.send()
+
+        flash('Twoja wiadomość została wysłana.', 'message-success')
+
     elif request.method == 'POST' and not form.validate_on_submit():
-        message = form.message.data
-        if request.form['message']:
-            message = request.form['message']
+        print(form.errors)
+        if form_type == 'contact':
+            session['contact_form_data'] = {
+                'email': email,
+                'topic': topic,
+                'message': message,
+                'errors': form.errors
+            }
+        else:
+            session['merch_form_data'] = {
+                'email': email,
+                'message': message,
+                'errors': form.errors
+            }
 
-        flash('Funkcjonalność chwilowo niedostępna. Napisz bezpośrednio na info@czzk.pl ;)<br><br>Twoja '
-              'wiadomość:<br><br>' +
-              message, 'message-not-available')  # TODO change flash
+        flash('Przepraszamy, wystąpił błąd podczas wysyłania wiadomości. Sprawdź swój formularz.', 'message-error')
 
+    # Redirect to previous page
     page = request.args.get('page')
 
     if request.args.get('gallery'):
@@ -192,4 +258,4 @@ def page_not_found(error):
 
 @MainSite.errorhandler(500)
 def internal_error(error):
-    return render_template('500.html', form=ContactForm())
+    return render_template('500.html', form=ContactForm()), 500

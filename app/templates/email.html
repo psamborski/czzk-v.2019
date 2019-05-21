@@ -1,0 +1,29 @@
+Ktoś na stronie użył formularza kontaktowego.
+<br><br>
+{% if type == 'merch' %}
+    Typ formularza: gadżet<br>
+    Produkt: {{ item }}
+{% elif type == 'contact' %}
+    Typ formularza: formularz w stopce<br>
+{% else %}
+    Typ formularza: nie rozpoznano<br>
+{% endif %}
+<br>
+
+<b>Nadawca:</b><br>
+<a href="mailto:{{ mail_data['sender'] }}">{{ mail_data['sender'] }}</a><br>
+
+<b>Temat:</b><br>
+{{ mail_data['topic'] }}<br>
+
+<b>Wiadomość</b><br>
+{{ mail_data['content']|safe }}<br>
+
+<br>
+<br>
+<i>Możesz odpowiedzieć bezpośrednio na adres e-mail adresata klikając w przycisk "Odpowiedz".</i>
+
+<br>
+_____________
+<br>
+<small>czzk.pl</small>

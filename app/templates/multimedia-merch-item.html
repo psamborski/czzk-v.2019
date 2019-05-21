@@ -153,22 +153,32 @@
 
 
 
-    <div id="product-contact-form-container" class="subsection">{# TODO fix this (wtforms) #}
-        <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint, merch_item=item.short_name) }}" id="product-contact-form" novalidate>
-        	<fieldset>
-        		<legend><h3>FORMULARZ KONTAKTOWY / formularz chwilowo niedostępny</h3></legend>
-                <div class="text black-bg-container">
-                    <p><span>Jeśli spodobał Ci się ten produkt - skontaktuj się z nami.</span></p>
-                </div>
-        		<label for="product-message-email">Twój e-mail:</label>
-        		<input type="email" id="product-message-email" name="email-nadawcy" required>
+    <div id="product-contact-form-container" class="subsection">
+        <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint, merch_item=item.short_name, type='merch') }}" id="product-contact-form" novalidate>
+            {{ merch_form.csrf_token() }}
+            <fieldset>
+                {{ merch_form.email.label }}
+                {{ merch_form.email }}
+                {% if merch_form.email.errors %}
+                    {% for error in merch_form.email.errors %}
+                        <div class="contact-from-error-container">
+                            <span class="fas fa-exclamation-circle"></span>
+                            <span class="contact-from-error">{{ error }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {{ merch_form.message.label }}
+                {{ merch_form.message(form="product-contact-form", **{'data-length':'1024'}) }}
+                {% if merch_form.message.errors %}
+                    {% for error in merch_form.message.errors %}
+                        <div class="contact-from-error-container">
+                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                            <span class="contact-from-error">{{ error }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
 
-        		<label for="product-message-content">Informacje dodatkowe (np. ilość, rozmiar):</label>
-        		<textarea id="product-message-content" name="message" maxlength="1024" required></textarea>
-
-                <input type="hidden" value="{{ item[2] }}" name="produkt-full">
-                <input type="hidden" value="{{ request.url }}" name="source-url">
-        		<input type="submit" value="WYŚLIJ">
+                {{ form.submit }}
         	</fieldset>
         </form>
     </div>

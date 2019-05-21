@@ -82,8 +82,8 @@
                         <div class="pop-up-content">
                             {% if category=='message-success' %}
                                 <h2>Dziękujemy!</h2>
-                            {% elif category=='message-not-available' %}
-                                <h2>Przepraszamy!</h2>
+                            {% elif category=='message-error' %}
+                                <h2>Wystąpił błąd</h2>
                             {% endif %}
                             <p>
                                 {{ message|safe }}
@@ -106,14 +106,38 @@
             {% endif %}
             {{ form.csrf_token() }}
 				<fieldset>
-                    {# TODO wtforms errors #}
-					<legend><h3>WYŚLIJ DO NAS WIADOMOŚĆ / formularz chwilowo niedostępny</h3></legend>
+					<legend><h3>WYŚLIJ DO NAS WIADOMOŚĆ</h3></legend>
                     {{ form.email.label }}
                     {{ form.email }}
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            <div class="contact-from-error-container">
+                                <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                <span class="contact-from-error">{{ error }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                     {{ form.topic.label }}
                     {{ form.topic }}
+                    {% if form.topic.errors %}
+                        {% for error in form.topic.errors %}
+                            <div class="contact-from-error-container">
+                                <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                <span class="contact-from-error">{{ error }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                     {{ form.message.label }}
                     {{ form.message(form="contact-form", **{'data-length':'1024'}) }}
+                    {% if form.message.errors %}
+                        {% for error in form.message.errors %}
+                            <div class="contact-from-error-container">
+                                <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                <span class="contact-from-error">{{ error }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
                     {{ form.submit }}
 				</fieldset>
 			</form>
