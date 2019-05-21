@@ -151,12 +151,11 @@
         {% endif %}
     </div>
 
-
-
     <div id="product-contact-form-container" class="subsection">
         <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint, merch_item=item.short_name, type='merch') }}" id="product-contact-form" novalidate>
             {{ merch_form.csrf_token() }}
             <fieldset>
+                <legend><h3>FORMULARZ KONTAKTOWY</h3></legend>
                 {{ merch_form.email.label }}
                 {{ merch_form.email }}
                 {% if merch_form.email.errors %}
