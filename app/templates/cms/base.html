@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="pl-PL">
-<head>
-	<title>{% block title %}{% endblock %} < PANEL ADMINA < CZZK</title>
+    <head>
+	<title>{% block title %}{% endblock %} < Admin < CZARNY ZIUTEK Z KILLERAMI</title>
 		<meta charset="utf-8">
-        <meta name="robots" content="noindex">
+		<meta name="description" content="Oficjalna strona zespołu Czarny Ziutek z Killerami (CZZK).">
+		<meta name="keywords" content="czzk czarny ziutek z killerami zespół kult kazik">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/cms_style.css') }}" type="text/css">
 
 		<!-- FAVICON -->
 		<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon/apple-touch-icon.png') }}">
@@ -18,54 +18,56 @@
 		<meta name="msapplication-config" content="{{ url_for('static', filename='images/favicon/browserconfig.xml') }}">
 		<meta name="theme-color" content="#000000">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+        <link href="{{ url_for('static', filename='css/materialize.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="{{ url_for('static', filename='css/cms.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
+        {% block additional_style %}{% endblock %}
+    </head>
 
-    {% block additional_style %}{% endblock %}
-</head>
-
-<body>
-	<header>
-        <div id="nav-container">
-			<a href="{{ url_for('panel') }}" title="CZZK - panel CMS" id="panel-logo-link"><img src="{{ url_for('static', filename='images/czzk-logo-white_s.svg') }}" alt="Logo CZZK" /> <h1>CMS</h1></a>
-            <input type="checkbox" id="hamburger-menu-input" autocomplete="off">
-            <label for="hamburger-menu-input" id="hamburger-menu-label">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </label>
-            <div class="overlay"></div>
-            <nav>
-                <a href="{{ url_for('panel_slider') }}">Slider</a>
-                <a href="{{ url_for('panel_teksty') }}">Teksty</a>
-                <a href="{{ url_for('panel_albumy') }}">Albumy</a>
-                <a href="{{ url_for('panel_galeria') }}">Galerie</a>
-                <a href="{{ url_for('panel_gadzety') }}">Gadżety</a>
-                <a href="{{ url_for('panel_koncerty') }}">Koncerty</a>
-                <a href="{{ url_for('panel_rider') }}">Rider</a>
-                <a href="{{ url_for('panel_ustawienia') }}">Ustawienia</a>
-                <a href="{{url_for('logout')}}" class="logout-button">Wyloguj</a>
-            </nav>
-        </div>
-	</header>
-    <main>
-        {% block content %}{% endblock %}
-
-        {% if request.endpoint != 'panel' and request.endpoint != 'login'%}
-            <div id="back-button">
-                <a href="{{ url_for('panel') }}"><span class="fas fa-angle-left"></span> Powrót do panelu</a>
+    <body class="grey lighten-4">
+        <nav class="blue darken-3 cms">
+            <div class="nav-wrapper container">
+                <a href="{{ url_for('CMS.index') }}" class="brand-logo"><img src="{{ url_for('static', filename='images/czzk-logo-white.svg') }}" alt="CZZK - Logo" /> <span class="fas fa-wrench orange-text"></span></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    {% if current_user.is_authenticated %}
+                        <li><a href="{{ url_for('CMS.index') }}">Panel administratora</a></li>
+                        <li><a href="{{ url_for('MainSite.index') }}">Powrót do strony</a></li>
+                        <li><a href="{{ url_for('CMS.logout') }}">Wyloguj</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('MainSite.index') }}">Powrót do strony</a></li>
+                        <li><a href="{{ url_for('CMS.login') }}">Zaloguj</a></li>
+                    {% endif %}
+                </ul>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger white-text"><i class="material-icons">menu</i></a>
             </div>
-        {% endif %}
+        </nav>
 
-    </main>
-	<footer>
-		<div id="footer-content">
-			<span>Autorem niniejszego serwisu jest Patryk Samborski. Serwis ten stanowi integralną część pracy licencjackiej (kierunek: Elektroniczne
-Przetwarzanie Informacji), przygotowanej pod kierunkiem dra Piotra Jordana Śliwińskiego na Wydziale Zarządzania i Komunikacji Społecznej
-Uniwersytetu Jagiellońskiego.</span>
-		</div>
-	</footer>
+        <ul class="sidenav" id="mobile-demo">
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('CMS.index') }}">Panel administratora</a></li>
+                <li><a href="{{ url_for('MainSite.index') }}">Powrót do strony</a></li>
+                <li><a href="{{ url_for('CMS.logout') }}">Wyloguj</a></li>
+            {% else %}
+                <li><a href="{{ url_for('MainSite.index') }}">Powrót do strony</a></li>
+                <li><a href="{{ url_for('CMS.login') }}">Zaloguj</a></li>
+            {% endif %}
+        </ul>
 
-    {% block scripts %}{% endblock %}
-</body>
+            {% block content %}{% endblock %}
+
+        <footer class="page-footer grey lighten-4">
+            <div class="footer-copyright blue-grey darken-3">
+                <div class="container">
+                CZZK &copy; 2019
+                </div>
+            </div>
+        </footer>
+
+        <!--	Scripts-->
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/cms-scripts.js') }}"></script>
+        {% block additionalScript %}{% endblock %}
+    </body>
 </html>

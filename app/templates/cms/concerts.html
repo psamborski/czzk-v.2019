@@ -1,0 +1,103 @@
+{% extends "cms/base.html" %}
+
+{% block title %}Koncerty{% endblock %}
+
+{% block content %}
+	<section>
+		<div class="container section-container admin">
+
+            <h3 class="black-text section-header">Koncerty</h3>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                           {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {% if category=='warning' %}
+                                        <span class="fas fa-exclamation-triangle"></span>
+                                    {% elif category=='success' %}
+                                        <span class="fas fa-check-circle"></span>
+                                    {% endif %}
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+            <div class="row white all-concerts-container">
+                <ul class="collection concert-list">
+                    {% for concert in concerts.items %}
+                        <li class="collection-item">
+                            <div class="concert-date-container" title="{{ concert.name }}">
+                                <span class="concert-date blue-text text-darken-3">
+                                    {{ concert.date.strftime('%d.%m.%Y') }}
+                                </span>
+                            </div>
+
+                            <div class="concert-name-place-container" title="{{ concert.name }}">
+                                <span class="concert-name">
+                                    {{ concert.name|truncate(40) }}
+                                </span>
+                                <span class="concert-place">
+                                    {{ concert.place }}
+                                </span>
+                            </div>
+
+                            <div class="secondary-content">
+                                <a href="{{ url_for('CMS.index', concert_id=concert.id) }}">
+                                    <span class="fas fa-edit yellow-text text-darken-3"></span>
+                                </a>
+                                <a href="#delete-{{ concert.id }}-modal" class="modal-trigger">
+                                    <span class="fas fa-trash red-text text-darken-3"></span>
+                                </a>
+                            </div>
+                        </li>
+
+
+                        <div id="delete-{{ concert.id }}-modal" class="modal">
+                            <div class="modal-content">
+                                <h5>Czy na pewno chcesz usunąć koncert {{ concert.name }}?</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="modal-close waves-effect btn-flat">ANULUJ</a>
+                                <form action="{{ url_for('CMS.index', concert_id=concert.id) }}" method="POST" class="right">
+                                    <button type="submit" class="waves-effect btn-flat red darken-3 white-text">USUŃ</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </ul>
+
+                <div class="col s12 pagination-container">
+                    <ul class="pagination">
+                        {% if concerts.has_prev %}
+                            <li class="waves-effect"><a href="{{ url_for('CMS.all_concerts', strona=concerts.prev_num) }}"><i class="material-icons">chevron_left</i></a></li>
+                        {% else %}
+                            <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
+                        {% endif %}
+                        {% for page_num in concerts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                            {% if page_num %}
+                                {% if concerts.page == page_num %}
+                                    <li class="active blue darken-3">
+                                        <a href="{{ url_for('CMS.all_concerts', strona=page_num) }}">{{ page_num }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="waves-effect">
+                                        <a href="{{ url_for('CMS.all_concerts', strona=page_num) }}">{{ page_num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% else %}
+                                ...
+                            {% endif %}
+                        {% endfor %}
+                        {% if concerts.has_next %}
+                            <li class="waves-effect"><a href="{{ url_for('CMS.all_concerts', strona=concerts.next_num) }}"><i class="material-icons">chevron_right</i></a></li>
+                        {% else %}
+                            <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+		</div>
+	</section>
+{% endblock %}

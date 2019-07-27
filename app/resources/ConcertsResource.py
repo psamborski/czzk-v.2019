@@ -19,7 +19,7 @@ def get_all_concerts(page):
     """
 
     concerts = Concerts.query. \
-        order_by(Concerts.date.asc()). \
+        order_by(Concerts.date.desc()). \
         paginate(page=page, per_page=10)
 
     return concerts
@@ -33,7 +33,7 @@ def get_planned_concerts(limit=None):
 
     current_date = datetime.datetime.now().date()
     concerts = Concerts.query. \
-        filter(Concerts.date > current_date). \
+        filter(Concerts.date >= current_date). \
         order_by(Concerts.date.asc()). \
         limit(limit).\
         all()

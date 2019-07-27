@@ -22,8 +22,6 @@ class Mail:
         # if admin_mail:
         #     recipients = admin_mail
 
-        recipients = 'psambek@gmail.com'
-
         self.settings = settings
         self.topic = self.build_topic(topic)
         self.raw_topic = topic

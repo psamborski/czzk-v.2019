@@ -5,7 +5,7 @@ from wtforms import DateField, StringField, SubmitField
 from wtforms.validators import DataRequired, Length
 
 
-class CourseForm(FlaskForm):
+class ConcertForm(FlaskForm):
     title = StringField(label='Nazwa:',
                         validators=[
                             DataRequired(message='Wprowadź nazwę.'),

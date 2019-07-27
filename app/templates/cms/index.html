@@ -1,0 +1,65 @@
+{% extends "cms/base.html" %}
+
+{% block title %}Strona główna{% endblock %}
+
+{% block content %}
+	<section>
+		<div class="container section-container admin">
+			<div class="row">
+				<div class="col s12">
+                    <h3 class="black-text section-header">Panel admina CZZK.pl</h3>
+
+                    <div class="actions-container">
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header white-text teal"><i class="material-icons">home</i>Strona główna</div>
+                                <div class="collapsible-body">
+                                    <div class="collection">
+                                        <a href="{{ url_for('CMS.slider') }}" class="collection-item">Slider</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header white-text green"><i class="material-icons">info</i>O nas</div>
+                                <div class="collapsible-body">
+                                    <div class="collection">
+                                        <a href="{{ url_for('CMS.texts', text='onas') }}" class="collection-item green-text">Tekst - O nas</a>
+                                        <a href="{{ url_for('CMS.texts', text='muzyka') }}" class="collection-item green-text">Tekst - Muzyka</a>
+                                        <a href="{{ url_for('CMS.albums') }}" class="collection-item green-text">Albumy</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header white-text cyan"><i class="material-icons">music_note</i>Koncerty</div>
+                                <div class="collapsible-body">
+                                    <div class="collection">
+                                        <a href="{{ url_for('CMS.concerts') }}" class="collection-item cyan-text">Lista koncertów</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header white-text blue"><i class="material-icons">photo</i>Multimedia</div>
+                                <div class="collapsible-body">
+                                    <div class="collection">
+                                        <a href="{{ url_for('CMS.audio') }}" class="collection-item blue-text">Playlista</a>
+                                        <a href="{{ url_for('CMS.merch') }}" class="collection-item blue-text">Gadżety</a>
+                                        <a href="{{ url_for('CMS.gallery') }}" class="collection-item blue-text">Galeria</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header white-text indigo"><i class="material-icons">contact_mail</i>Kontakt</div>
+                                <div class="collapsible-body">
+                                    <div class="collection">
+                                        <a href="{{ url_for('CMS.rider') }}" class="collection-item indigo-text">Rider</a>
+                                        <a href="{{ url_for('CMS.contact') }}" class="collection-item indigo-text">Kontakt</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,235 @@
+/* ----- */
+/* BASIC */
+/* ----- */
+html, body {
+	max-width: 100%;
+    font-size: 16px !important;
+}
+
+strong {
+	font-weight: 700;
+}
+
+/* FORM */
+
+label.active {
+	color: #1565c0 !important;
+}
+
+input:not(.browser-default):not([type="range"]):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+	border-bottom: 1px solid #1565c0 !important;
+	box-shadow: 0 1px 0 0 #1565c0 !important;
+}
+
+/* range */
+input[type=range]::-webkit-slider-thumb {
+	background-color: #1565c0;
+}
+input[type=range]::-moz-range-thumb {
+	background-color: #1565c0;
+	}
+input[type=range]::-ms-thumb {
+	background-color: #1565c0;
+}
+
+input[type=range] + .thumb {
+	background-color: #1565c0;
+}
+
+input[type="checkbox"]:checked + span:not(.lever)::before {
+	border-right: 2px solid #1565c0;
+	border-bottom: 2px solid #1565c0;
+}
+
+fieldset {
+	border: none;
+}
+
+.helper-text {
+	display: inline-block !important;
+}
+
+/*pickers*/
+input.timepicker {
+    text-align: center;
+}
+
+.datepicker-date-display, .timepicker-digital-display, .timepicker-tick.active, .timepicker-tick:focus { background-color: #1565c0; }
+.datepicker-day-button:focus, .timepicker-tick:hover { background-color: rgba(21, 101, 192, 0.53) !important; }
+.datepicker-table td.is-selected { background-color: #1565c0;}
+.datepicker-footer *, .timepicker-footer *, .datepicker-table td.is-today, .dropdown-content li > a, .dropdown-content li > span { color: #1565c0 !important;}
+.datepicker-table td.is-selected { color: #fff !important;}
+.timepicker-canvas line { stroke: #1565c0 !important; }
+.timepicker-canvas-bearing, .timepicker-canvas-bg { fill: #1565c0 !important; }
+
+/* FLASH MESSAGES */
+.flash-messages {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.alert {
+	width: 100%;
+	padding: 2em;
+    margin-bottom: 2em;
+}
+
+.alert-success {
+	background-color: rgba(83, 190, 96, 0.08);
+	color: rgb(51, 104, 52);
+}
+
+.alert-warning {
+	background-color: #f8f3d6;
+	color: #8d713a;
+}
+
+.alert-error {
+	background-color: rgba(248, 157, 159, 0.25);
+	color: #67051a;
+}
+
+.alert-info {
+	background-color: rgba(64, 121, 255, 0.08);
+	color: #143286;
+}
+
+/* --------- */
+/* END BASIC */
+/* --------- */
+
+.brand-logo {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    max-width: 100%;
+}
+
+.brand-logo img {
+    height: 100%;
+    margin-right: 12px;
+    max-height: 42px;
+    max-width: 100%;
+}
+
+.section-container {
+	padding: 4.5em 0 4.5em;
+}
+
+.section-header {
+	margin: 0 0 1em;
+}
+
+.section-header::after {
+	content: '\A';
+	background-color: #1565c0;
+	height: 6px;
+	width: 60px;
+	display: block;
+	margin-top: 8px;
+}
+
+.pagination-container {
+    text-align: center;
+    margin: 1em 0;
+}
+
+form legend {
+    color: #1565c0;
+    padding: 0 0.75rem;
+    font-weight: 400;
+    margin-top: 1em;
+}
+
+
+/* LOGIN FORM */
+.login-form-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+.login-form-container label {
+    left: 0 !important;
+}
+
+/* INDEX */
+.actions-container {
+
+}
+
+.actions-container .collapsible {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+	font-size: 1.3em;
+}
+
+.actions-container .collapsible-body {
+    padding: 0;
+}
+
+/* CONCERTS */
+.all-concerts-container .collection, .all-concerts-container .collection-item {
+	border: none;
+}
+
+.all-concerts-container .collection-item {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 1.2em;
+	padding: 1em;
+}
+
+.all-concerts-container .collection-item > div {
+	padding: 0 10px;
+	height: 100%;
+}
+
+.all-concerts-container .concert-date {
+	font-weight: 500;
+}
+
+.all-concerts-container .concert-name-place-container {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	flex-grow: 1;
+}
+
+.all-concerts-container .concert-name-place-container .concert-name {
+	font-size: 1.2em;
+	font-weight: 500;
+	margin-bottom: 8px;
+}
+
+.all-concerts-container .secondary-content {
+	display: flex;
+	flex-direction: row;
+	font-size: 1.2em;
+}
+
+.all-concerts-container .secondary-content a:last-child {
+	margin-left: 15px;
+}
+
+@media only screen and (max-width: 800px) {
+	.all-concerts-container .collection-item {
+		flex-flow: column nowrap;
+		align-items: flex-start;
+	}
+
+	.all-concerts-container .collection-item > div:not(:last-child) {
+		margin-bottom: 10px;
+	}
+
+	.all-concerts-container .concert-name-place-container .concert-name {
+		margin-bottom: 3px;
+	}
+}
+

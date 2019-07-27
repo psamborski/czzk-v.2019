@@ -10,10 +10,10 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(50), nullable=True)
 
     def __repr__(self):
-        return f"Student('{self.username}', '{self.email}')"
+        return f"User('{self.username}', '{self.email}')"
 
 
-def get_user(username='admin-kurs'):  # TODO change username
+def get_user(username='admin-czzk'):  # TODO change username
     user = Users.query. \
         filter(Users.username == username). \
         first()
@@ -22,7 +22,7 @@ def get_user(username='admin-kurs'):  # TODO change username
 
 
 def get_admin_mail():
-    user = get_user('admin-kurs')
+    user = get_user('admin-czzk')
 
     email = user.email
 

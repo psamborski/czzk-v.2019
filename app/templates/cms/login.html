@@ -1,0 +1,90 @@
+{% extends "cms/base.html" %}
+
+{% block title %}Zaloguj{% endblock %}
+
+{% block content %}
+	<section>
+		<div class="container section-container admin">
+            <div class="row">
+				<div class="col s12">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="flash-messages">
+                               {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">
+                                        {% if category=='warning' %}
+                                            <span class="fas fa-exclamation-triangle"></span>
+                                        {% elif category=='success' %}
+                                            <span class="fas fa-check-circle"></span>
+                                        {% elif category=='error' %}
+                                            <span class="fas fa-exclamation-circle"></span>
+                                        {% endif %}
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <h3 class="black-text section-header">Zaloguj się</h3>
+
+			<div class="login-form-container white">
+				<div>
+					<form method="post" action="" id="login-form" novalidate>
+                        {{ form.hidden_tag() }}
+						<fieldset>
+							<div class="input-field col s12">
+                                {% if form.login.errors %}
+                                    {{ form.login() }}
+                                    {{ form.login.label() }}
+                                    {% for error in form.login.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form.login() }}
+                                    {{ form.login.label() }}
+                                {% endif %}
+							</div>
+                            <div class="input-field col s12">
+                                {% if form.password.errors %}
+                                    {{ form.password() }}
+                                    {{ form.password.label() }}
+                                    {% for error in form.password.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form.password() }}
+                                    {{ form.password.label() }}
+                                {% endif %}
+							</div>
+
+                        	<div class="col s12">
+                                <p>
+                                    <label>
+                                        {{ form.remember() }}
+                                        <span>{{ form.remember.label() }}</span>
+                                    </label>
+                                </p>
+							</div>
+
+
+							<div class="col s12">
+								<button type="submit" class="waves-effect waves-light btn blue darken-3">
+                                    ZALOGUJ
+                                </button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
