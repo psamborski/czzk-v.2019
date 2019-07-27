@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="secondary-content">
-                                <a href="{{ url_for('CMS.index', concert_id=concert.id) }}">
+                                <a href="{{ url_for('CMS.update_concert', concert_id=concert.id, strona=concerts.page or 1) }}">
                                     <span class="fas fa-edit yellow-text text-darken-3"></span>
                                 </a>
                                 <a href="#delete-{{ concert.id }}-modal" class="modal-trigger">
@@ -60,7 +60,7 @@
                             </div>
                             <div class="modal-footer">
                                 <a href="#" class="modal-close waves-effect btn-flat">ANULUJ</a>
-                                <form action="{{ url_for('CMS.index', concert_id=concert.id) }}" method="POST" class="right">
+                                <form action="{{ url_for('CMS.delete_concert', concert_id=concert.id) }}" method="POST" class="right">
                                     <button type="submit" class="waves-effect btn-flat red darken-3 white-text">USUŃ</button>
                                 </form>
                             </div>

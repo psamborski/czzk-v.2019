@@ -1,12 +1,13 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 
-from app import bcrypt
+from app import bcrypt, db
 
 from app.forms.LoginForm import LoginForm
 from app.forms.ConcertForm import ConcertForm
+from app.models.MailModel import Mail
 
-from app.resources.ConcertsResource import get_all_concerts
+from app.resources.ConcertsResource import Concerts, get_all_concerts, get_concert_by_id
 from app.resources.UsersResource import get_user
 
 CMS = Blueprint('CMS', __name__)
@@ -70,118 +71,103 @@ def all_concerts():
 
 @CMS.route('/admin/koncerty/dodaj', methods=['POST', 'GET'])
 @login_required
-def add_course():
+def add_concert():
     form = ConcertForm()
     if request.method == 'POST' and form.validate_on_submit():
-        course = Courses(
+        concert = Concerts(
             name=form.name.data,
-            organizingMeetingDate=form.organizing_meeting_date.data,
-            organizingMeetingTime=form.organizing_meeting_time.data,
-            startDate=form.start_date.data,
-            startTime=form.start_time.data,
-            cost=form.cost.data,
-            studentLimit=form.limit.data,
-            additionalData=form.additionalData.data
+            date=form.date.data,
+            place=form.place.data
         )
 
-        db.session.add(course)
+        db.session.add(concert)
         try:
             db.session.commit()
         except Exception as e:
             flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
-            mail = Mail('Błąd - OSK Kurs', 'Błąd przy tworzeniu kursu: ' + str(e),
-                        'psambek@gmail.com')
+            mail = Mail('Błąd - CZZK', 'Błąd przy tworzeniu koncertu: ' + str(e), None,
+                        recipients='psambek@gmail.com', raw_mail=True)
             mail.send()
 
-            return render_template('cms/course-form.html', form=form, action='add')
+            return render_template('cms/concert-form.html', form=form, action='add')
 
-        flash('Utworzono nowy kurs.', 'success')
+        flash('Utworzono nowy koncert.', 'success')
 
-        return redirect(url_for('CMS.all_courses'))
+        return redirect(url_for('CMS.all_concerts'))
 
     elif request.method == 'POST' and not form.validate_on_submit():
         flash('Formularz nie został wypełniony poprawnie.', 'warning')
 
-        return render_template('cms/course-form.html', form=form, action='add')
+        return render_template('cms/concert-form.html', form=form, action='add')
 
-    return render_template('cms/course-form.html', form=form, action='add')
+    return render_template('cms/concert-form.html', form=form, action='add')
 
 
-@CMS.route('/admin/kursy/<int:course_id>/edytuj', methods=['POST', 'GET'])
+@CMS.route('/admin/koncerty/<int:concert_id>/edytuj', methods=['POST', 'GET'])
 @login_required
-def update_course(course_id):
-    course = get_course_by_id(course_id)
+def update_concert(concert_id):
+    page = request.args.get('strona', 1, type=int)
 
-    form = CourseForm()
+    concert = get_concert_by_id(concert_id)
+
+    form = ConcertForm()
 
     if request.method == 'POST' and form.validate_on_submit():
-        course.name = form.name.data
-        course.startDate = form.start_date.data
-        course.startTime = form.start_time.data
-        course.organizingMeetingDate = form.organizing_meeting_date.data
-        course.organizingMeetingTime = form.organizing_meeting_time.data
-        course.studentLimit = form.limit.data
-        course.cost = form.cost.data
-        course.additionalData = form.additionalData.data
+        concert.name = form.name.data
+        concert.date = form.date.data
+        concert.place = form.place.data
 
         try:
             db.session.commit()
         except Exception as e:
             flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
-            mail = Mail('Błąd - OSK Kurs', 'Błąd przy edycji kursu: ' + str(e),
-                        'psambek@gmail.com')
+            mail = Mail('Błąd - CZZK', 'Błąd przy edycji koncertu: ' + str(e), None,
+                        recipients='psambek@gmail.com', raw_mail=True)
             mail.send()
 
-            return render_template('cms/course-form.html', form=form, action='edit')
+            return render_template('cms/concert-form.html', form=form, action='edit')
 
-        flash('Zaktualizowano kurs.', 'success')
+        flash('Zaktualizowano koncert.', 'success')
 
-        return redirect(url_for('CMS.specific_course', course_id=course_id))
+        return redirect(url_for('CMS.all_concerts', strona=page))
 
     elif request.method == 'POST' and not form.validate_on_submit():
         flash('Formularz nie został wypełniony poprawnie.', 'warning')
 
-        return render_template('cms/course-form.html', form=form, action='edit')
+        return render_template('cms/concert-form.html', form=form, action='edit')
 
     elif request.method == 'GET':
-        form.name.data = course.name
-        form.start_date.data = course.startDate
-        form.start_time.data = course.startTime
-        form.organizing_meeting_date.data = course.organizingMeetingDate
-        form.organizing_meeting_time.data = course.organizingMeetingTime
-        form.limit.data = course.studentLimit
-        form.cost.data = course.cost
-        form.additionalData.data = course.additionalData
+        form.name.data = concert.name
+        form.date.data = concert.date
+        form.place.data = concert.place
 
-        return render_template('cms/course-form.html', form=form, action='edit')
+        return render_template('cms/concert-form.html', form=form, action='edit')
 
-    return render_template('cms/course-form.html', form=form, action='edit')
+    return render_template('cms/concert-form.html', form=form, action='edit')
 
 
-@CMS.route("/admin/kursy/<int:course_id>/usun", methods=['POST'])
+@CMS.route("/admin/koncerty/<int:concert_id>/usun", methods=['POST'])
 @login_required
-def delete_course(course_id):
-    course = get_course_by_id(course_id)
-
-    delete_students_by_course(course_id)
+def delete_concert(concert_id):
+    concert = get_concert_by_id(concert_id)
 
     try:
-        db.session.delete(course)
+        db.session.delete(concert)
         db.session.commit()
     except Exception as e:
         flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
-        mail = Mail('Błąd - OSK Kurs', 'Błąd przy usuwaniu kursu: ' + str(e),
-                    'psambek@gmail.com')
+        mail = Mail('Błąd - OSK Kurs', 'Błąd przy usuwaniu kursu: ' + str(e), None,
+                    recipients='psambek@gmail.com', raw_mail=True)
         mail.send()
 
-        return redirect(url_for('CMS.all_courses'))
+        return redirect(url_for('CMS.all_concerts'))
 
     # deleting multiple rows can be quicker with engine
     # https://stackoverflow.com/questions/39773560/sqlalchemy-how-do-you-delete-multiple-rows-without-querying
     # https: // docs.sqlalchemy.org / en / latest / core / connections.html
 
-    flash('Kurs został usunięty.', 'success')
-    return redirect(url_for('CMS.all_courses'))
+    flash('Koncert został usunięty.', 'success')
+    return redirect(url_for('CMS.all_concerts'))
 
 
 @CMS.route('/admin/koncerty/<int:id>')
@@ -219,4 +205,3 @@ def rider():
 def contact():
     # TODO ADD TABLE
     return render_template('cms/settings.html', form=None, message='Pomyślnie zmieniono dane.')
-

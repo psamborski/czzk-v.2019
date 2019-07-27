@@ -7,14 +7,14 @@ from app.resources.MerchResource import get_item_from_merch
 
 
 class Mail:
-    def __init__(self, topic, content, settings, reply_email='info@czzk.pl', recipients='info@czzk.pl'):
+    def __init__(self, topic, content, settings, reply_email='info@czzk.pl', recipients='info@czzk.pl', raw_mail=False):
         """
         Mail attributes:
         :param topic:
-        :param content: String or sign up form.
+        :param content:
         :param recipients:
         :param reply_email:
-        :param mail_type: Basic (default) email with no template (None), confirm email or notification email.
+        :param settings:
         """
 
         # Check for admin mail
@@ -22,11 +22,12 @@ class Mail:
         # if admin_mail:
         #     recipients = admin_mail
 
+        self.raw_mail = raw_mail
         self.settings = settings
-        self.topic = self.build_topic(topic)
+        self.topic = self.build_topic(topic) if not raw_mail else topic
         self.raw_topic = topic
         self.reply_email = reply_email
-        self.content = self.build_content(self.reformat_message(content))
+        self.content = self.build_content(self.reformat_message(content)) if not raw_mail else content
         self.recipients = [recipients]
 
     @staticmethod

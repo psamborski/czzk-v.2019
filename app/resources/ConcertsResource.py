@@ -12,6 +12,17 @@ class Concerts(db.Model):
         return f"Concert('{self.name}', '{self.date}')"
 
 
+def get_concert_by_id(concert_id):
+    """
+    Get concert by ID.
+    :return: Concert data or None.
+    """
+    concert = Concerts.query. \
+        filter_by(id=concert_id). \
+        first_or_404()
+
+    return concert
+
 def get_all_concerts(page):
     """
     Get all concerts.
