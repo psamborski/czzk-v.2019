@@ -1,0 +1,80 @@
+{% extends "cms/base.html" %}
+
+{% block title %}Rider{% endblock %}
+
+{% block content %}
+	<section>
+		<div class="container section-container admin">
+
+            <h3 class="black-text section-header">Rider</h3>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                           {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {% if category=='warning' %}
+                                        <span class="fas fa-exclamation-triangle"></span>
+                                    {% elif category=='success' %}
+                                        <span class="fas fa-check-circle"></span>
+                                    {% endif %}
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+            <div class="row white rider-container">
+                <div class="col s12">
+                    <div class="current-rider-container">
+                        <h5 class="blue-text text-darken-3">Obecny rider</h5>
+                        <div class="current-rider">
+                            {% if current_rider %}
+                                <span>{{ current_rider }}</span>
+                                <a href="{{ url_for('static', filename='files/rider/' + current_rider) }}" title="Zobacz rider" target="_blank" class="specific-contact-link">
+                                    podgląd <span class="fas fa-search-plus"></span>
+                                </a>
+                            {% else %}
+                                <span>brak ridera!</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+				<div class="col s12 white">
+                    <h5 class="blue-text text-darken-3">Dodaj nowy rider</h5>
+					<form method="post" action="" id="add-rider-form" enctype="multipart/form-data" novalidate>
+                        {{ form.hidden_tag() }}
+						<fieldset>
+                            <div class="file-field input-field col s12">
+                                <div class="waves-effect waves-light btn blue darken-3">
+                                    <span>{{ form.rider.label(class="white-text") }}</span>
+                                    {{ form.rider() }}
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Wybierz plik...">
+                                </div>
+                                {% if form.rider.errors %}
+                                    {% for error in form.rider.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+							<div class="col s12">
+								<button type="submit" class="waves-effect waves-light btn blue darken-3">
+                                    DODAJ RIDER
+                                </button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+
+
+            </div>
+		</div>
+	</section>
+{% endblock %}

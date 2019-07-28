@@ -173,6 +173,21 @@ form legend {
 }
 
 /* CONCERTS */
+.add-concert-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px 0;
+}
+
+.add-concert-container a {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 2em;
+}
+
 .all-concerts-container .collection, .all-concerts-container .collection-item {
 	border: none;
 }
@@ -233,3 +248,7 @@ form legend {
 	}
 }
 
+/* RIDER */
+.current-rider {
+	padding-left: 24px;
+}

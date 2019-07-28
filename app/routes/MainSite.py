@@ -1,7 +1,11 @@
+from os import listdir
+from os.path import isfile, join
+
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from itertools import groupby
 
 # database
+from app import app
 from app.forms.ContactForms import ContactForm, MerchContactForm
 from app.models.GalleryModel import Gallery
 from app.models.MailModel import Mail
@@ -175,7 +179,16 @@ def multimedia_archive():
 
 @MainSite.route('/kontakt')
 def contact():
-    return render_template('contact.html')
+    rider_dir = app.config['UPLOAD_FOLDER'] + '/files/rider'
+    rider_files = [f for f in listdir(rider_dir) if isfile(join(rider_dir, f))]
+    rider_files.sort(reverse=True)
+
+    if rider_files:
+        rider = rider_files[0]
+    else:
+        rider = ''
+
+    return render_template('contact.html', rider=rider)
 
 
 @MainSite.route('/send-message', methods=['POST', 'GET'])

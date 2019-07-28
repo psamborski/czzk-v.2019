@@ -1,0 +1,112 @@
+{% extends "cms/base.html" %}
+
+{% block title %}
+    Aktualizuj slider
+{% endblock %}
+
+{% block additional_style %}{% endblock %}
+
+{% block content %}
+	<section>
+		<div class="container section-container">
+			<div class="row">
+				<div class="col s12">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="flash-messages">
+                               {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">
+                                        {% if category=='warning' %}
+                                            <span class="fas fa-exclamation-triangle"></span>
+                                        {% elif category=='success' %}
+                                            <span class="fas fa-check-circle"></span>
+                                        {% elif category=='info' %}
+                                            <span class="fas fa-info-circle"></span>
+                                        {% endif %}
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <h3 class="black-text section-header">
+                Aktualizuj slider
+            </h3>
+
+			<div class="row">
+				<div class="col s12 white">
+					<form method="post" action="" id="update-text-form" enctype="multipart/form-data" novalidate>
+                        {{ form.hidden_tag() }}
+						<fieldset>
+                            {% for field in form.slides %}
+                                {{ field.csrf_token }}
+                                <div class="col s12">
+                                    <h6 class="blue-text text-darken-3">Slide {{ loop.index }}</h6>
+                                </div>
+
+                                <div class="input-field col s12">
+                                    {% if field.slide_type.errors %}
+                                        {{ field.slide_type() }}
+                                        {{ field.slide_type.label() }}
+                                        {% for error in field.slide_type.errors %}
+                                            <div class="alert-message">
+                                                <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                                <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {{ field.slide_type() }}
+                                        {{ field.slide_type.label() }}
+                                    {% endif %}
+                                </div>
+                                <div class="input-field col s12">
+                                    {% if field.youtube.errors %}
+                                        {{ field.youtube() }}
+                                        {{ field.youtube.label(class="active") }}
+                                        {% for error in field.youtube.errors %}
+                                            <div class="alert-message">
+                                                <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                                <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {{ field.youtube() }}
+                                        {{ field.youtube.label(class="active") }}
+                                    {% endif %}
+                                </div>
+                            <div class="file-field input-field col s12">
+                                <div class="waves-effect waves-light btn blue darken-3">
+                                    <span>{{ field.picture.label(class="white-text") }}</span>
+                                    {{ field.picture() }}
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Wybierz plik..." {% if field.picture.data %}value="{{ field.picture.data }}"{% endif %}>
+                                </div>
+                                {% if field.picture.errors %}
+                                    {% for error in field.picture.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+
+							<div class="col s12">
+								<button type="submit" class="waves-effect waves-light btn blue darken-3">
+                                    AKTUALIZUJ SLIDER
+                                </button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block additional_script %}{% endblock %}

@@ -26,4 +26,5 @@ $(document).ready(function(){
     $('textarea').characterCounter();
 
     $('.modal').modal();
+    $('select').formSelect();
 });

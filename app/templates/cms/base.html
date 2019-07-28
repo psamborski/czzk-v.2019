@@ -64,10 +64,12 @@
             </div>
         </footer>
 
-        <!--	Scripts-->
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <!--Scripts-->
+        {% if not noJquery %}
+            <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        {% endif %}
         <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
         <script src="{{ url_for('static', filename='js/cms-scripts.js') }}"></script>
-        {% block additionalScript %}{% endblock %}
+        {% block additional_script %}{% endblock %}
     </body>
 </html>

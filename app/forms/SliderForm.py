@@ -1,16 +1,24 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
-from wtforms import StringField, SubmitField, FileField, FieldList, FormField
-from wtforms.validators import Optional, Regexp
+from wtforms import StringField, SubmitField, FileField, FieldList, FormField, SelectField
+from wtforms.validators import Optional, Regexp, DataRequired
 
 
 class SliderEntry(FlaskForm):
+    slide_type = SelectField(label='Typ',
+                             choices=[
+                                 ('v', 'Filmik z youtube'),
+                                 ('i', 'Obraz')
+                             ],
+                             validators=[
+                                 DataRequired(message='Musisz podać typ.'),
+                             ])
     youtube = StringField(label='Filmik',
                           validators=[
                               Optional(),
                               Regexp(
-                                  regex='http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&('
-                                        'amp;)?‌​[\w\?‌​=]*)?',
+                                  regex='^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/('
+                                        '?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(\?\S*)?$',
                                   # https://stackoverflow.com/questions/3717115/regular-expression-for-youtube-links
                                   message='Podany link nie jest poprawny.'
                               )
@@ -22,6 +30,7 @@ class SliderEntry(FlaskForm):
                         ])
 
 
+
 class SliderForm(FlaskForm):
-    slides = FieldList(FormField(SliderEntry), min_entries=1)
+    slides = FieldList(FormField(SliderEntry), min_entries=3, max_entries=3)
     submit = SubmitField(label='Zapisz')

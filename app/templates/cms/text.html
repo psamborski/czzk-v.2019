@@ -1,0 +1,141 @@
+{% extends "cms/base.html" %}
+
+{% block title %}
+    Edytuj tekst (sekcja {{ name|upper }})
+{% endblock %}
+
+{% block additional_style %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+{% endblock %}
+
+{% block content %}
+	<section>
+		<div class="container section-container">
+			<div class="row">
+				<div class="col s12">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="flash-messages">
+                               {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">
+                                        {% if category=='warning' %}
+                                            <span class="fas fa-exclamation-triangle"></span>
+                                        {% elif category=='success' %}
+                                            <span class="fas fa-check-circle"></span>
+                                        {% endif %}
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <h3 class="black-text section-header">
+                Edytuj tekst (sekcja {{ name|upper }})
+            </h3>
+
+			<div class="row">
+				<div class="col s12 white">
+					<form method="post" action="" id="update-text-form" novalidate>
+                        {{ form.hidden_tag() }}
+						<fieldset>
+                            {% for field in form.chapters %}
+                                {{ field.csrf_token }}
+                                <div class="col s12">
+                                    <h6 class="blue-text text-darken-3">Część {{ loop.index }}</h6>
+                                </div>
+
+                                <div class="input-field col s12">
+                                    {% if field.title.errors %}
+                                        {{ field.title() }}
+                                        {{ field.title.label(class="active") }}
+                                        {% for error in field.title.errors %}
+                                            <div class="alert-message">
+                                                <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                                <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {{ field.title() }}
+                                        {{ field.title.label(class="active") }}
+                                    {% endif %}
+                                </div>
+                                <div class="input-field col s12">
+                                    {% if field.content.errors %}
+                                        {{ field.content() }}
+                                       {# {{ field.content.label(class="active") }} #}
+                                        {% for error in field.content.errors %}
+                                            <div class="alert-message">
+                                                <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                                <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {{ field.content(class="editor") }}
+                                        {# {{ field.content.label(class="active") }} #}
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+
+							<div class="col s12">
+								<button type="submit" class="waves-effect waves-light btn blue darken-3">
+                                    AKTUALIZUJ TEKST
+                                </button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+{#{% for paragraph in form %}#}
+{#                    <h3 class="text-part-title">Część {{ loop.index }}</h3>#}
+{#                    <label for="title-{{ loop.index }}">Tytuł:</label>#}
+{#                    <input type="text" id="title-{{ loop.index }}" name="tytul" value="{{ paragraph[0] }}">#}
+{#                    <label for="para-{{ loop.index }}">Treść:</label>#}
+{#                    <textarea id="para-{{ loop.index }}" class="editor" name="akapit" required>{{ paragraph[1] }}</textarea>#}
+{#                {% endfor %}#}
+
+{% block additional_script %}
+    <script>
+        let NbspButton = function (context) {
+          let ui = $.summernote.ui;
+
+          // create button
+          let button = ui.button({
+            contents: '<i class="fa fa-level-down-alt "/> NBSP',
+            tooltip: 'Wstawia niełamiącą spację (w tym miejscu tekst nie przeskoczy do nowej linii). Stawiać po "a", "w", "i", "ale", "który" itp.',
+            click: function () {
+              context.invoke('pasteHTML', '&nbsp;');
+            },
+              container: 'body'
+          });
+
+          return button.render();   // return button as jquery object
+        };
+
+        $(document).ready(function() {
+            $('.editor').summernote(
+                {
+                     toolbar: [
+                         ['undo', ['undo', 'redo']],
+                         ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                         ['nbsp', ['nbsp']],
+                         ['para', ['ul', 'ol']],
+                         ['insert', ['link', 'video']],
+                         ['set', ['codeview', 'help']]
+                      ],
+
+                      buttons: {
+                         nbsp: NbspButton
+                      }
+                }
+            );
+        });
+    </script>
+{% endblock %}
