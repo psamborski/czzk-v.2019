@@ -36,12 +36,22 @@ def login():
 
     form = LoginForm()
     if form.validate_on_submit():
-        user = get_user(username=form.login.data)
-        if user and bcrypt.check_password_hash(user.passwordHash, form.password.data):
-            login_user(user, remember=form.remember.data)
-            return redirect(url_for('CMS.index'))
-        else:
-            flash('Wprowadzono niepoprawny login lub hasło.', 'error')
+        try:
+            user = get_user(username=form.login.data)
+            if user and bcrypt.check_password_hash(user.passwordHash, form.password.data):
+                login_user(user, remember=form.remember.data)
+                return redirect(url_for('CMS.index'))
+            else:
+                flash('Wprowadzono niepoprawny login lub hasło.', 'error')
+        except Exception as e:
+            print(e)
+            flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
+            mail = Mail('Błąd - CZZK', 'Błąd przy logowaniu: ' + str(e), None,
+                        recipients='psambek@gmail.com', raw_mail=True)
+            mail.send()
+
+            return redirect(url_for('CMS.login'))
+        
 
     return render_template('cms/login.html', form=form)
 
@@ -95,7 +105,7 @@ def slider():
             flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
             mail = Mail('Błąd - CZZK', 'Błąd przy edycji slidera: ' + str(e), None,
                         recipients='psambek@gmail.com', raw_mail=True)
-            # mail.send()
+            mail.send()
 
             return redirect(url_for('CMS.slider'))
 
