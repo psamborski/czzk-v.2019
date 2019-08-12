@@ -1,0 +1,177 @@
+{% extends "cms/base.html" %}
+
+{% block title %}
+    {% if action == 'add' %}
+        Dodaj gadżet
+    {% elif action == 'edit' %}
+        Edytuj {{ form.name.data }}
+    {% endif %}
+{% endblock %}
+
+{% block additional_style %}
+{% endblock %}
+
+{% block content %}
+	<section>
+		<div class="container section-container">
+			<div class="row">
+				<div class="col s12">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="flash-messages">
+                               {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">
+                                        {% if category=='warning' %}
+                                            <span class="fas fa-exclamation-triangle"></span>
+                                        {% elif category=='success' %}
+                                            <span class="fas fa-check-circle"></span>
+                                        {% endif %}
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <h3 class="black-text section-header">
+                {% if action == 'add' %}
+                    Dodaj gadżet
+                {% elif action == 'edit' %}
+                    Edytuj {{ form.name.data }}
+                {% endif %}
+            </h3>
+
+			<div class="row">
+				<div class="col s12 white">
+					<form method="post" action="" id="add-item-form" enctype="multipart/form-data" novalidate>
+                        {{ form.hidden_tag() }}
+						<fieldset>
+							<div class="input-field col s12">
+                                {% if form.name.errors %}
+                                    {{ form.name() }}
+                                        {% if action == 'add' %}
+                                            {{ form.name.label() }}
+                                        {% elif action == 'edit' %}
+                                            {{ form.name.label(class="active") }}
+                                        {% endif %}
+                                    {% for error in form.name.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form.name() }}
+                                    {% if action == 'add' %}
+                                        {{ form.name.label() }}
+                                    {% elif action == 'edit' %}
+                                        {{ form.name.label(class="active") }}
+                                    {% endif %}
+                                {% endif %}
+							</div>
+							<div class="input-field col s12">
+                                {% if form.short_name.errors %}
+                                    {{ form.short_name() }}
+                                        {% if action == 'add' %}
+                                            {{ form.short_name.label() }}
+                                        {% elif action == 'edit' %}
+                                            {{ form.short_name.label(class="active") }}
+                                        {% endif %}
+                                    {% for error in form.short_name.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form.short_name() }}
+                                    {% if action == 'add' %}
+                                        {{ form.short_name.label() }}
+                                    {% elif action == 'edit' %}
+                                        {{ form.short_name.label(class="active") }}
+                                    {% endif %}
+                                {% endif %}
+							</div>
+
+							<div class="input-field col s12">
+                                {% if form.description.errors %}
+                                    {{ form.description() }}
+                                        {% if action == 'add' %}
+                                            {{ form.description.label() }}
+                                        {% elif action == 'edit' %}
+                                            {{ form.description.label(class="active") }}
+                                        {% endif %}
+                                    {% for error in form.description.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form.description() }}
+                                    {% if action == 'add' %}
+                                        {{ form.description.label() }}
+                                    {% elif action == 'edit' %}
+                                        {{ form.description.label(class="active") }}
+                                    {% endif %}
+                                {% endif %}
+							</div>
+
+                            <div class="file-field input-field col s12">
+                                <div class="waves-effect waves-light btn blue darken-3">
+                                    <span>{{ form.photo.label(class="white-text") }}</span>
+                                    {{ form.photo() }}
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Wybierz plik..."  {% if form.photo.data %}value="{{ form.photo.data }}"{% endif %}>
+                                </div>
+                                {% if form.photo.errors %}
+                                    {% for error in form.photo.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <div class="file-field input-field col s12">
+                                <div class="waves-effect waves-light btn blue darken-3">
+                                    <span>{{ form.animation.label(class="white-text") }}</span>
+                                    {{ form.animation() }}
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Wybierz plik..."  {% if form.animation.data %}value="{{ form.animation.data }}"{% endif %}>
+                                </div>
+                                {% if form.animation.errors %}
+                                    {% for error in form.animation.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+							<div class="col s12">
+								<button type="submit" class="waves-effect waves-light btn blue darken-3">
+                                    {% if action == 'add' %}
+                                        DODAJ GADŻET
+                                    {% elif action == 'edit' %}
+                                        AKTUALIZUJ GADŻET
+                                    {% endif %}
+                                </button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+
+{% block additional_script %}
+{% endblock %}

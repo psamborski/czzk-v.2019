@@ -3,21 +3,21 @@ from os.path import isfile, join
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
+from werkzeug.utils import secure_filename
 
 from app import bcrypt, db, app
 from app.forms.AlbumForm import AlbumForm
-from app.forms.SliderForm import SliderForm
-
-from app.models.MailModel import Mail
-
-from app.forms.LoginForm import LoginForm
 from app.forms.ConcertForm import ConcertForm
-from app.forms.TextsForms import MusicTextForm, AboutTextForm
+from app.forms.LoginForm import LoginForm
+from app.forms.MerchItemForm import MerchItemForm
 from app.forms.RiderForm import RiderForm
+from app.forms.SliderForm import SliderForm
+from app.forms.TextsForms import MusicTextForm, AboutTextForm
+from app.models.MailModel import Mail
 from app.models.functions import create_safe_filename, save_file, reformat_yt_link
-from app.resources.AlbumsResource import get_all_albums, Albums, get_album_by_id, get_all_albums_paginated
-
+from app.resources.AlbumsResource import Albums, get_album_by_id, get_all_albums_paginated
 from app.resources.ConcertsResource import Concerts, get_all_concerts, get_concert_by_id
+from app.resources.MerchResource import get_all_merch_paginated, get_item_from_merch, Merch, get_item_by_id
 from app.resources.SlidesResource import get_all_slides
 from app.resources.TextsResource import get_text_by_page
 from app.resources.UsersResource import get_user
@@ -82,7 +82,8 @@ def slider():
             for field, slide in zip(form.slides, current_slides):
                 if field.slide_type.data == 'v':
                     if not field.youtube.data:
-                        flash("W slajdzie " + str(slide.order) + " wybrano typ 'Filmik' i nie dodano linku. Zachowano poprzedni slajd.", "info")
+                        flash("W slajdzie " + str(slide.order) + "wybrano typ 'Filmik' i nie dodano linku. Zachowano "
+                                                                 "poprzedni slajd.", "info")
                     else:
                         slide.type = field.slide_type.data
                         slide.content = reformat_yt_link(field.youtube.data)
@@ -97,7 +98,8 @@ def slider():
                         slide.type = field.slide_type.data
                         slide.content = photo_filename
                     else:
-                        flash("W slajdzie " + str(slide.order) + " nie dodano nowego pliku mimo wyboru typu 'Obraz'. Zachowano poprzedni "
+                        flash("W slajdzie " + str(slide.order) + "nie dodano nowego pliku mimo wyboru typu 'Obraz'. "
+                                                                 "Zachowano poprzedni "
                               "slajd.", "info")
             db.session.commit()
 
@@ -406,8 +408,138 @@ def delete_concert(concert_id):
 
 @CMS.route('/admin/gadzety')
 @login_required
-def merch():
-    return render_template('cms/merch.html')
+def all_merch():
+    page = request.args.get('strona', 1, type=int)
+
+    merch = get_all_merch_paginated(page)
+    return render_template('cms/merch.html', merch=merch)
+
+
+@CMS.route('/admin/gadzety/dodaj', methods=['POST', 'GET'])
+@login_required
+def add_merch_item():
+    form = MerchItemForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        new_photo = request.files.get('photo', None)
+        new_gif = request.files.get('animation', None)
+
+        new_gif_filename, new_photo_filename = '', ''
+
+        if new_photo:
+            new_photo_filename = create_safe_filename(new_photo, random=True, date=False)
+            save_file(new_photo, 'images/merch/static', new_photo_filename)
+        else:
+            flash("Dodano gadżet, ale nie wybrano żadnego zdjęcia.", "warning")
+
+        if new_gif:
+            new_gif_filename = create_safe_filename(new_gif, random=True, date=False)
+            save_file(new_gif, 'images/merch/gifs', new_gif_filename)
+
+        merch_item = Merch(
+            name=form.name.data,
+            short_name=form.short_name.data,
+            safe_name=secure_filename(form.short_name.data),
+            description=form.description.data,
+            gif='gifs/' + new_gif_filename if new_gif else 'Brak animacji',
+            jpg='static/' + new_photo_filename if new_photo else 'Brak zdjęcia'
+        )
+
+        try:
+            db.session.add(merch_item)
+            db.session.commit()
+        except Exception as e:
+            flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
+            mail = Mail('Błąd - CZZK', 'Błąd przy edycji gadżetu: ' + str(e), None,
+                        recipients='psambek@gmail.com', raw_mail=True)
+            mail.send()
+
+            return render_template('cms/merch-item-form.html', form=form, action='add')
+
+        flash('Zaktualizowano koncert.', 'success')
+
+        return redirect(url_for('CMS.all_merch'))
+
+    elif request.method == 'POST' and not form.validate_on_submit():
+        flash('Formularz nie został wypełniony poprawnie.', 'warning')
+
+    return render_template('cms/merch-item-form.html', form=form, action='add')
+
+
+@CMS.route('/admin/gadzety/<string:merch_item_name>/edytuj', methods=['POST', 'GET'])
+@login_required
+def update_merch_item(merch_item_name):
+    page = request.args.get('strona', 1, type=int)
+
+    merch_item = get_item_from_merch(merch_item_name)
+
+    form = MerchItemForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        merch_item.name = form.name.data
+        merch_item.short_name = form.short_name.data
+        merch_item.safe_name = secure_filename(form.short_name.data)
+        merch_item.description = form.description.data
+
+        try:
+            new_photo = request.files.get('photo', None)
+            new_gif = request.files.get('animation', None)
+            if new_photo:
+                new_photo_filename = create_safe_filename(new_photo, random=True, date=False)
+                save_file(new_photo, 'images/merch/static', new_photo_filename)
+                merch_item.jpg = 'static/' + new_photo_filename
+
+            if new_gif:
+                new_gif_filename = create_safe_filename(new_gif, random=True, date=False)
+                save_file(new_gif, 'images/merch/gifs', new_gif_filename)
+                merch_item.gif = 'gif/' + new_gif_filename
+
+            db.session.commit()
+        except Exception as e:
+            flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
+            mail = Mail('Błąd - CZZK', 'Błąd przy edycji gadżetu: ' + str(e), None,
+                        recipients='psambek@gmail.com', raw_mail=True)
+            mail.send()
+
+            return render_template('cms/merch-item-form.html', form=form, action='edit')
+
+        flash('Zaktualizowano koncert.', 'success')
+
+        return redirect(url_for('CMS.all_merch', strona=page))
+
+    elif request.method == 'POST' and not form.validate_on_submit():
+        flash('Formularz nie został wypełniony poprawnie.', 'warning')
+
+        return render_template('cms/merch-item-form.html', form=form, action='edit')
+
+    elif request.method == 'GET':
+        form.name.data = merch_item.name
+        form.short_name.data = merch_item.short_name
+        form.description.data = merch_item.description
+        form.photo.data = merch_item.jpg
+        form.animation.data = merch_item.gif
+
+    return render_template('cms/merch-item-form.html', form=form, action='edit')
+
+
+@CMS.route('/admin/gadzety/<int:merch_item_id>/usun', methods=['POST'])
+@login_required
+def delete_merch_item(merch_item_id):
+    item = get_item_by_id(merch_item_id)
+
+    try:
+        db.session.delete(item)
+        db.session.commit()
+    except Exception as e:
+        flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
+        mail = Mail('Błąd - OSK Kurs', 'Błąd przy usuwaniu gadżetu: ' + str(e), None,
+                    recipients='psambek@gmail.com', raw_mail=True)
+        mail.send()
+
+        return redirect(url_for('CMS.all_merch'))
+
+    flash('Gadżet został usunięty.', 'success')
+    return redirect(url_for('CMS.all_merch'))
 
 
 @CMS.route('/admin/galeria')

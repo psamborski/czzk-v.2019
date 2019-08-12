@@ -5,11 +5,11 @@
 
     <style>
         {% for item in items %}
-            #{{ item.short_name }} .product-photo {
+            #{{ item.safe_name }} .product-photo {
                 background-image: url("{{ url_for('static', filename='images/merch/'+item.jpg) }}");
             }
             {% if item.gif %}
-                #{{ item.short_name }} .product-photo:hover {
+                #{{ item.safe_name }} .product-photo:hover {
                     background-image: url("{{ url_for('static', filename='images/merch/'+item.gif) }}");
                 }
             {% endif %}
@@ -30,13 +30,13 @@
 
 		<div class="products-container">
             {% for item in items %}
-                <div class="product" id="{{ item.short_name }}">
+                <div class="product" id="{{ item.safe_name }}">
                     <div class="product-photo">
                         {% if item.gif %}
                             <span class="fa fa-hand-pointer" aria-hidden="true"></span>
                         {% endif %}
                     </div>
-                    <div class="product-name"><a href="{{ url_for('MainSite.multimedia_merch_item', merch_item=item.short_name) }}" title="{{ item.name }}" class="underline link-arrow">{{ item.short_name.upper() }}</a></div>
+                    <div class="product-name"><a href="{{ url_for('MainSite.multimedia_merch_item', merch_item=item.safe_name) }}" title="{{ item.name }}" class="underline link-arrow">{{ item.short_name.upper() }}</a></div>
                 </div>
             {% endfor %}
 		</div>
