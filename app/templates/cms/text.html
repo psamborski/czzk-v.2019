@@ -66,8 +66,8 @@
                                 </div>
                                 <div class="input-field col s12">
                                     {% if field.content.errors %}
-                                        {{ field.content() }}
-                                       {# {{ field.content.label(class="active") }} #}
+                                        {{ field.content(class="editor") }}
+                                        {# {{ field.content.label(class="active") }} #}
                                         {% for error in field.content.errors %}
                                             <div class="alert-message">
                                                 <span class="fas fa-exclamation-circle red-text text-darken-2"></span>

@@ -173,14 +173,14 @@ form legend {
 }
 
 /* CONCERTS */
-.add-concert-container {
+.add-item-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	padding: 10px 0;
 }
 
-.add-concert-container a {
+.add-item-container a {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -188,11 +188,11 @@ form legend {
 	font-size: 2em;
 }
 
-.all-concerts-container .collection, .all-concerts-container .collection-item {
+.all-items-container .collection, .all-items-container .collection-item {
 	border: none;
 }
 
-.all-concerts-container .collection-item {
+.all-items-container .collection-item {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-between;
@@ -201,49 +201,52 @@ form legend {
 	padding: 1em;
 }
 
-.all-concerts-container .collection-item > div {
+.all-items-container .collection-item > div {
 	padding: 0 10px;
 	height: 100%;
 }
 
-.all-concerts-container .concert-date {
+.all-items-container .item-second-data {
 	font-weight: 500;
 }
 
-.all-concerts-container .concert-name-place-container {
+.all-items-container .item-sub-data-container {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	flex-grow: 1;
 }
 
-.all-concerts-container .concert-name-place-container .concert-name {
+.all-items-container .item-sub-data-container .item-sub-data {
 	font-size: 1.2em;
 	font-weight: 500;
+}
+
+.all-items-container .item-sub-data-container .item-sub-data:not(:last-child) {
 	margin-bottom: 8px;
 }
 
-.all-concerts-container .secondary-content {
+.all-items-container .secondary-content {
 	display: flex;
 	flex-direction: row;
 	font-size: 1.2em;
 }
 
-.all-concerts-container .secondary-content a:last-child {
+.all-items-container .secondary-content a:last-child {
 	margin-left: 15px;
 }
 
 @media only screen and (max-width: 800px) {
-	.all-concerts-container .collection-item {
+	.all-items-container .collection-item {
 		flex-flow: column nowrap;
 		align-items: flex-start;
 	}
 
-	.all-concerts-container .collection-item > div:not(:last-child) {
+	.all-items-container .collection-item > div:not(:last-child) {
 		margin-bottom: 10px;
 	}
 
-	.all-concerts-container .concert-name-place-container .concert-name {
+	.all-items-container .item-sub-data-container .item-sub-data {
 		margin-bottom: 3px;
 	}
 }

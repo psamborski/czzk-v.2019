@@ -23,6 +23,7 @@ def get_concert_by_id(concert_id):
 
     return concert
 
+
 def get_all_concerts(page):
     """
     Get all concerts.

@@ -24,25 +24,25 @@
                     {% endif %}
                 {% endwith %}
 
-            <div class="add-concert-container">
+            <div class="add-item-container">
                 <a href="{{ url_for('CMS.add_concert') }}">
                     <span class="fas fa-plus-square green-text text-darken-3"></span>
                     <span class="green-text text-darken-3">Dodaj koncert</span>
                 </a>
             </div>
 
-            <div class="row white all-concerts-container">
+            <div class="row white all-items-container">
                 <ul class="collection concert-list">
                     {% for concert in concerts.items %}
                         <li class="collection-item">
                             <div class="concert-date-container" title="{{ concert.name }}">
-                                <span class="concert-date blue-text text-darken-3">
+                                <span class="item-second-data blue-text text-darken-3">
                                     {{ concert.date.strftime('%d.%m.%Y') }}
                                 </span>
                             </div>
 
-                            <div class="concert-name-place-container" title="{{ concert.name }}">
-                                <span class="concert-name">
+                            <div class="item-sub-data-container" title="{{ concert.name }}">
+                                <span class="item-sub-data">
                                     {{ concert.name|truncate(40) }}
                                 </span>
                                 <span class="concert-place">

@@ -5,6 +5,7 @@ from flask import Blueprint, render_template, flash, redirect, url_for, request,
 from flask_login import login_user, current_user, logout_user, login_required
 
 from app import bcrypt, db, app
+from app.forms.AlbumForm import AlbumForm
 from app.forms.SliderForm import SliderForm
 
 from app.models.MailModel import Mail
@@ -14,6 +15,7 @@ from app.forms.ConcertForm import ConcertForm
 from app.forms.TextsForms import MusicTextForm, AboutTextForm
 from app.forms.RiderForm import RiderForm
 from app.models.functions import create_safe_filename, save_file, reformat_yt_link
+from app.resources.AlbumsResource import get_all_albums, Albums, get_album_by_id, get_all_albums_paginated
 
 from app.resources.ConcertsResource import Concerts, get_all_concerts, get_concert_by_id
 from app.resources.SlidesResource import get_all_slides
@@ -51,7 +53,6 @@ def login():
             mail.send()
 
             return redirect(url_for('CMS.login'))
-        
 
     return render_template('cms/login.html', form=form)
 
@@ -176,8 +177,125 @@ def texts(text):
 
 @CMS.route('/admin/albumy')
 @login_required
-def albums():
-    return render_template('cms/albums.html')
+def all_albums():
+    page = request.args.get('strona', 1, type=int)
+
+    albums = get_all_albums_paginated(page)
+    return render_template('cms/albums.html', albums=albums)
+
+
+@CMS.route('/admin/albumy/dodaj', methods=['POST', 'GET'])
+@login_required
+def add_album():
+    form = AlbumForm()
+    if request.method == 'POST' and form.validate_on_submit():
+
+        new_cover = request.files.get('cover', None)
+        new_cover_filename = ''
+
+        if new_cover:
+            new_cover_filename = create_safe_filename(new_cover, random=True, date=False)
+            save_file(new_cover, 'images/music', new_cover_filename)
+        else:
+            flash('Dodano album, ale nie dodano okładki.', 'warning')
+
+        album = Albums(
+            title=form.title.data,
+            year=form.year.data,
+            description=form.description.data,
+            cover_file='music/' + new_cover_filename if new_cover else 'Brak pliku'
+        )
+
+        db.session.add(album)
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
+            mail = Mail('Błąd - CZZK', 'Błąd przy tworzeniu albumu: ' + str(e), None,
+                        recipients='psambek@gmail.com', raw_mail=True)
+            mail.send()
+
+            return render_template('cms/album-form.html', form=form, action='add', noJquery=True)
+
+        flash('Utworzono nowy album.', 'success')
+
+        return redirect(url_for('CMS.all_albums'))
+
+    elif request.method == 'POST' and not form.validate_on_submit():
+        flash('Formularz nie został wypełniony poprawnie.', 'warning')
+
+        return render_template('cms/album-form.html', form=form, action='add', noJquery=True)
+
+    return render_template('cms/album-form.html', form=form, action='add', noJquery=True)
+
+
+@CMS.route('/admin/albumy/<int:album_id>/edytuj', methods=['POST', 'GET'])
+@login_required
+def update_album(album_id):
+    page = request.args.get('strona', 1, type=int)
+
+    album = get_album_by_id(album_id)
+
+    form = AlbumForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        album.title = form.title.data
+        album.year = form.year.data
+        album.description = form.description.data
+
+        try:
+            new_cover = request.files.get('cover', None)
+            if new_cover:
+                new_cover_filename = create_safe_filename(new_cover, random=True, date=False)
+                save_file(new_cover, 'images/music', new_cover_filename)
+                album.cover_file = 'music/' + new_cover_filename
+
+            db.session.commit()
+        except Exception as e:
+            flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
+            mail = Mail('Błąd - CZZK', 'Błąd przy edycji albumu: ' + str(e), None,
+                        recipients='psambek@gmail.com', raw_mail=True)
+            mail.send()
+
+            return render_template('cms/album-form.html', form=form, action='edit', noJquery=True)
+
+        flash('Zaktualizowano koncert.', 'success')
+
+        return redirect(url_for('CMS.all_albums', strona=page))
+
+    elif request.method == 'POST' and not form.validate_on_submit():
+        flash('Formularz nie został wypełniony poprawnie.', 'warning')
+
+        return render_template('cms/album-form.html', form=form, action='edit', noJquery=True)
+
+    elif request.method == 'GET':
+        form.title.data = album.title
+        form.year.data = album.year
+        form.description.data = album.description
+        form.cover.data = album.cover_file
+
+    return render_template('cms/album-form.html', form=form, action='edit', noJquery=True)
+
+
+@CMS.route("/admin/albumy/<int:album_id>/usun", methods=['POST'])
+@login_required
+def delete_album(album_id):
+    album = get_album_by_id(album_id)
+
+    try:
+        db.session.delete(album)
+        db.session.commit()
+    except Exception as e:
+        flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
+        mail = Mail('Błąd - OSK Kurs', 'Błąd przy usuwaniu kursu: ' + str(e), None,
+                    recipients='psambek@gmail.com', raw_mail=True)
+        mail.send()
+
+        return redirect(url_for('CMS.all_albums'))
+
+    flash('Koncert został usunięty.', 'success')
+    return redirect(url_for('CMS.all_albums'))
 
 
 @CMS.route('/admin/koncerty')
@@ -316,7 +434,7 @@ def rider():
         try:
             new_rider = request.files['rider']
             new_rider_filename = create_safe_filename(new_rider, random=False, date=True)
-            save_file(new_rider, 'files/rider', new_rider_filename )
+            save_file(new_rider, 'files/rider', new_rider_filename)
 
         except Exception as e:
             print(e)

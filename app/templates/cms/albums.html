@@ -1,0 +1,107 @@
+{% extends "cms/base.html" %}
+
+{% block title %}Albumy{% endblock %}
+
+{% block content %}
+	<section>
+		<div class="container section-container admin">
+
+            <h3 class="black-text section-header">albumy</h3>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                           {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {% if category=='warning' %}
+                                        <span class="fas fa-exclamation-triangle"></span>
+                                    {% elif category=='success' %}
+                                        <span class="fas fa-check-circle"></span>
+                                    {% endif %}
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+            <div class="add-item-container">
+                <a href="{{ url_for('CMS.add_album') }}">
+                    <span class="fas fa-plus-square green-text text-darken-3"></span>
+                    <span class="green-text text-darken-3">Dodaj album</span>
+                </a>
+            </div>
+
+            <div class="row white all-items-container">
+                <ul class="collection">
+                    {% for album in albums.items %}
+                        <li class="collection-item">
+                            <div class="item-second-data-container" title="{{ album.title }}">
+                                <span class="item-second-data blue-text text-darken-3">
+                                    {{ album.year }}
+                                </span>
+                            </div>
+
+                            <div class="item-sub-data-container" title="{{ album.title }}">
+                                <span class="item-sub-data">
+                                    {{ album.title|truncate(40) }}
+                                </span>
+                            </div>
+
+                            <div class="secondary-content">
+                                <a href="{{ url_for('CMS.update_album', album_id=album.id, strona=albums.page or 1) }}">
+                                    <span class="fas fa-edit yellow-text text-darken-3"></span>
+                                </a>
+                                <a href="#delete-{{ album.id }}-modal" class="modal-trigger">
+                                    <span class="fas fa-trash red-text text-darken-3"></span>
+                                </a>
+                            </div>
+                        </li>
+
+
+                        <div id="delete-{{ album.id }}-modal" class="modal">
+                            <div class="modal-content">
+                                <h5>Czy na pewno chcesz usunąć album {{ album.title }}?</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="modal-close waves-effect btn-flat">ANULUJ</a>
+                                <form action="{{ url_for('CMS.delete_album', album_id=album.id) }}" method="POST" class="right">
+                                    <button type="submit" class="waves-effect btn-flat red darken-3 white-text">USUŃ</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </ul>
+
+                <div class="col s12 pagination-container">
+                    <ul class="pagination">
+                        {% if albums.has_prev %}
+                            <li class="waves-effect"><a href="{{ url_for('CMS.all_albums', strona=albums.prev_num) }}"><i class="material-icons">chevron_left</i></a></li>
+                        {% else %}
+                            <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
+                        {% endif %}
+                        {% for page_num in albums.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                            {% if page_num %}
+                                {% if albums.page == page_num %}
+                                    <li class="active blue darken-3">
+                                        <a href="{{ url_for('CMS.all_albums', strona=page_num) }}">{{ page_num }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="waves-effect">
+                                        <a href="{{ url_for('CMS.all_albums', strona=page_num) }}">{{ page_num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% else %}
+                                ...
+                            {% endif %}
+                        {% endfor %}
+                        {% if albums.has_next %}
+                            <li class="waves-effect"><a href="{{ url_for('CMS.all_albums', strona=albums.next_num) }}"><i class="material-icons">chevron_right</i></a></li>
+                        {% else %}
+                            <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+		</div>
+	</section>
+{% endblock %}

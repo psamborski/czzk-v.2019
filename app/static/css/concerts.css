@@ -87,12 +87,14 @@
 
 .single-concert {
 	width: 100%;
-	margin-bottom: 12px;
 	border-bottom: 6px dotted #fff;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	padding: 30px 0;
+	padding: 42px 0 30px;
+	height: 120px !important;
+	overflow: auto;
+	box-sizing: border-box;
 }
 
 .single-concert:last-of-type {
