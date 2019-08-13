@@ -92,7 +92,6 @@
 	flex-wrap: wrap;
 	align-items: center;
 	padding: 42px 0 30px;
-	height: 120px !important;
 	overflow: auto;
 	box-sizing: border-box;
 }
@@ -147,6 +146,10 @@
 }
 
 @media only screen and (min-width: 1001px) {
+	.single-concert {
+		height: 120px !important;
+	}
+
 	.concerts-header label:hover::before {
 		content: "";
 		position: absolute;

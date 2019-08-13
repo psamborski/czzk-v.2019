@@ -1,7 +1,7 @@
 from os import listdir
 from os.path import isfile, join
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session, abort
 from itertools import groupby
 
 # database
@@ -121,8 +121,8 @@ def multimedia_galleries():
 
 @MainSite.route('/multimedia/galeria/<string:gallery_secure_title>')
 def multimedia_specific_gallery(gallery_secure_title):
-    # if not gallery_secure_title: TODO handle this
-    #    return 'afds'
+    if not gallery_secure_title:
+        abort(404)
     page = request.args.get('strona', 1, type=int)
 
     gallery = Gallery(get_gallery_by_secure_title(gallery_secure_title))
