@@ -9,6 +9,7 @@ from app import bcrypt, db, app
 
 from app.forms.AlbumForm import AlbumForm
 from app.forms.ConcertForm import ConcertForm
+from app.forms.ContactDataForm import ContactDataForm
 from app.forms.GalleryForm import GalleryForm
 from app.forms.LoginForm import LoginForm
 from app.forms.MerchItemForm import MerchItemForm
@@ -21,6 +22,7 @@ from app.models.functions import create_safe_filename, save_file, reformat_yt_li
 
 from app.resources.AlbumsResource import Albums, get_album_by_id, get_all_albums_paginated
 from app.resources.ConcertsResource import Concerts, get_all_concerts, get_concert_by_id
+from app.resources.ContactDataResource import get_contact_item_by_key
 from app.resources.GalleriesResource import get_all_galleries, Galleries, get_gallery_by_secure_title, get_gallery_by_id
 from app.resources.MerchResource import get_all_merch_paginated, get_item_from_merch, Merch, get_item_by_id
 from app.resources.SlidesResource import get_all_slides
@@ -680,3 +682,39 @@ def rider():
                            form=form,
                            current_rider=current_rider
                            )
+
+
+@CMS.route('/admin/dane', methods=['POST', 'GET'])
+@login_required
+def contact_data():
+    form = ContactDataForm()
+
+    phone = get_contact_item_by_key('phone')
+    email = get_contact_item_by_key('email')
+
+    if request.method == 'GET':
+        form.phone.data = phone.value
+        form.email.data = email.value
+
+    elif request.method == 'POST' and form.validate_on_submit():
+        phone.value = form.phone.data
+        email.value = form.email.data
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
+            mail = Mail('Błąd - CZZK', 'Błąd przy edycji danych kontaktowych: ' + str(e), None,
+                        recipients='psambek@gmail.com', raw_mail=True)
+            mail.send()
+
+            return render_template('cms/contact-data-form.html', form=form)
+
+        flash('Zaktualizowano dane.', 'success')
+
+        return redirect(url_for('CMS.contact_data'))
+
+    elif request.method == 'POST' and not form.validate_on_submit():
+        flash('Formularz nie został wypełniony poprawnie.', 'warning')
+
+    return render_template('cms/contact-data-form.html', form=form)

@@ -11,6 +11,7 @@ from app.models.GalleryModel import Gallery
 from app.models.MailModel import Mail
 from app.resources.AlbumsResource import get_all_albums
 from app.resources.ConcertsResource import get_planned_concerts, get_past_concerts
+from app.resources.ContactDataResource import get_contact_item_by_key
 from app.resources.GalleriesResource import get_all_galleries, get_gallery_by_secure_title
 from app.resources.MerchResource import get_all_merch, get_item_from_merch
 from app.resources.SlidesResource import get_all_slides
@@ -188,7 +189,10 @@ def contact():
     else:
         rider = ''
 
-    return render_template('contact.html', rider=rider)
+    phone_number = get_contact_item_by_key('phone')
+    email = get_contact_item_by_key('email')
+
+    return render_template('contact.html', rider=rider, phone_number=phone_number.value, email=email.value)
 
 
 @MainSite.route('/send-message', methods=['POST', 'GET'])

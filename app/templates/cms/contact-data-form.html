@@ -1,0 +1,75 @@
+{% extends "cms/base.html" %}
+
+{% block title %}Aktualizuj dane kontaktowe{% endblock %}
+
+{% block content %}
+	<section>
+		<div class="container section-container">
+			<div class="row">
+				<div class="col s12">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="flash-messages">
+                               {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">
+                                        {% if category=='warning' %}
+                                            <span class="fas fa-exclamation-triangle"></span>
+                                        {% elif category=='success' %}
+                                            <span class="fas fa-check-circle"></span>
+                                        {% endif %}
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <h3 class="black-text section-header">
+                Aktualizuj dane kontaktowe
+            </h3>
+
+			<div class="row">
+				<div class="col s12 white">
+					<form method="post" action="" id="add-item-form" enctype="multipart/form-data" novalidate>
+                        {{ form.hidden_tag() }}
+						<fieldset>
+							<div class="input-field col s12">
+                                    {{ form.phone() }}
+                                    {{ form.phone.label(class="active") }}
+                                {% if form.phone.errors %}
+                                    {% for error in form.phone.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+							</div>
+
+							<div class="input-field col s12">
+                                    {{ form.email() }}
+                                    {{ form.email.label(class="active") }}
+                                {% if form.email.errors %}
+                                    {% for error in form.email.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+							</div>
+
+							<div class="col s12">
+								<button type="submit" class="waves-effect waves-light btn blue darken-3">
+                                    AKTUALIZUJ DANE
+                                </button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
