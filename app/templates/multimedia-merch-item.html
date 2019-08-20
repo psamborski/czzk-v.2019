@@ -18,10 +18,10 @@
 
         <div id="product-info-container">
             <div id="product-photo">
-                {% if item.gif or item.gif != 'Brak animacji' %}
-                    <img src="{{ url_for('static', filename='images/merch/'+item.gif) }}" alt="{{ item.gif }} - animacja produktu" />
-                {% else %}
+                {% if not item.gif or item.gif == 'Brak animacji' %}
                     <img src="{{ url_for('static', filename='images/merch/'+item.jpg) }}" alt="{{ item.jpg }} - zdjęcie produktu" />
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/merch/'+item.gif) }}" alt="{{ item.gif }} - animacja produktu" />
                 {% endif %}
             </div>
 
