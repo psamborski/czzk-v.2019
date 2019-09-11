@@ -18,7 +18,7 @@ from app.forms.SliderForm import SliderForm
 from app.forms.TextsForms import MusicTextForm, AboutTextForm
 
 from app.models.MailModel import Mail
-from app.models.functions import create_safe_filename, save_file, reformat_yt_link, remove_file
+from app.models.functions import create_safe_filename, save_file, reformat_yt_link, remove_file, move_file
 
 from app.resources.AlbumsResource import Albums, get_album_by_id, get_all_albums_paginated
 from app.resources.ConcertsResource import Concerts, get_all_concerts, get_concert_by_id
@@ -644,7 +644,7 @@ def delete_gallery(gallery_id):
 def rider():
     form = RiderForm()
 
-    rider_dir = app.config['UPLOAD_FOLDER'] + '/files/rider'
+    rider_dir = app.config['UPLOAD_FOLDER'] + '/files/rider/current'
     rider_files = [f for f in listdir(rider_dir) if isfile(join(rider_dir, f))]
     rider_files.sort(reverse=True)
 
@@ -655,9 +655,12 @@ def rider():
 
     if request.method == 'POST' and form.validate_on_submit():
         try:
+            if rider_files:
+                for file in rider_files:
+                    move_file(app.config['UPLOAD_FOLDER'] + '/files/rider/current/' + file, app.config['UPLOAD_FOLDER'] + '/files/rider/' + file)
             new_rider = request.files['rider']
-            new_rider_filename = create_safe_filename(new_rider, random=False, date=True)
-            save_file(new_rider, 'files/rider', new_rider_filename)
+            new_rider_filename = create_safe_filename(new_rider, random=True, date=False)
+            save_file(new_rider, 'files/rider/current', new_rider_filename)
 
         except Exception as e:
             print(e)

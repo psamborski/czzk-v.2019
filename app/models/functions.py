@@ -51,6 +51,14 @@ def remove_file(relative_path, directory=False):
     return True
 
 
+def move_file(relative_path, new_path):
+    print(relative_path)
+    print(new_path)
+    os.rename(relative_path, new_path)
+
+    return True
+
+
 def reformat_yt_link(link):
     core = 'https://www.youtube.com/embed/'
     if 'watch?v=' in str(link):

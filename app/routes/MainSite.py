@@ -180,7 +180,7 @@ def multimedia_archive():
 
 @MainSite.route('/kontakt')
 def contact():
-    rider_dir = app.config['UPLOAD_FOLDER'] + '/files/rider'
+    rider_dir = app.config['UPLOAD_FOLDER'] + '/files/rider/current'
     rider_files = [f for f in listdir(rider_dir) if isfile(join(rider_dir, f))]
     rider_files.sort(reverse=True)
 

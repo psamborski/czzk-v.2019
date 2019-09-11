@@ -31,7 +31,7 @@
                         <div class="current-rider">
                             {% if current_rider %}
                                 <span>{{ current_rider }}</span>
-                                <a href="{{ url_for('static', filename='files/rider/' + current_rider) }}" title="Zobacz rider" target="_blank" class="specific-contact-link">
+                                <a href="{{ url_for('static', filename='files/rider/current/' + current_rider) }}" title="Zobacz rider" target="_blank" class="specific-contact-link">
                                     podgląd <span class="fas fa-search-plus"></span>
                                 </a>
                             {% else %}
