@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Strona główna{% endblock %}
 {% block additional_style %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css?v=1.1') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}?v=1.1" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -98,4 +98,4 @@
 </section>
 
 {% endblock %}
-{% block additional_script %}<script src="{{ url_for('static', filename='js/index.js?v=1.1') }}"></script>{% endblock %}
+{% block additional_script %}<script src="{{ url_for('static', filename='js/index.js') }}?v=1.1"></script>{% endblock %}
