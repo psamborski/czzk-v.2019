@@ -14,7 +14,7 @@ from app.resources.ConcertsResource import get_planned_concerts, get_past_concer
 from app.resources.ContactDataResource import get_contact_item_by_key
 from app.resources.GalleriesResource import get_all_galleries, get_gallery_by_secure_title
 from app.resources.MerchResource import get_all_merch, get_item_from_merch
-from app.resources.SlidesResource import get_all_slides
+from app.resources.SlidesResource import get_slides_for_display
 from app.resources.TextsResource import get_text_by_page
 
 MainSite = Blueprint('MainSite', __name__)
@@ -48,7 +48,7 @@ def inject_variables():
 @MainSite.route('/')
 def index():
     closest_concerts = get_planned_concerts(3)
-    slides = get_all_slides()
+    slides = get_slides_for_display()
 
     return render_template('index.html',
                            closest_concerts=closest_concerts,

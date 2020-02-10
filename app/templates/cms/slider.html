@@ -47,6 +47,15 @@
                                     <h6 class="blue-text text-darken-3">Slide {{ loop.index }}</h6>
                                 </div>
 
+                                <div class="col s12">
+                                    <p>
+                                        <label>
+                                            {{ field.display() }}
+                                            <span>{{ field.display.label() }}</span>
+                                        </label>
+                                    </p>
+                                </div>
+
                                 <div class="input-field col s12">
                                     {% if field.slide_type.errors %}
                                         {{ field.slide_type() }}

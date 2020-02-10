@@ -79,6 +79,7 @@ def slider():
     if request.method == 'GET':
         for field, slide in zip(form.slides, current_slides):
             field.slide_type.data = slide.type
+            field.display.data = slide.display
             if slide.type == 'v':
                 field.youtube.data = slide.content
             elif slide.type == 'i':
@@ -87,15 +88,15 @@ def slider():
     elif request.method == 'POST' and form.validate_on_submit():
         try:
             for field, slide in zip(form.slides, current_slides):
-                if field.slide_type.data == 'v':
+                if field.slide_type.data == 'v' and field.display.data:
                     if not field.youtube.data:
-                        flash("W slajdzie " + str(slide.order) + "wybrano typ 'Filmik' i nie dodano linku. Zachowano "
+                        flash("W slajdzie " + str(slide.order) + " wybrano typ 'Filmik' i nie dodano linku. Zachowano "
                                                                  "poprzedni slajd.", "info")
                     else:
                         slide.type = field.slide_type.data
                         slide.content = reformat_yt_link(field.youtube.data)
 
-                elif field.slide_type.data == 'i':
+                elif field.slide_type.data == 'i' and field.display.data:
                     photo_key = 'slides-' + str(slide.order-1) + '-picture'
                     if request.files.get(photo_key, False):
                         photo = request.files.get(photo_key, False)
@@ -105,9 +106,12 @@ def slider():
                         slide.type = field.slide_type.data
                         slide.content = photo_filename
                     else:
-                        flash("W slajdzie " + str(slide.order) + "nie dodano nowego pliku mimo wyboru typu 'Obraz'. "
+                        flash("W slajdzie " + str(slide.order) + " nie dodano nowego pliku mimo wyboru typu 'Obraz'. "
                                                                  "Zachowano poprzedni "
                               "slajd.", "info")
+
+                slide.display = field.display.data
+
             db.session.commit()
 
         except Exception as e:

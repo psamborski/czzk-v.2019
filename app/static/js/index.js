@@ -3,13 +3,17 @@
   let interval = setInterval( function(){ changeSlide(); }, 5000);
   window.addEventListener('load', resetLoader, false );
 
+  let gallery = document.getElementById("main-gallery");
   let slides = document.getElementsByClassName("main-gallery-radio");
   let pause = document.getElementById("main-gallery-radio-pause");
 
+  gallery.style.left = "0%";
+
   let i = 0;
 
-  for (let i = 3; i < 6; i++) {
-    slides[i%3].addEventListener('change', function(){
+  for (let i = slides.length; i < slides.length * 2; i++) {
+    slides[i%slides.length].addEventListener('change', function(){
+      gallery.style.left = "-" + (100 * (i%slides.length)).toString() + "%";
       clearInterval( interval );
       if ( pause.checked === false ){
         resetLoader();
@@ -23,10 +27,12 @@
       return;
     }
     resetLoader();
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < slides.length; i++) {
       if (slides[i].checked === true) {
         slides[i].checked = false;
-        slides[(i + 1) % 3].checked = true;
+        slides[(i + 1) % slides.length].checked = true;
+        gallery.style.left = "-" + (100 * ((i + 1) % slides.length)).toString() + "%";
+
         break;
       }
     }
@@ -61,7 +67,6 @@
 
   /* BIG GALLERY SWIPE */
 
-  let gallery = document.getElementById("main-gallery");
   gallery.addEventListener('touchstart', handleTouchStart, false);
   gallery.addEventListener('touchmove', handleTouchMove, false);
 
@@ -83,22 +88,22 @@
 
     let xDiff = xDown - xUp;
 
-      if ( xDiff > 4 ) { /* from right to left */
-        for (i = 0; i < 3; i++){
+      if ( xDiff > slides.length + 1 ) { /* from right to left */
+        for (i = 0; i < slides.length; i++){
           if ( slides[i].checked === true ) {
             slides[i].checked = false;
-            slides[(i+1)%3].checked = true;
+            slides[(i+1)%slides.length].checked = true;
             clearInterval( interval );
             resetLoader();
             interval = setInterval( function(){ changeSlide(); }, 5000);
             break;
           }
         }
-      } else if ( xDiff < -4 ) {
+      } else if ( xDiff < -(slides.length + 1) ) {
         for (i = 3; i < 6; i++){
-          if ( slides[i%3].checked === true ) {
-            slides[i%3].checked = false;
-            slides[(i-1)%3].checked = true;
+          if ( slides[i%slides.length].checked === true ) {
+            slides[i%slides.length].checked = false;
+            slides[(i-1)%slides.length].checked = true;
             clearInterval( interval );
             resetLoader();
             interval = setInterval( function(){ changeSlide(); }, 5000);

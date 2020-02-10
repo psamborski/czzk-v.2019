@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
-from wtforms import StringField, SubmitField, FileField, FieldList, FormField, SelectField
+from wtforms import StringField, SubmitField, FileField, FieldList, FormField, SelectField, BooleanField
 from wtforms.validators import Optional, Regexp, DataRequired
 
 
@@ -28,9 +28,9 @@ class SliderEntry(FlaskForm):
                             Optional(),
                             FileAllowed(['jpg', 'png'], message='Nieprawidłowy format pliku (.jpg, .png).')
                         ])
-
+    display = BooleanField(label='Wyświetl slajd')
 
 
 class SliderForm(FlaskForm):
-    slides = FieldList(FormField(SliderEntry), min_entries=3, max_entries=3)
+    slides = FieldList(FormField(SliderEntry), min_entries=8, max_entries=8)
     submit = SubmitField(label='Zapisz')

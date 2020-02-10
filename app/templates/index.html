@@ -1,27 +1,28 @@
 {% extends "base.html" %}
 {% block title %}Strona główna{% endblock %}
 {% block additional_style %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css?v=1.1') }}" type="text/css">
 {% endblock %}
 
 {% block content %}
 <section id="photo-and-desription-container">
-	<input type="radio" id="main-gallery-slide-radio-1" class="main-gallery-radio" name="main-gallery-slide-toggle" checked>
-	<label for="main-gallery-slide-radio-1" id="main-gallery-slide-label-1" class="main-gallery-label">&bull;</label>
-	<input type="radio" id="main-gallery-slide-radio-2" class="main-gallery-radio" name="main-gallery-slide-toggle">
-	<label for="main-gallery-slide-radio-2" id="main-gallery-slide-label-2" class="main-gallery-label">&bull;</label>
-	<input type="radio" id="main-gallery-slide-radio-3" class="main-gallery-radio" name="main-gallery-slide-toggle">
-	<label for="main-gallery-slide-radio-3" id="main-gallery-slide-label-3" class="main-gallery-label">&bull;</label>
-	<input type="checkbox" id="main-gallery-radio-pause" autocomplete="off">
-	<label for="main-gallery-radio-pause" id="main-gallery-slide-label-pause" class="main-gallery-label"><img src="{{ url_for('static', filename='images/player-buttons-coloured.svg') }}" alt="odtwarzaj/pauza" /></label>
+    <div class="controllers-container">
+        {% for n in range(slides|length) %}
+            <input type="radio" id="main-gallery-slide-radio-{{ n + 1 }}" class="main-gallery-radio" name="main-gallery-slide-toggle" {% if n == 0 %}checked{% endif %}>
+            <label for="main-gallery-slide-radio-{{ n + 1 }}" id="main-gallery-slide-label-{{ n + 1 }}" class="main-gallery-label">&bull;</label>
+        {% endfor %}
+        <input type="checkbox" id="main-gallery-radio-pause" autocomplete="off">
+        <label for="main-gallery-radio-pause" id="main-gallery-slide-label-pause" class="main-gallery-label"><img src="{{ url_for('static', filename='images/player-buttons-coloured.svg') }}" alt="odtwarzaj/pauza" /></label>
+    	<div class="gallery-loader"></div>
+    </div>
 
 
-		<div id="main-gallery">
+		<div id="main-gallery" style="width: {{ slides|length * 100 }}%">
             {% for slide in slides %}
                 {% if slide.type == 'i' %}
-			        <div id="slide-{{ slide.order }}" class="slide" style="background-image: url('{{ url_for('static', filename='images/slides/' + slide.content) }}')"></div>
+			        <div id="slide-{{ slide.order }}" class="slide" style="background-image: url('{{ url_for('static', filename='images/slides/' + slide.content) }}'); width: {{ 100 / slides|length }}%"></div>
 			    {% elif slide.type == 'v' %}
-			        <div id="slide-{{ slide.order }}" class="slide"><iframe src="{{ slide.content }}" allowfullscreen></iframe></div>
+			        <div id="slide-{{ slide.order }}" class="slide" style="width: {{ 100 / slides|length }}%"><iframe src="{{ slide.content }}" allowfullscreen></iframe></div>
 		        {% endif %}
             {% endfor %}
         </div>
@@ -36,7 +37,6 @@
 
 		<a href="{{ url_for('MainSite.about_czzk') }}" title="O nas" class="underline-on-hover link-arrow"><span>więcej o nas</span></a>
 	</div>
-	<div class="gallery-loader"></div>
 </section>
 
 <section id="concerts-section">
@@ -98,4 +98,4 @@
 </section>
 
 {% endblock %}
-{% block additional_script %}<script src="{{ url_for('static', filename='js/index.js') }}"></script>{% endblock %}
+{% block additional_script %}<script src="{{ url_for('static', filename='js/index.js?v=1.1') }}"></script>{% endblock %}
