@@ -129,7 +129,8 @@ def multimedia_specific_gallery(gallery_secure_title):
     gallery = Gallery(get_gallery_by_secure_title(gallery_secure_title))
 
     try:
-        paginated_photos = gallery.paginate_photos(page=page)
+        # paginated_photos = gallery.paginate_photos(page=page)
+        paginated_photos = gallery.get_photos()
     except FileNotFoundError:
         return render_template('multimedia-specific-gallery.html',
                                gallery=gallery,
@@ -137,7 +138,8 @@ def multimedia_specific_gallery(gallery_secure_title):
 
     return render_template('multimedia-specific-gallery.html',
                            gallery=gallery,
-                           paginated_photos=paginated_photos)
+                           paginated_photos=paginated_photos
+                           )
 
 
 @MainSite.route('/multimedia/gadzety')

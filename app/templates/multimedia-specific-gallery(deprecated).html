@@ -24,18 +24,48 @@
         </div>
 
 		<div id="photos">
-            {% if not paginated_photos %}
+            {% if not paginated_photos.page_photos %}
                 <div>
                     <p>
                         Brak zdjęć.
                     </p>
                 </div>
             {% else %}
-                {% for photo in paginated_photos %}
+                {% for photo in paginated_photos.page_photos %}
                     <a class="specific-gallery-item" href="{{ url_for('static', filename='images/galleries/' + gallery.id + '/' + photo) }}">
                         <img alt="{{ gallery.title }} - zdjęcie {{ loop.index }}" src="{{ url_for('static', filename='images/galleries/' + gallery.id + '/' + photo) }}" />
                     </a>
                 {% endfor %}
+        </div>
+
+        <div class="pagination-container">
+            <ul class="galleries-pagination">
+                {% if paginated_photos.has_prev %}
+                    <li><a href="{{ url_for('MainSite.multimedia_specific_gallery', gallery_secure_title=gallery.secure_title, strona=paginated_photos.prev_num) }}">
+                        <
+                    </a></li>
+                {% else %}
+                    <li class="disabled"><a><</a></li>
+                {% endif %}
+                {% for page_num in paginated_photos.all_pages %}
+                    {% if paginated_photos.current_page == page_num %}
+                        <li>
+                            <a class="orange" href="{{ url_for('MainSite.multimedia_specific_gallery', gallery_secure_title=gallery.secure_title, strona=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ url_for('MainSite.multimedia_specific_gallery', gallery_secure_title=gallery.secure_title, strona=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if paginated_photos.has_next %}
+                    <li><a href="{{ url_for('MainSite.multimedia_specific_gallery', gallery_secure_title=gallery.secure_title, strona=paginated_photos.next_num) }}">
+                        >
+                    </a></li>
+                {% else %}
+                    <li class="disabled"><a>></a></li>
+                {% endif %}
+            </ul>
         </div>
             {% endif %}
     </div>

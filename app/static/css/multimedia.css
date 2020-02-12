@@ -131,11 +131,13 @@
 	justify-content: center;
 	flex-wrap: wrap;
 	flex-direction: row;
+	max-height: 725px;
+	overflow: auto;
 }
 
 #galleries-section #photos a {
-	width: 290px;
-	height: 290px;
+	width: 220px;
+	height: 220px;
 	overflow: hidden;
 	display: flex;
 	justify-content: center;
