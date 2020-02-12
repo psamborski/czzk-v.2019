@@ -51,14 +51,17 @@
                     </div>
                 </div>
 
-{#                <div class="concerts-pagination-container" id="planned-concerts-pagination-container">#}
-{#                    <div id="planned-older">#}
-{#                        <span>dalej</span><span class="fas fa-angle-down"></span>#}
-{#                    </div>#}
-{#                    <div id="planned-newer">#}
-{#                        <span>wstecz</span><span class="fas fa-angle-up"></span>#}
-{#                    </div>#}
-{#                </div>#}
+                {% if planned_concerts|length > 5 %}
+                    <div class="concerts-pagination-container" id="past-concerts-pagination-container">
+    {#                    <div id="past-older">#}
+    {#                       <span>dalej</span><span class="fas fa-angle-down"></span>#}
+    {#                    </div>#}
+    {#                    <div id="past-newer">#}
+    {#                       <span>wstecz</span><span class="fas fa-angle-up"></span>#}
+    {#                    </div>#}
+                        <div class="icon-scroll"></div>
+                    </div>
+                {% endif %}
 
 			</div>
 
