@@ -61,6 +61,7 @@
                     <div class="single-concert-info">
                         <h3>{{ concert.name }}</h3>
                         <span>{{ concert.place }}</span>
+                        {% if concert.time %}<span class="concert-time">{{ concert.time.strftime('%H:%M') }}</span>{% endif %}
                     </div>
                 </div>
             {% endfor %}
@@ -98,4 +99,4 @@
 </section>
 
 {% endblock %}
-{% block additional_script %}<script src="{{ url_for('static', filename='js/index.js') }}?v=1.1"></script>{% endblock %}
+{% block additional_script %}<script src="{{ url_for('static', filename='js/index.js') }}?v=1.2"></script>{% endblock %}

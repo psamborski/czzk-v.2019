@@ -93,6 +93,7 @@
           if ( slides[i].checked === true ) {
             slides[i].checked = false;
             slides[(i+1)%slides.length].checked = true;
+            gallery.style.left = "-" + (100 * ((i+1)%slides.length)).toString() + "%";
             clearInterval( interval );
             resetLoader();
             interval = setInterval( function(){ changeSlide(); }, 5000);
@@ -104,6 +105,7 @@
           if ( slides[i%slides.length].checked === true ) {
             slides[i%slides.length].checked = false;
             slides[(i-1)%slides.length].checked = true;
+            gallery.style.left = "-" + (100 * ((i-1)%slides.length)).toString() + "%";
             clearInterval( interval );
             resetLoader();
             interval = setInterval( function(){ changeSlide(); }, 5000);

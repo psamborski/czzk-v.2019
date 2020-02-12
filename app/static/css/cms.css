@@ -50,10 +50,6 @@ fieldset {
 }
 
 /*pickers*/
-input.timepicker {
-    text-align: center;
-}
-
 .datepicker-date-display, .timepicker-digital-display, .timepicker-tick.active, .timepicker-tick:focus { background-color: #1565c0; }
 .datepicker-day-button:focus, .timepicker-tick:hover { background-color: rgba(21, 101, 192, 0.53) !important; }
 .datepicker-table td.is-selected { background-color: #1565c0;}

@@ -46,8 +46,9 @@
 .concerts {
 	max-width: 1024px;
 	margin: 0 auto;
-	overflow: hidden;
+	overflow: auto;
 	position: relative;
+	height: 100%;
 }
 
 #past-concerts-radio:checked ~ #concerts-container {
@@ -114,11 +115,18 @@
 	float: left;
 	min-width: 280px;
 	padding: 0 20px;
+	display: flex;
+	flex-direction: column;
 }
 
 .single-concert-info h3 {
 	font-size: 24px;
 	margin: 0;
+}
+
+.single-concert-info .concert-time {
+	margin: 4px 0 0 0;
+	font-weight: 600;
 }
 
 .concerts-pagination-container {
@@ -146,10 +154,6 @@
 }
 
 @media only screen and (min-width: 1001px) {
-	.single-concert {
-		height: 120px !important;
-	}
-
 	.concerts-header label:hover::before {
 		content: "";
 		position: absolute;
@@ -162,10 +166,6 @@
 }
 
 @media only screen and (min-width: 800px) {
-	.specific-concerts-box {
-		height: 718px;
-	}
-
 	.specific-concerts-container {
 		height: 588px;
 	}
@@ -174,7 +174,7 @@
 /* CONCERTS MOBILE */
 @media only screen and (max-width: 800px) {
 	#concerts-section {
-		height: 100vh;
+		height: 93vh;
 		margin-top: 0 !important;
 		padding-top: 90px;
 		position: relative;
@@ -236,4 +236,57 @@
 	.single-concert-date {
 		text-align: left;
 	}
+}
+
+/* icon scroll */
+.icon-scroll {
+	width: 40px;
+  	height: 70px;
+	position: relative;
+	opacity: .5;
+}
+
+.icon-scroll:before {
+	position: absolute;
+  	left: 50%;
+  	content: '.';
+  	animation-duration: 4s;
+  	animation-iteration-count: infinite;
+  	animation-name: scroll;
+	transform: translateX(-50%);
+	width: 20px;
+	height: 20px;
+	font-size: 24px;
+	text-align: center;
+	top: -22px
+}
+
+.icon-scroll:after {
+	position: absolute;
+  	left: 50%;
+	transform: translate(-50%, 0);
+  	content: '0';
+	width: 60px;
+	height: 60px;
+	font-size: 60px;
+	text-align: center;
+}
+
+@keyframes scroll {
+  0% {
+    opacity: 0;
+	transform: translate(-50%, 0);
+  }
+  13% {
+    opacity: 1;
+	transform: translate(-50%, 0);
+  }
+  60% {
+    opacity: 0;
+	transform: translate(-50%, 22px);
+  }
+  100% {
+    opacity: 0;
+	transform: translate(-50%, 22px);
+  }
 }

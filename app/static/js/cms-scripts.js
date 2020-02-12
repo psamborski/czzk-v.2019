@@ -17,9 +17,11 @@ $(document).ready(function(){
     });
     $('.timepicker').timepicker({
         twelveHour: false,
+        showClearBtn: true,
         i18n: {
             cancel: 'Anuluj',
-            done: 'OK'
+            done: 'OK',
+            clear: 'Wyczyść'
         },
     });
 

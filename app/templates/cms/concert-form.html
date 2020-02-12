@@ -82,6 +82,29 @@
                                     {{ form.date(class="datepicker") }}
                                 {% endif %}
 							</div>
+                            <div class="input-field col s12">
+                                {% if form.time.errors %}
+                                    {{ form.time(class="timepicker") }}
+                                        {% if action == 'add' %}
+                                            {{ form.time.label() }}
+                                        {% elif action == 'edit' %}
+                                            {{ form.time.label(class="active") }}
+                                        {% endif %}
+                                    {% for error in form.time.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {% if action == 'add' %}
+                                        {{ form.time.label() }}
+                                    {% elif action == 'edit' %}
+                                        {{ form.time.label(class="active") }}
+                                    {% endif %}
+                                    {{ form.time(class="timepicker") }}
+                                {% endif %}
+							</div>
 							<div class="input-field col s12">
                                 {% if form.place.errors %}
                                     {{ form.place() }}

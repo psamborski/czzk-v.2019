@@ -123,7 +123,7 @@ def slider():
 
             return redirect(url_for('CMS.slider'))
 
-        flash('Zaktualizowano rider.', 'success')
+        flash('Zaktualizowano slider.', 'success')
 
         return redirect(url_for('CMS.slider'))
 
@@ -273,7 +273,7 @@ def update_album(album_id):
 
             return render_template('cms/album-form.html', form=form, action='edit', noJquery=True)
 
-        flash('Zaktualizowano koncert.', 'success')
+        flash('Zaktualizowano album.', 'success')
 
         return redirect(url_for('CMS.all_albums', strona=page))
 
@@ -328,7 +328,8 @@ def add_concert():
         concert = Concerts(
             name=form.name.data,
             date=form.date.data,
-            place=form.place.data
+            place=form.place.data,
+            time=form.time.data
         )
 
         db.session.add(concert)
@@ -364,9 +365,11 @@ def update_concert(concert_id):
     form = ConcertForm()
 
     if request.method == 'POST' and form.validate_on_submit():
+        print(concert.time)
         concert.name = form.name.data
         concert.date = form.date.data
         concert.place = form.place.data
+        concert.time = form.time.data
 
         try:
             db.session.commit()
@@ -391,6 +394,7 @@ def update_concert(concert_id):
         form.name.data = concert.name
         form.date.data = concert.date
         form.place.data = concert.place
+        form.time.data = concert.time
 
         return render_template('cms/concert-form.html', form=form, action='edit')
 
@@ -467,7 +471,7 @@ def add_merch_item():
 
             return render_template('cms/merch-item-form.html', form=form, action='add')
 
-        flash('Zaktualizowano koncert.', 'success')
+        flash('Dodano gadżet.', 'success')
 
         return redirect(url_for('CMS.all_merch'))
 
@@ -514,7 +518,7 @@ def update_merch_item(merch_item_name):
 
             return render_template('cms/merch-item-form.html', form=form, action='edit')
 
-        flash('Zaktualizowano koncert.', 'success')
+        flash('Zaktualizowano gadżet.', 'success')
 
         return redirect(url_for('CMS.all_merch', strona=page))
 

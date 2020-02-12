@@ -43,6 +43,7 @@
                                     <div class="single-concert-info">
                                         <h3 title="{{ concert.name }}">{{ concert.name|truncate(50) }}</h3>
                                         <span>{{ concert.place }}</span>
+                                        {% if concert.time %}<span class="concert-time">{{ concert.time.strftime('%H:%M') }}</span>{% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
@@ -50,14 +51,14 @@
                     </div>
                 </div>
 
-                <div class="concerts-pagination-container" id="planned-concerts-pagination-container">
-                    <div id="planned-older">
-                        <span>dalej</span><span class="fas fa-angle-down"></span>
-                    </div>
-                    <div id="planned-newer">
-                        <span>wstecz</span><span class="fas fa-angle-up"></span>
-                    </div>
-                </div>
+{#                <div class="concerts-pagination-container" id="planned-concerts-pagination-container">#}
+{#                    <div id="planned-older">#}
+{#                        <span>dalej</span><span class="fas fa-angle-down"></span>#}
+{#                    </div>#}
+{#                    <div id="planned-newer">#}
+{#                        <span>wstecz</span><span class="fas fa-angle-up"></span>#}
+{#                    </div>#}
+{#                </div>#}
 
 			</div>
 
@@ -79,6 +80,7 @@
                                     <div class="single-concert-info">
                                         <h3 title="{{ concert.name }}">{{ concert.name|truncate(50) }}</h3>
                                         <span>{{ concert.place }}</span>
+                                        {% if concert.time %}<span class="concert-time">{{ concert.time.strftime('%H:%M') }}</span>{% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
@@ -86,14 +88,17 @@
                     </div>
                 </div>
 
-                <div class="concerts-pagination-container" id="past-concerts-pagination-container">
-                    <div id="past-older">
-                       <span>dalej</span><span class="fas fa-angle-down"></span>
+                {% if past_concerts|length > 5 %}
+                    <div class="concerts-pagination-container" id="past-concerts-pagination-container">
+    {#                    <div id="past-older">#}
+    {#                       <span>dalej</span><span class="fas fa-angle-down"></span>#}
+    {#                    </div>#}
+    {#                    <div id="past-newer">#}
+    {#                       <span>wstecz</span><span class="fas fa-angle-up"></span>#}
+    {#                    </div>#}
+                        <div class="icon-scroll"></div>
                     </div>
-                    <div id="past-newer">
-                       <span>wstecz</span><span class="fas fa-angle-up"></span>
-                    </div>
-                </div>
+                {% endif %}
 
 			</div>
 		</div>
@@ -102,5 +107,5 @@
 {% endblock %}
 
 {% block additional_script %}
-    <script src="{{ url_for('static', filename='js/concerts.js') }}"></script>
+{#    <script src="{{ url_for('static', filename='js/concerts.js') }}"></script>#}
 {% endblock %}

@@ -444,11 +444,18 @@
 	float: left;
 	min-width: 280px;
 	padding-left: 20px;
+	display: flex;
+	flex-direction: column;
 }
 
 .single-concert-info h3 {
 	font-size: 24px;
 	margin: 0;
+}
+
+.single-concert-info .concert-time {
+	margin: 4px 0 0 0;
+	font-weight: 600;
 }
 
 #all-concerts-link {
