@@ -456,8 +456,8 @@ def add_merch_item():
             short_name=form.short_name.data,
             safe_name=secure_filename(form.short_name.data),
             description=form.description.data,
-            gif='gifs/' + new_gif_filename if new_gif else 'Brak animacji',
-            jpg='static/' + new_photo_filename if new_photo else 'Brak zdjęcia'
+            gif='gifs/' + new_gif_filename if new_gif else None,
+            jpg='static/' + new_photo_filename if new_photo else None
         )
 
         try:
@@ -531,8 +531,8 @@ def update_merch_item(merch_item_name):
         form.name.data = merch_item.name
         form.short_name.data = merch_item.short_name
         form.description.data = merch_item.description
-        form.photo.data = merch_item.jpg
-        form.animation.data = merch_item.gif
+        form.photo.data = merch_item.jpg if merch_item.gif else 'Brak zdjęcia'
+        form.animation.data = merch_item.gif if merch_item.gif else 'Brak animacji'
 
     return render_template('cms/merch-item-form.html', form=form, action='edit')
 
