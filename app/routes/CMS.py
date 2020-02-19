@@ -531,8 +531,8 @@ def update_merch_item(merch_item_name):
         form.name.data = merch_item.name
         form.short_name.data = merch_item.short_name
         form.description.data = merch_item.description
-        form.photo.data = merch_item.jpg if merch_item.gif else 'Brak zdjęcia'
-        form.animation.data = merch_item.gif if merch_item.gif else 'Brak animacji'
+        form.photo.data = merch_item.jpg
+        form.animation.data = merch_item.gif
 
     return render_template('cms/merch-item-form.html', form=form, action='edit')
 
