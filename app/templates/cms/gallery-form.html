@@ -72,6 +72,23 @@
                                 {% endif %}
 							</div>
 
+							<div class="input-field col s12">
+                                {{ form.author() }}
+                                {% if action == 'add' %}
+                                    {{ form.author.label() }}
+                                {% elif action == 'edit' %}
+                                    {{ form.author.label(class="active") }}
+                                {% endif %}
+                                {% if form.author.errors %}
+                                    {% for error in form.author.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+							</div>
+
                             <div class="file-field input-field col s12">
                                 <div class="waves-effect waves-light btn blue darken-3">
                                     <span>{{ form.thumbnail.label(class="white-text") }}</span>
@@ -107,6 +124,49 @@
                                     {% endfor %}
                                 {% endif %}
                             </div>
+
+                            <div class="input-field col s12">
+                                {{ form.videos() }}
+                                {% if action == 'add' %}
+                                    {{ form.videos.label() }}
+                                {% elif action == 'edit' %}
+                                    {{ form.videos.label(class="active") }}
+                                {% endif %}
+                                {% if form.videos.errors %}
+                                    {% for error in form.videos.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+							</div>
+
+                            {% if photos %}
+                                <div class="col s12 gallery-edit-photos">
+                                    {% for photo in photos %}
+                                        <div class="single-photo">
+                                            <img alt="{{ gallery.title }} - zdjęcie {{ loop.index }}" src="{{ url_for('static', filename='images/galleries/' + gallery.id + '/' + photo) }}" />
+                                            <div class="photo-filename">
+                                                {{ photo }}
+                                            </div>
+                                            <a href="#delete-{{ photo }}-modal" class="modal-trigger">
+                                                <span class="fas fa-trash red-text text-darken-3"></span>
+                                            </a>
+                                        </div>
+
+                                        <div id="delete-{{ photo }}-modal" class="modal">
+                                            <div class="modal-content">
+                                                <h5>Czy na pewno chcesz usunąć zdjęcie {{ photo }}?</h5>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="#" class="modal-close waves-effect btn-flat">ANULUJ</a>
+                                                <a href="?delete_filename={{ photo }}" class="waves-effect btn-flat red darken-3 white-text">USUŃ</a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
 
 							<div class="col s12">
 								<button type="submit" class="waves-effect waves-light btn blue darken-3">

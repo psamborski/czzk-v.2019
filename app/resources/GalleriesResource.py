@@ -6,6 +6,8 @@ class Galleries(db.Model):
     title = db.Column(db.String(120), nullable=False)
     secure_title = db.Column(db.String(120), nullable=False)
     thumbnail_file = db.Column(db.String(120), nullable=False)
+    author = db.Column(db.String(120), nullable=True)
+    videos = db.Column(db.String(1024), nullable=True)
 
     def __repr__(self):
         return f"Album('{self.title}')"

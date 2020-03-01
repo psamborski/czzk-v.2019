@@ -17,6 +17,7 @@ from app.forms.RiderForm import RiderForm
 from app.forms.SliderForm import SliderForm
 from app.forms.TextsForms import MusicTextForm, AboutTextForm
 
+from app.models.GalleryModel import Gallery
 from app.models.MailModel import Mail
 from app.models.functions import create_safe_filename, save_file, reformat_yt_link, remove_file, move_file
 
@@ -573,6 +574,8 @@ def add_gallery():
 
     if request.method == 'POST' and form.validate_on_submit():
         title = form.title.data
+        author = form.author.data
+        videos = form.videos.data
         secure_title = secure_filename(title)
         thumbnail = request.files.get('thumbnail', None)
 
@@ -586,6 +589,8 @@ def add_gallery():
             title=title,
             secure_title=secure_title,
             thumbnail_file=new_thumbnail_filename,
+            videos=videos,
+            author=author,
         )
 
         try:
@@ -624,6 +629,96 @@ def add_gallery():
         flash('Formularz nie został wypełniony poprawnie.', 'warning')
 
     return render_template('cms/gallery-form.html', form=form, action='add')
+
+
+@CMS.route('/admin/galerie/<string:gallery_secure_title>/edytuj', methods=['POST', 'GET'])
+@login_required
+def update_gallery(gallery_secure_title):
+    gallery = get_gallery_by_secure_title(gallery_secure_title)
+
+    gallery_model = Gallery(get_gallery_by_secure_title(gallery_secure_title))
+    photos = gallery_model.get_photos()
+
+    page = request.args.get('strona', 1, type=int)
+
+    form = GalleryForm(gallery_secure_title)
+
+    if request.method == 'POST' and form.validate_on_submit():
+        try:
+            gallery.title = form.title.data
+            gallery.author = form.author.data
+            gallery.videos = form.videos.data
+            gallery.secure_title = secure_filename(form.title.data)
+            thumbnail = request.files.get('thumbnail', None)
+
+            if thumbnail:
+                remove_file('/images/galleries/' + str(gallery.id) + '/thumbnail/' + gallery.thumbnail_file)
+                new_thumbnail_filename = create_safe_filename(thumbnail, random=True, date=False)
+                gallery.thumbnail_file = new_thumbnail_filename
+                save_file(thumbnail, 'images/galleries/' + str(gallery.id) + '/thumbnail', new_thumbnail_filename)
+
+            db.session.commit()
+
+            images = request.files.getlist('images') if 'images' in request.files else ()
+
+            for image in images:
+                if image:
+                    image_filename = create_safe_filename(image, random=True, date=False)
+                    save_file(image, 'images/galleries/' + str(gallery.id), image_filename)
+
+            db.session.commit()
+        except Exception as e:
+            flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
+            mail = Mail('Błąd - CZZK', 'Błąd przy edycji galerii: ' + str(e), None,
+                        recipients='psambek@gmail.com', raw_mail=True)
+            mail.send()
+
+            return render_template('cms/gallery-form.html',
+                                   form=form,
+                                   action='edit',
+                                   photos=photos,
+                                   gallery=gallery_model
+                                   )
+
+        flash('Zaktualizowano galerię.', 'success')
+
+        return redirect(url_for('CMS.all_galleries', page=page))
+
+    elif request.method == 'POST' and not form.validate_on_submit():
+        flash('Formularz nie został wypełniony poprawnie.', 'warning')
+
+        return render_template('cms/gallery-form.html',
+                               form=form,
+                               action='edit',
+                               photos=photos,
+                               gallery=gallery_model
+                               )
+
+    elif request.method == 'GET':
+        form.title.data = gallery.title
+        form.author.data = gallery.author
+        form.videos.data = gallery.videos
+        form.thumbnail.data = gallery.thumbnail_file
+
+        # delete single photo
+        if request.args.get('delete_filename'):
+            try:
+                delete_filename = request.args.get('delete_filename')
+                remove_file('/images/galleries/' + str(gallery.id) + '/' + str(delete_filename))
+
+                flash(f'Usunięto plik {str(delete_filename)}.', 'success')
+
+                return redirect(url_for('CMS.update_gallery', gallery_secure_title=gallery_secure_title))
+            except FileNotFoundError:
+                flash('Nie ma takiego pliku.', 'warning')
+
+                return redirect(url_for('CMS.update_gallery', gallery_secure_title=gallery_secure_title))
+    return render_template('cms/gallery-form.html',
+                           form=form,
+                           action='edit',
+                           photos=photos,
+                           gallery=gallery_model
+                           )
 
 
 @CMS.route('/admin/galerie/<int:gallery_id>/usun', methods=['POST'])

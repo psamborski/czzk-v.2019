@@ -12,17 +12,21 @@
 
 		<div id="contact-tiles-container">
 			<div class="contact-container">
-				<a href="tel:{{ phone_number }}" title="Zadzwoń" class="specific-contact-link">
+				<div class="specific-contact-link">
                     <span class="contact-icons fa fa-phone"></span>
-                    <span class="contact-click">{{ phone_number }}</span>
-                </a>
+                    {% for phone_number in phone_numbers %}
+                        <a href="tel:{{ phone_number }}" title="Zadzwoń pod {{ phone_number }}" class="contact-click">{{ phone_number }}</a>
+                    {% endfor %}
+                </div>
 			</div>
 			<div class="contact-container">
-				<a href="mailto:{{ email }}" title="Wyślij e-mail" class="specific-contact-link">
+				<div class="specific-contact-link">
                     <span class="contact-icons fa fa-envelope"></span>
-				    <span class="contact-click">{{ email }}</span>
+                    {% for email in emails %}
+                        <a href="mailto:{{ email }}" title="Wyślij e-mail pod {{ email }}" class="contact-click">{{ email }}</a>
+                    {% endfor %}
 				    <span class="contact-text">(lub formularz w&nbsp;stopce)</span>
-                </a>
+                </div>
 			</div>
             <div class="contact-container">
                 <a href="{{ url_for('static', filename='files/rider/current/' + rider) }}" title="Pobierz rider" target="_blank" class="specific-contact-link">

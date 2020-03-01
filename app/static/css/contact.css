@@ -87,6 +87,11 @@
 }
 
 .contact-click {
+	color: #fff;
+	margin: 2px 0;
+}
+
+.contact-click:hover {
 	color: #ff6600;
 }
 

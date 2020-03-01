@@ -124,21 +124,24 @@ def multimedia_galleries():
 def multimedia_specific_gallery(gallery_secure_title):
     if not gallery_secure_title:
         abort(404)
-    page = request.args.get('strona', 1, type=int)
+    # page = request.args.get('strona', 1, type=int)
 
     gallery = Gallery(get_gallery_by_secure_title(gallery_secure_title))
 
     try:
         # paginated_photos = gallery.paginate_photos(page=page)
         paginated_photos = gallery.get_photos()
+        videos = gallery.get_videos()
     except FileNotFoundError:
         return render_template('multimedia-specific-gallery.html',
                                gallery=gallery,
-                               paginated_photos=[])
+                               paginated_photos=[],
+                               videos=[])
 
     return render_template('multimedia-specific-gallery.html',
                            gallery=gallery,
-                           paginated_photos=paginated_photos
+                           paginated_photos=paginated_photos,
+                           videos=videos
                            )
 
 
@@ -191,10 +194,19 @@ def contact():
     else:
         rider = ''
 
-    phone_number = get_contact_item_by_key('phone')
-    email = get_contact_item_by_key('email')
+    raw_phone_numbers = get_contact_item_by_key('phone')
+    raw_emails = get_contact_item_by_key('email')
 
-    return render_template('contact.html', rider=rider, phone_number=phone_number.value, email=email.value)
+    phone_numbers = []
+    emails = []
+
+    for email_address in raw_emails.value.split(','):
+        emails.append(email_address.strip())
+
+    for email_address in raw_phone_numbers.value.split(','):
+        phone_numbers.append(email_address.strip())
+
+    return render_template('contact.html', rider=rider, phone_numbers=phone_numbers, emails=emails)
 
 
 @MainSite.route('/send-message', methods=['POST', 'GET'])

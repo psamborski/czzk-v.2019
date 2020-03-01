@@ -7,7 +7,7 @@ class Merch(db.Model):
     short_name = db.Column(db.String(120), nullable=False)
     safe_name = db.Column(db.String(120), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    gif = db.Column(db.String(120), nullable=False)
+    gif = db.Column(db.String(120), nullable=True)
     jpg = db.Column(db.String(120), nullable=False)
     size_table = db.Column(db.Integer, nullable=True, default=0)
 

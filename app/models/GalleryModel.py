@@ -4,6 +4,7 @@ from os.path import isfile, join
 from flask import abort
 
 from app import UPLOAD_FOLDER
+from app.models.functions import get_yt_video_id
 
 
 class Gallery:
@@ -16,6 +17,8 @@ class Gallery:
         self.title = gallery.title
         self.secure_title = gallery.secure_title
         self.thumbnail_file = gallery.thumbnail_file
+        self.videos = gallery.videos
+        self.author = gallery.author
 
     def get_photos(self):
         """
@@ -59,3 +62,19 @@ class Gallery:
             prev_num=prev_num,
             next_num=next_num
                     )
+
+    def get_videos(self):
+        videos = self.videos
+
+        videos_list = []
+
+        if videos:
+            for link in videos.split(','):
+                video_id = get_yt_video_id(link.strip())
+                videos_list.append({
+                    "link": link.strip(),
+                    "id": video_id,
+                    "thumbnail": f"https://img.youtube.com/vi/{video_id}/default.jpg"
+                })
+
+        return videos_list

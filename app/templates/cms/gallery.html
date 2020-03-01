@@ -42,6 +42,9 @@
                             </div>
 
                             <div class="secondary-content">
+                                <a href="{{ url_for('CMS.update_gallery', gallery_secure_title=gallery.secure_title, strona=galleries.page or 1) }}">
+                                    <span class="fas fa-edit yellow-text text-darken-3"></span>
+                                </a>
                                 <a href="#delete-{{ gallery.id }}-modal" class="modal-trigger">
                                     <span class="fas fa-trash red-text text-darken-3"></span>
                                 </a>

@@ -4,7 +4,7 @@
 	overflow: hidden;
 	margin-top: 120px;
 	min-height: 800px;
-	background: url("../images/bg/koncerty2.JPG");
+	background-image: url("../images/bg/koncerty2.JPG");
 	background-size: cover;
 	background-position-y: 18%;
 }

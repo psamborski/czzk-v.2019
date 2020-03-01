@@ -32,7 +32,7 @@
                 </div>
             {% else %}
                 {% for photo in paginated_photos.page_photos %}
-                    <a class="specific-gallery-item" href="{{ url_for('static', filename='images/galleries/' + gallery.id + '/' + photo) }}">
+                    <a class="specific-gallery-photo" href="{{ url_for('static', filename='images/galleries/' + gallery.id + '/' + photo) }}">
                         <img alt="{{ gallery.title }} - zdjęcie {{ loop.index }}" src="{{ url_for('static', filename='images/galleries/' + gallery.id + '/' + photo) }}" />
                     </a>
                 {% endfor %}
@@ -82,7 +82,7 @@ document.getElementById('photos').onclick = function (event) {
     let target = event.target || event.srcElement,
         link = target.src ? target.parentNode : target,
         options = {index: link, event: event},
-        links = this.getElementsByClassName('specific-gallery-item');
+        links = this.getElementsByClassName('specific-gallery-photo');
     if(target == '[object HTMLImageElement]'){
         blueimp.Gallery(links, options);
     }

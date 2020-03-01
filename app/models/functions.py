@@ -39,8 +39,8 @@ def save_file(file, relative_path, filename):
     return True
 
 
-def remove_file(relative_path, directory=False):
-    if directory:
+def remove_file(relative_path, is_directory=False):
+    if is_directory:
         if os.listdir(app.config['UPLOAD_FOLDER'] + relative_path):
             shutil.rmtree(app.config['UPLOAD_FOLDER'] + relative_path)
         else:
@@ -61,16 +61,22 @@ def move_file(relative_path, new_path):
 
 def reformat_yt_link(link):
     core = 'https://www.youtube.com/embed/'
+    video_id = get_yt_video_id(link)
+
+    return core + video_id
+
+
+def get_yt_video_id(link):
     if 'watch?v=' in str(link):
         equal_char_place = link.rfind('=')
         equal_char_place += 1
-        new_link = core + link[equal_char_place:]
+        video_id = link[equal_char_place:]
     else:
         slash_char_place = link.rfind('/')
         slash_char_place += 1
-        new_link = core + link[slash_char_place:]
+        video_id = link[slash_char_place:]
 
-    return new_link
+    return video_id
 
 
 
