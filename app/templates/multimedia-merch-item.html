@@ -26,6 +26,14 @@
             </div>
 
             <div id="product-description" class="text black-bg-container">
+            {% if item.price %}
+                <div id="product-price">
+                    <p>
+
+                        <span><span class="price orange">Cena: </span>{{ item.price }} zł</span>
+                    </p>
+                </div>
+            {% endif %}
                 <p>
                     <span>{{ item.description|safe }}</span>
                 </p>

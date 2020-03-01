@@ -10,6 +10,7 @@ class Merch(db.Model):
     gif = db.Column(db.String(120), nullable=True)
     jpg = db.Column(db.String(120), nullable=False)
     size_table = db.Column(db.Integer, nullable=True, default=0)
+    price = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return f"Album('{self.name}', '{self.description}')"

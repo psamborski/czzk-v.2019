@@ -457,6 +457,7 @@ def add_merch_item():
             short_name=form.short_name.data,
             safe_name=secure_filename(form.short_name.data),
             description=form.description.data,
+            price=form.price.data or None,
             gif='gifs/' + new_gif_filename if new_gif else None,
             jpg='static/' + new_photo_filename if new_photo else None
         )
@@ -489,13 +490,14 @@ def update_merch_item(merch_item_name):
 
     merch_item = get_item_from_merch(merch_item_name)
 
-    form = MerchItemForm()
+    form = MerchItemForm(merch_item)
 
     if request.method == 'POST' and form.validate_on_submit():
         merch_item.name = form.name.data
         merch_item.short_name = form.short_name.data
         merch_item.safe_name = secure_filename(form.short_name.data)
         merch_item.description = form.description.data
+        merch_item.price = form.price.data
 
         try:
             new_photo = request.files.get('photo', None)
@@ -534,6 +536,7 @@ def update_merch_item(merch_item_name):
         form.description.data = merch_item.description
         form.photo.data = merch_item.jpg
         form.animation.data = merch_item.gif
+        form.price.data = merch_item.price
 
     return render_template('cms/merch-item-form.html', form=form, action='edit')
 

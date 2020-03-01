@@ -158,6 +158,12 @@
 	height: 100%;
 }
 
+#product-price .price {
+	font-family: "Special Elite", cursive;
+	background-color: transparent;
+	margin-left: -3px;
+}
+
 #product-description {
 	width: -moz-calc(100% - 500px);
 	width: -webkit-calc(100% - 500px);

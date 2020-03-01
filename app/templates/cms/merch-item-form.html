@@ -96,6 +96,23 @@
 							</div>
 
 							<div class="input-field col s12">
+                                    {{ form.price() }}
+                                        {% if action == 'add' %}
+                                            {{ form.price.label() }}
+                                        {% elif action == 'edit' %}
+                                            {{ form.price.label(class="active") }}
+                                        {% endif %}
+                                {% if form.price.errors %}
+                                    {% for error in form.price.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+							</div>
+
+							<div class="input-field col s12">
                                 {% if form.description.errors %}
                                     {{ form.description() }}
                                         {% if action == 'add' %}
