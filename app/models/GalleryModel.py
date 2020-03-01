@@ -74,7 +74,7 @@ class Gallery:
                 videos_list.append({
                     "link": link.strip(),
                     "id": video_id,
-                    "thumbnail": f"https://img.youtube.com/vi/{video_id}/default.jpg"
+                    "thumbnail": f"https://img.youtube.com/vi/{video_id}/0.jpg"
                 })
 
         return videos_list
