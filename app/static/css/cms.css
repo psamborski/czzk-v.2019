@@ -294,3 +294,17 @@ form legend {
 .current-rider {
 	padding-left: 24px;
 }
+
+/* MERCH */
+.edit-tables-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.edit-tables-container a {
+	width: 50%;
+	text-align: center;
+	padding: 30px;
+	box-sizing: border-box;
+}

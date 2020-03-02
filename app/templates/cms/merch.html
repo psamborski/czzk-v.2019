@@ -31,6 +31,17 @@
                 </a>
             </div>
 
+            <div class="edit-tables-container grey lighten-3">
+                <a href="{{ url_for('CMS.update_merch_size_table', table_keyword='koszulki') }}">
+                    <span class="fas fa-table"></span>
+                    <span>Edytuj tabelę koszulek</span>
+                </a>
+                <a href="{{ url_for('CMS.update_merch_size_table', table_keyword='bluzy') }}">
+                    <span class="fas fa-table"></span>
+                    <span>Edytuj tabelę bluz</span>
+                </a>
+            </div>
+
             <div class="row white all-items-container">
                 <ul class="collection">
                     {% for item in merch.items %}
