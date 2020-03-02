@@ -14,6 +14,7 @@ from app.forms.GalleryForm import GalleryForm
 from app.forms.LoginForm import LoginForm
 from app.forms.MerchItemForm import MerchItemForm
 from app.forms.RiderForm import RiderForm
+from app.forms.SizeTableForm import SizeTableForm
 from app.forms.SliderForm import SliderForm
 from app.forms.TextsForms import MusicTextForm, AboutTextForm
 
@@ -26,6 +27,7 @@ from app.resources.ConcertsResource import Concerts, get_all_concerts, get_conce
 from app.resources.ContactDataResource import get_contact_item_by_key
 from app.resources.GalleriesResource import get_all_galleries, Galleries, get_gallery_by_secure_title, get_gallery_by_id
 from app.resources.MerchResource import get_all_merch_paginated, get_item_from_merch, Merch, get_item_by_id
+from app.resources.SizeTablesResource import get_table_by_keyword
 from app.resources.SlidesResource import get_all_slides
 from app.resources.TextsResource import get_text_by_page
 from app.resources.UsersResource import get_user
@@ -559,6 +561,52 @@ def delete_merch_item(merch_item_id):
 
     flash('Gadżet został usunięty.', 'success')
     return redirect(url_for('CMS.all_merch'))
+
+
+@CMS.route('/admin/gadzety/tabele/<string:table_keyword>', methods=['POST', 'GET'])
+@login_required
+def update_merch_size_table(table_keyword):
+    form = SizeTableForm()
+
+    restore = request.args.get('restore', False, type=bool)
+
+    table = get_table_by_keyword(table_keyword)
+
+    if request.method == 'GET':
+        if restore:
+            form.content.data = table.copy
+        else:
+            form.content.data = table.content
+
+    elif request.method == 'POST' and form.validate_on_submit():
+        table.content = form.content.data
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            flash('Przepraszamy! Wystąpił nieoczekiwany błąd.', 'error')
+            mail = Mail('Błąd - CZZK', 'Błąd przy edycji tabeli ' + table_keyword + ': ' + str(e), None,
+                        recipients='psambek@gmail.com', raw_mail=True)
+            mail.send()
+
+            return render_template('cms/text.html',
+                                   name=table_keyword,
+                                   form=form,
+                                   noJquery=True
+                                   )
+
+        flash('Zaktualizowano tabelę.', 'success')
+
+        return redirect(url_for('CMS.all_merch'))
+
+    elif request.method == 'POST' and not form.validate_on_submit():
+        flash('Formularz nie został wypełniony poprawnie.', 'warning')
+
+    return render_template('cms/size-table.html',
+                           name=table_keyword,
+                           form=form,
+                           noJquery=True
+                           )
 
 
 @CMS.route('/admin/galerie')

@@ -1,0 +1,116 @@
+{% extends "cms/base.html" %}
+
+{% block title %}
+    Edytuj tekst (sekcja {{ name|upper }})
+{% endblock %}
+
+{% block additional_style %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+{% endblock %}
+
+{% block content %}
+	<section>
+		<div class="container section-container">
+			<div class="row">
+				<div class="col s12">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="flash-messages">
+                               {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">
+                                        {% if category=='warning' %}
+                                            <span class="fas fa-exclamation-triangle"></span>
+                                        {% elif category=='success' %}
+                                            <span class="fas fa-check-circle"></span>
+                                        {% endif %}
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <h3 class="black-text section-header">
+                Edytuj tabelę rozmiarów ({{ name|upper }})
+            </h3>
+
+			<div class="row">
+				<div class="col s12 white">
+					<form method="post" action="" id="update-text-form" novalidate>
+                        {{ form.hidden_tag() }}
+						<fieldset>
+                            <div class="input-field col s12">
+                                {% if form.content.errors %}
+                                    {{ form.content(class="editor") }}
+                                    {# {{ form.content.label(class="active") }} #}
+                                    {% for error in form.content.errors %}
+                                        <div class="alert-message">
+                                            <span class="fas fa-exclamation-circle red-text text-darken-2"></span>
+                                            <span class="helper-text red-text text-darken-2">{{ error }}</span>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form.content(class="editor") }}
+                                    {# {{ form.content.label(class="active") }} #}
+                                {% endif %}
+                            </div>
+
+							<div class="col s12">
+								<button type="submit" class="waves-effect waves-light btn blue darken-3">
+                                    AKTUALIZUJ TABELĘ
+                                </button>
+								<a href="?restore=true" class="waves-effect waves-light btn grey lighten-3 grey-text text-darken-1">
+                                    RESETUJ DO STANU POCZĄTKOWEGO (wymaga późniejszego zapisania)
+                                </a>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block additional_script %}
+    <script>
+        let NbspButton = function (context) {
+          let ui = $.summernote.ui;
+
+          // create button
+          let button = ui.button({
+            contents: '<i class="fa fa-level-down-alt "/> NBSP',
+            tooltip: 'Wstawia niełamiącą spację (w tym miejscu tekst nie przeskoczy do nowej linii). Stawiać po "a", "w", "i", "ale", "który" itp.',
+            click: function () {
+              context.invoke('pasteHTML', '&nbsp;');
+            },
+              container: 'body'
+          });
+
+          return button.render();   // return button as jquery object
+        };
+
+        $(document).ready(function() {
+            $('.editor').summernote(
+                {
+                     toolbar: [
+                         ['undo', ['undo', 'redo']],
+                         ['table', ['table']],
+                         ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                         ['nbsp', ['nbsp']],
+                         ['para', ['ul', 'ol']],
+                         ['insert', ['link', 'video']],
+                         ['set', ['codeview', 'help']]
+                      ],
+
+                      buttons: {
+                         nbsp: NbspButton
+                      }
+                }
+            );
+        });
+    </script>
+{% endblock %}

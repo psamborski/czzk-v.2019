@@ -1,8 +1,8 @@
+from itertools import groupby
 from os import listdir
 from os.path import isfile, join
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, abort
-from itertools import groupby
 
 # database
 from app import app
@@ -14,6 +14,7 @@ from app.resources.ConcertsResource import get_planned_concerts, get_past_concer
 from app.resources.ContactDataResource import get_contact_item_by_key
 from app.resources.GalleriesResource import get_all_galleries, get_gallery_by_secure_title
 from app.resources.MerchResource import get_all_merch, get_item_from_merch
+from app.resources.SizeTablesResource import get_table_by_key
 from app.resources.SlidesResource import get_slides_for_display
 from app.resources.TextsResource import get_text_by_page
 
@@ -172,7 +173,10 @@ def multimedia_merch_item(merch_item):
 
         session.pop('merch_form_data')
 
+    size_table = get_table_by_key(item.size_table)
+
     return render_template('multimedia-merch-item.html',
+                           size_table=size_table,
                            item=item,
                            merch_form=merch_form
                            )

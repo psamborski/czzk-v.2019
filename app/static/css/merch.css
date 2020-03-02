@@ -158,6 +158,10 @@
 	height: 100%;
 }
 
+#product-price {
+	height: initial !important;
+}
+
 #product-price .price {
 	font-family: "Special Elite", cursive;
 	background-color: transparent;
@@ -241,39 +245,28 @@
 	margin-top: 2em;
 }
 
-#size-table-shirt, #size-table-hoodie {
+.size-table-container table {
 	width: 100%;
 	font-family: Arial, serif;
-}
-
-#size-table-hoodie .size-table {
-	min-width: 350px;
-}
-
-#size-table-shirt .size-table {
-	min-width: 550px;
-}
-
-.size-table {
-	width: 100%;
 	max-width: 700px;
 	margin: auto;
 	background-color: rgba(0, 0, 0, 0.4);
 	padding: 8px;
+	min-width: 450px;
 }
 
-.size-table caption {
+.size-table-container table caption {
 	font-size: 24px;
 	font-family: 'Special Elite', Arial, serif;
 	margin: 10px 0;
 	color: #ff6600;
 }
 
-.size-table tr:nth-child(2n+1) {
+.size-table-container table tr:nth-child(2n+1) {
 	background-color: #000;
 }
 
-.size-table td, .size-table th {
+.size-table-container table td, .size-table-container table th {
 	min-width: 75px;
 	width: 120px;
 	text-align: center;

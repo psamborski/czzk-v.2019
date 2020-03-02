@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ item.name }}{% endblock %}
 {% block additional_style %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/merch.css') }}?v=2.0" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/merch.css') }}?v=2.1" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -41,123 +41,13 @@
         </div>
     </div>
 
-    <div class="subsection">
-    {% if item.size_table == 1 %}
-            <div id="size-table-shirt" class="size-table-container">
-                <table class="size-table">
-                    <caption>TABELA ROZMIARÓW</caption>
-                    <tr>
-                        <th>ROZMIAR</th>
-                        <th>OBWÓD KLATKI</th>
-                        <th>OBWÓD PASA</th>
-                        <th>WZROST</th>
-                        <th>NUMERACJA</th>
-                    </tr>
-                    <tr>
-                        <td>M</td>
-                        <td>93-99 cm</td>
-                        <td>81-87 cm</td>
-                        <td>175-180 cm</td>
-                        <td>46/48</td>
-                    </tr>
-                    <tr>
-                        <td>L</td>
-                        <td>100-107 cm</td>
-                        <td>88-96 cm</td>
-                        <td>180-185cm</td>
-                        <td>50/52</td>
-                    </tr>
-                    <tr>
-                        <td>XL</td>
-                        <td>108-116 cm</td>
-                        <td>97-107 cm</td>
-                        <td>180-188cm</td>
-                        <td>54/56</td>
-                    </tr>
-                    <tr>
-                        <td>XXL</td>
-                        <td>117-125 cm</td>
-                        <td>108-114 cm</td>
-                        <td>180-189cm</td>
-                        <td>58/60</td>
-                    </tr>
-                    <tr class="table-additional-info">
-                        <td colspan="5">
-                            Obwód klatki piersiowej należy mierzyć w pod pachami w najszerszym miejscu klatki piersiowej.
-                        </td>
-                    </tr>
-                    <tr class="table-additional-info">
-                        <td colspan="5">
-                            Obwód pasa należy mierzyć na wysokości pępka.
-                        </td>
-                    </tr>
-                    <tr class="table-additional-info">
-                        <td colspan="5">
-                            Wzrost podany jest orientacyjnie, przedziały wzrostu jako dodatkowa informacja pomocna przy wyborze właściwego rozmiaru.
-                        </td>
-                    </tr>
-                    <tr class="table-additional-info">
-                        <td colspan="5">
-                            Inna numeracja odpowiedniki liczbowe.
-                        </td>
-                    </tr>
-                    <tr class="table-additional-info">
-                        <td colspan="5">
-                            Tolerancja: +/- 2,5 cm.
-                        </td>
-                    </tr>
-                </table>
+    {% if size_table %}
+        <div class="subsection">
+            <div class="size-table-container">
+                {{ size_table.content|safe }}
             </div>
-        {% endif %}
-
-        {% if item.size_table == 2 %}
-            <div id="size-table-hoodie" class="size-table-container">
-                <table class="size-table">
-                    <caption>TABELA ROZMIARÓW</caption>
-                    <tr>
-                        <th>ROZMIAR</th>
-                        <th>SZEROKOŚĆ</th>
-                        <th>DŁUGOŚĆ</th>
-                    </tr>
-                    <tr>
-                        <td>S</td>
-                        <td>51 cm</td>
-                        <td>66 cm</td>
-                    </tr>
-                    <tr>
-                        <td>M</td>
-                        <td>56 cm</td>
-                        <td>68,5 cm</td>
-                    </tr>
-                    <tr>
-                        <td>L</td>
-                        <td>61 cm</td>
-                        <td>72 cm</td>
-                    </tr>
-                    <tr>
-                        <td>XL</td>
-                        <td>63,5 cm</td>
-                        <td>76 cm</td>
-                    </tr>
-                    <tr>
-                        <td>XXL</td>
-                        <td>68,5 cm</td>
-                        <td>78,5 cm</td>
-                    </tr>
-                    <tr>
-                        <td>3XL</td>
-                        <td>73,5 cm</td>
-                        <td>81 cm</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            Tolerancja: +/- 2,5 cm.
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
 
     <div id="product-contact-form-container" class="subsection">
         <form method="post" action="{{ url_for('MainSite.send_message', page=request.endpoint, merch_item=item.short_name, type='merch') }}" id="product-contact-form" novalidate>
