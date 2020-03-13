@@ -12,9 +12,7 @@ class ContactDataForm(FlaskForm):
                        ])
     phone = TelField(label='Numery telefonu (oddzielone przecinkiem, np. 123123123, 234234234)',
                      validators=[
-                         DataRequired(message='To pole nie może być puste.'),
-                         Regexp(r'^\w+(,((?<!\w)(\(?(\+)?\d{2}\)?)?[ -]?\d{3}[ -]?((\d{3}[ -]?\d{3})|(\d{2}[ -]?\d{2}))(?!\w))+)*$',
-                                message='To pole nie zawiera poprawnych numerów telefonu.')
+                         DataRequired(message='To pole nie może być puste.')
                      ])
 
     def validate_email(self, email):
@@ -25,3 +23,13 @@ class ContactDataForm(FlaskForm):
 
             if not pattern.match(email_address):
                 raise ValidationError('Niepoprawne adresy e-mail.')
+
+    def validate_phone(self, phones):
+        pattern = re.compile('(?<!\w)(\(?(\+)?\d{2}\)?)?[ -]?\d{3}[ -]?((\d{3}[ -]?\d{3})|(\d{2}[ -]?\d{2}))(?!\w)')
+        for phone_number in phones.data.split(','):
+            phone_number = phone_number.strip()
+
+            print(phone_number)
+
+            if not pattern.match(phone_number):
+                raise ValidationError('To pole nie zawiera poprawnych numerów telefonu.')
