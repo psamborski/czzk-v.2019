@@ -117,6 +117,13 @@
 	padding: 0 20px;
 	display: flex;
 	flex-direction: column;
+	max-width: 77%;
+}
+
+@media only screen and (max-width: 1001px) {
+	.single-concert-info {
+		max-width: 100%;
+	}
 }
 
 .single-concert-info h3 {
@@ -124,8 +131,11 @@
 	margin: 0;
 }
 
+.single-concert-info .concert-place {
+	margin: 5px 0;
+}
+
 .single-concert-info .concert-time {
-	margin: 4px 0 0 0;
 	font-weight: 600;
 }
 

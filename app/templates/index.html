@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Strona główna{% endblock %}
 {% block additional_style %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}?v=2.0?v=1.1" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}?v=2.1" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -60,7 +60,7 @@
                     </div>
                     <div class="single-concert-info">
                         <h3>{{ concert.name }}</h3>
-                        <span>{{ concert.place }}</span>
+                        <span class="concert-place">{{ concert.place }}</span>
                         {% if concert.time %}<span class="concert-time">{{ concert.time.strftime('%H:%M') }}</span>{% endif %}
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Koncerty{% endblock %}
 {% block additional_style %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/concerts.css') }}?v=2.0" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/concerts.css') }}?v=2.1" type="text/css">
 {% endblock %}
 {% block content %}
 
@@ -41,8 +41,8 @@
                                         <span>{{ concert.date.strftime('%d.%m.%Y') }}</span>
                                     </div>
                                     <div class="single-concert-info">
-                                        <h3 title="{{ concert.name }}">{{ concert.name|truncate(50) }}</h3>
-                                        <span>{{ concert.place }}</span>
+                                        <h3 title="{{ concert.name }}">{{ concert.name }}</h3>
+                                        <span class="concert-place">{{ concert.place }}</span>
                                         {% if concert.time %}<span class="concert-time">{{ concert.time.strftime('%H:%M') }}</span>{% endif %}
                                     </div>
                                 </div>
@@ -81,8 +81,8 @@
                                         <span>{{ concert.date.strftime('%d.%m.%Y') }}</span>
                                     </div>
                                     <div class="single-concert-info">
-                                        <h3 title="{{ concert.name }}">{{ concert.name|truncate(50) }}</h3>
-                                        <span>{{ concert.place }}</span>
+                                        <h3 title="{{ concert.name }}">{{ concert.name }}</h3>
+                                        <span class="concert-place">{{ concert.place }}</span>
                                         {% if concert.time %}<span class="concert-time">{{ concert.time.strftime('%H:%M') }}</span>{% endif %}
                                     </div>
                                 </div>
